@@ -1,0 +1,4132 @@
+%      File: cpamshell1.tex     
+%%      -------------------------------------------------------------------------------------------
+%%      Input file for articles to be published in Communications on Pure and
+%%      Applied Mathematics issued by the Courant Institute of Mathematical
+%%      Sciences, New York University. Published by John Wiley and Sons.
+
+%%      -------------------------------------------------------------------------------------------
+%%      ------------------------------- PUBLISHER'S AREA ------------------------------ 
+%%      -------------------------------------------------------------------------------------------
+
+%%      For input by typesetter.
+%%      Authors, please do not alter the following section.
+
+\documentclass{cpamart1}     %% Input Standard CPAM class.
+\received{Month 200X}       %\revised{date of revision}
+%\yearofpublication{200X}
+\volume{000}
+\startingpage{1}                      
+
+%%      ----------------------- END OF PUBLISHER'S AREA ---------------------
+
+% Insert names as you want them to appear on top of pages
+\authorheadline{K. B\"or\"oczky, et al.}
+% Insert shortened title as you want them to appear on top of pages
+\titleheadline{The Gauss Image Problem}
+
+%%      ---------------------------------------------------------------------
+%%      ------------------------- AUTHOR'S PACKAGES -------------------------
+%%      ---------------------------------------------------------------------
+
+%% Insert TeX and LaTeX packages that you would like to use here;
+%% please note that amsmath is loaded by default and need not be specified.
+
+\usepackage{mathtools}
+\usepackage{relsize}
+
+%%      --------------------------------------------------------------------------------------------
+%%      --------------------- CHOOSING THE DEFAULT FONTS --------------------
+%%      --------------------------------------------------------------------------------------------
+
+\begin{comment}
+CPAM uses the Times Roman font; most TeX installations include the
+mathptmx package, which is invoked below, and which will put almost
+all text in Times Roman except for some mathematical symbols. If that
+package doesn't work on your system, use the times package, which will
+put only running text and but mathematics in Times Roman (math will be
+in the default Computer Modern font). To use Times Roman for all math
+expressions, there are several packages available. We use the Mathtime
+Pro 2 fonts, which is a commercial font; also well designed is the
+newtx bundle, which contains newtxtext and newtxmath packages and the
+respective .sty files. If you aren't using a package to create math in
+a Times Roman font, comment out all three usepackage instructions
+below to use the default Computer Modern fonts.
+\end{comment}
+
+% Uncomment one of the following if you have Times Roman fonts available
+%\usepackage[mtbold,subscriptcorrection,T1]{mtpro2}
+\pdfmapfile{+mtpro2.map}  %% or whatever the map file name is.
+\usepackage{times}
+\usepackage[subscriptcorrection]{mtpro2}
+%\usepackage{mathptmx}
+%\usepackage{newtxmath}
+
+
+
+%%      -----------------------------------------------------------------------------------------------------------
+%%      -------- COMMANDS FOR NUMBERED THEOREMLIKE ENVIRONMENTS-------
+%%      -----------------------------------------------------------------------------------------------------------
+
+% This is the setup for AMS-LaTeX theorem environments; you may change
+% the word in the first set of braces; this is the word you use to
+% call up the environment in text. Do not change any other text in the
+% list below.
+
+\newtheorem{theo}{Theorem}[section]
+\newtheorem{lemm}[theo]{Lemma}
+\newtheorem{coro}[theo]{Corollary}
+\newtheorem{prop}[theo]{Proposition}
+% Do not remove the following line
+\theoremstyle{definition}
+\newtheorem{defi}[theo]{Definition}
+\newtheorem*{definition-non}{Definition}
+% Do not remove the following line
+\theoremstyle{remark}
+\newtheorem{remark}[theo]{Remark}
+
+%%      ---------------------------------------------------------------------
+%%      -------------------- AUTHORS' MACROS ---------------------
+%%      ---------------------------------------------------------------------
+
+% Please enter all macros that you have used in the body of the paper
+% here. Use \newcommand for new macros and \renewcommand for
+% redefining existing macros; avoid using \def if possible
+
+\newcommand*{\medcup}{\mathsmaller{\bigcup}}%
+\newcommand*{\medcap}{\mathsmaller{\bigcap}}%
+
+\makeatletter
+\newsavebox\myboxA
+\newsavebox\myboxB
+\newlength\mylenA
+
+\newcommand*\xoverline[2][0.75]{%
+    \sbox{\myboxA}{$\m@th#2$}%
+    \setbox\myboxB\null% Phantom box
+    \ht\myboxB=\ht\myboxA%
+    \dp\myboxB=\dp\myboxA%
+    \wd\myboxB=#1\wd\myboxA% Scale phantom
+    \sbox\myboxB{$\m@th\overline{\copy\myboxB}$}%  Overlined phantom
+    \setlength\mylenA{\the\wd\myboxA}%   calc width diff
+    \addtolength\mylenA{-\the\wd\myboxB}%
+    \ifdim\wd\myboxB<\wd\myboxA%
+       \rlap{\hskip 0.5\mylenA\usebox\myboxB}{\usebox\myboxA}%
+    \else
+        \hskip -0.5\mylenA\rlap{\usebox\myboxA}{\hskip 0.5\mylenA\usebox\myboxB}%
+    \fi}
+\makeatother
+
+
+\newcommand{\ro}{\mathbb R}
+\newcommand{\rbo}{\mathbb R}
+\newcommand{\rn}{\mathbb R^n}
+\newcommand{\brn}{\mathbf R^n}
+\newcommand{\sn}{S^{n-1}}
+\newcommand{\bsn}{\mathbf S^{n-1}}
+\newcommand{\blam}{\boldmath{$\lambda$}\unboldmath}
+
+\newcommand{\kn}{\mathcal K^n}
+\newcommand{\kno}{\mathcal K^n_o}
+\newcommand{\kne}{\mathcal K^n_e}
+\newcommand{\sno}{\mathcal S^n_o}
+\newcommand{\sco}{\mathcal O^{n-1}}
+
+\newcommand{\so}{\operatorname{SO}}
+\newcommand{\son}{\so(n)}
+\newcommand{\sonm}{\so(n-1)}
+%\newcommand{\sl}{\operatorname{SL}}
+%\newcommand{\sln}{\sl(n)}
+
+
+\newcommand{\bnu}{\pmb{\nu}}
+\newcommand{\bx}{\pmb{x}}
+\newcommand{\bu}{\pmb{\nu}}
+\newcommand{\balpha}{\pmb{\alpha}}
+\newcommand{\bbeta}{\pmb{\alpha^*}}
+\newcommand{\hm}{\mathcal H^{n-1}}
+\newcommand{\conv}{\operatorname{conv}}
+\newcommand{\spane}{\operatorname{span}}
+\newcommand{\ee}{\mathcal E}
+
+%\newcommand\wtilde[1]{\overset{\lower.4ex\hbox{$\scriptstyle \sim$}}{#1}}
+\newcommand\wst[1]{\overset{\lower.5ex\hbox{$\scriptscriptstyle \sim$}}{#1}}
+\newcommand{\blb}{\raise.3ex\hbox{$\scriptstyle \pmb \lbrack$}}
+\newcommand{\sblb}{\raise.1ex\hbox{$\scriptscriptstyle \pmb \lbrack$}}
+\newcommand{\brb}{\raise.3ex\hbox{$\scriptstyle \pmb \rbrack$}}
+\newcommand{\sbrb}{\raise.1ex\hbox{$\scriptscriptstyle \pmb \rbrack$}}
+\newcommand{\bla}{\raise.2ex\hbox{$\scriptstyle\pmb \langle$}}
+\newcommand{\sbla}{\raise.1ex\hbox{$\scriptscriptstyle\pmb \langle$}}
+\newcommand{\bra}{\raise.2ex\hbox{$\scriptstyle\pmb \rangle$}}
+\newcommand{\sbra}{\raise.1ex\hbox{$\scriptscriptstyle\pmb \rangle$}}
+\newcommand{\blrb}{\raise.3ex\hbox{$\scriptstyle \pmb | $}}
+\newcommand{\sblrb}{\raise.1ex\hbox{$\scriptscriptstyle \pmb | $}}
+
+
+\newcommand{\wt}{\widetilde}
+\newcommand{\wtp}{\wtilde{+} }
+\newcommand{\psum}{\,{+_{\negthinspace\kern-2pt p}}\,}
+\newcommand{\qsum}[1]{\,{+_{\negthinspace\kern-2pt \lower -2pt \hbox{$_{_{#1}}$}}}\,}
+\newcommand{\osum}{{+_{\negthinspace\kern-2pt {\rm{o}}}}\,}
+\newcommand{\dpsum}{\,{\tilde+_{\negthinspace\kern-1pt p}}\,}
+\newcommand{\dqsum}[1]{{\,\wt+_{\negthinspace\kern-1pt #1}}\,}
+\newcommand{\lsub}[1]{\hskip -1.5pt\lower.5ex\hbox{$_{#1}$}}
+\newcommand{\lsup}[1]{\hskip -6pt ^{#1}}
+\newcommand{\sect}[2]{\noindent{\bf #1} \dotfill {#2} \medskip}
+\newcommand{\pref}[1]{(\ref{#1})}
+\newcommand{\thin}[1]{\negthinspace #1 \negthinspace}
+\newcommand{\chara}[1]{{\mathbf{1}_{#1}}}
+
+\DeclareMathOperator{\Int}{int}
+
+%%      -------------------------------------------------------------------------------
+%%      -------------------------- BEGIN ARTICLE ----------------------------
+%%      -------------------------------------------------------------------------------
+
+\begin{document}                        %% Standard LaTeX command
+
+%%      -----------------------------------------------------------------------
+%%      -------------------------------- TITLE -----------------------------
+%%      -----------------------------------------------------------------------
+
+\title{The Gauss image problem}
+
+%%      -----------------------------------------------------------------------------
+%%      ------------------------------- AUTHORS -----------------------------
+%%      ----------------------------------------------------------------------------
+% EXAMPLE: \author{Bart Simpson}{Universit� Paris-Sorbonne (Paris IV)}
+% Uncomment and fill in the following lines as needed
+\author{K\'aroly J. B\"or\"oczky}{
+%Alfr\'ed R\'enyi Institute of Mathematics\\
+ Hungarian Academy of Sciences}
+\author{Erwin Lutwak}{Courant Institute}
+\author{Deane Yang}{Courant Institute}
+\author{Gaoyong Zhang}{Courant Institute}
+\author{Yiming Zhao}{Massachusetts Institute of Technology}
+%\author{*** THIRD AUTHOR'S NAME ***}{*** THIRD AUTHOR'S AFFILIATION WHEN ARTICLE WAS WRITTEN ***}
+%\author{*** FOURTH AUTHOR'S NAME ***}{*** FOURTH AUTHOR'S AFFILIATION WHEN ARTICLE WAS WRITTEN ***}
+%\author{*** FIFTH AUTHOR'S NAME ***}{*** FIFTH AUTHOR'S AFFILIATION WHEN ARTICLE WAS WRITTEN ***}
+% Add additional names and affiliations as necessary using above format
+%%      ---------------------------------------------------------------------
+%%      --------------------------- DEDICATION  (OPTIONAL)------------------- 
+%%      ---------------------------------------------------------------------
+
+%       Uncomment the following line to insert a dedication.
+
+%\dedication{ *** DEDICATION *** }        %% Enter dedication between braces.
+
+
+%%      ------------------------------------------------------------------------------------
+%%      --------------------------- ABSTRACT (OPTIONAL)----------------------
+%%      ------------------------------------------------------------------------------------
+
+%% ***** UNCOMMENT THE FOLLOWING TO INSERT AN ABSTRACT *****
+
+%\begin{abstract}
+
+
+%\end{abstract}
+
+% With AMS-LaTeX, \maketitle follows the abstract
+\maketitle   
+
+%%      ---------------------------------------------------------------------
+%%      ------------------- TABLE OF CONTENTS (OPTIONAL) --------------------
+%%      ---------------------------------------------------------------------
+
+%% ***** IF YOUR PAPER IS OVER 40 PAGES AND YOU WISH TO HAVE A TABLE
+%% ***** OF CONTENTS, PLEASE UNCOMMENT THE FOLLOWING LINE
+
+% \tableofcontents
+
+
+%%      ---------------------------------------------------------------------
+%%      ---------------------------- BODY OF PAPER --------------------------
+%%      ---------------------------------------------------------------------
+
+%%      Please input or insert the body of your paper here.
+
+
+\section{Introduction}
+
+
+
+The Brunn-Minkowski theory and the dual Brunn-Minkowski theory
+are two core theories in convex geometric analysis that center around the investigation
+ of global geometric invariants and geometric measures associated with convex bodies.
+  The two theories display an amazing conceptual duality
+which involves many dual concepts in both geometry and analysis such as dual
+spaces in functional analysis, polarity in convex geometry, and projection
+and intersection in geometric tomography; see Schneider \cite{S14}, p. 507, for
+a lucid explanation.
+
+
+In the conceptual duality, a central role is assumed by the {\it radial Gauss image}
+$\balpha_K$ (defined immediately below) of a convex body
+$K$ in Euclidean $n$-space, $\rn$. The radial Gauss image is
+a map on the unit sphere, $\sn$, of $\rn$ whose values are
+subsets of the unit sphere.
+It is known that {\it Aleksandrov's integral curvature} on $\sn$ and spherical Lebesgue measure
+are ``linked'' via the radial Gauss image, so are the classical {\it surface area measure}
+of Aleksandrov-Fenchel-Jessen and Federer's {\it $(n-1)$-th curvature measure}.
+See Schneider \cite{S14}, Theorem 4.2.3, and
+\cite{HLYZ16}.
+The importance of the radial Gauss image was made more evident in the recent work \cite{HLYZ16}
+in which the long-sought-for {\it dual curvature measures} (the dual counterparts of Federer's
+curvature measures) were unveiled.
+ In \cite{HLYZ16} new links were established between the Brunn-Minkowski
+theory and the dual Brunn-Minkowski theory by making critical use of the radial Gauss image.
+Motivated by the manner in which these new geometric measures are defined via
+the radial Gauss image,
+it becomes natural to introduce a general new concept ---
+the {\bf Gauss image measure} associated with a convex body. Among other things, this
+concept bridges the classical and the recently discovered geometric measures of convex bodies.
+
+
+ In light of the role that the radial Gauss image plays in connecting various spherical Borel measures,
+%and to understand the general Gauss image measure
+%In view of the linking role of the radial Gauss image among geometric measures
+%mentioned above which are special Borel measures on $\sn$ and $\bsn$.
+a central question regarding
+%the radial Gauss image and
+Gauss image measures is: Given two spherical Borel measures,
+under what conditions,
+does there exist a convex body so that one measure
+is the Gauss image measure of the other?
+%to be studied is how arbitrary Borel measures
+%on $\sn$ and $\bsn$ are linked by the radial Gauss image of convex bodies.
+We call this the {\bf Gauss image problem}, and state it more precisely immediately below.
+%For a finite Borel measure $\mu$ on
+%$\sn$ and a finite Borel measure $\lambda$ on $\bsn$, find the necessary and
+%sufficient conditions so that there exists a convex body whose radial Gauss image
+%``links" $\mu$ and $\lambda$.
+
+
+
+%The aim of the paper is to solve
+%the Gauss image problem. We introduce a new geometric measure, called the Gauss image
+%measure, which extends Aleksandrov's integral curvature with respect to the spherical
+%Lebesgue measure to a geometric measure with respect to an arbitrary Borel measure.
+%Then the Guass image problem becomes the Minkowski problem for the Gauss image measure,
+%and thus the Aleksandrov problem becomes the special case of the Gauss image problem
+%for the integral curvature.  A completely new approach is presented.
+
+
+
+%Aleksandrov's integral curvature is the oldest of Federer's curvature measures.
+% For convex bodies, it is defined as %spherical Lebesgue measure of the radial Gauss
+%image (defined immediately below). The classical Aleksandrov %problem is
+%just a ``Minkowski problem" for integral curvature. One of the aims of this work
+%is to present a new %approach to the classical Aleksandrov problem.
+
+%However, our main aim is to show that Aleksandrov's integral curvature is
+%only a very special case of a far more
+%general concept of integral curvature one in which ``spherical Lebesgue measure"
+%in the definition of Aleksandrov's %integral curvature is replaced by an arbitrary
+% Borel measure that's absolutely continuous with respect to spherical %Lebesgue measure.
+
+%Our aim is nothing less than solving the ``Minkowski problem" for
+%this entire class of integral measures.
+
+Let $\kn$ denote the set of convex bodies (compact, convex subsets with nonempty interior) in $n$-dimensional
+Euclidean space, $\rn$, with $\kno$ denoting the bodies that contain the origin in their interiors.
+
+If $K\in\kno$ and $x \in \partial K$ is a boundary point,
+then the {\it normal cone} of $K$ at $x$ is defined by:
+\[
+N(K,x)=\{v\in\sn: \text{$(y-x)\cdot v \le 0$ for all $y\in K$}\},
+\]
+where $(y-x)\cdot v$ denotes the standard inner product of $y-x$ and $v$ in $\rn$.
+%If $\omega \subset \partial K$, then abbreviate $\cup_{x\in\omega}N(K,x)$ by $N(K,\omega)$.
+The
+{\it radial map} $r_K : \sn \to \partial K$ of $K$, is defined for $u \in \sn$
+by $r_K(u) =  ru \in\partial K$, where $r>0$.
+%is defined by requiring that $ru\in\partial K$.
+For $\omega\subset\sn$, the {\it radial Gauss image} of $\omega$ is defined  by
+\[
+\balpha_K(\omega) = \bigcup_{x\in r_K(\omega)} N(K,x) \subset \sn.
+\]
+The radial Gauss image is the composite of the multi-valued Gauss map and the radial map.
+It is well known (see Schneider \cite{S14}) that 
+for a Borel measurable $\omega\subset\sn$ the set
+$\balpha_K(\omega)\subset\sn$ is spherically Lebesgue measurable, but not necessarily Borel measurable.
+
+Recall (see e.g., \cite{Kalton} p.\ 1117 ) that a submeasure differs from a measure in that the countable additivity in the definition of a measure is replaced by countable subadditivity. (See \S 3 for precise definitions.)
+
+\begin{definition-non}
+Suppose $\lambda$ is a submeasure defined on the Lebesgue measurable subsets of $\sn$, and $K\in\kno$. Then $\lambda(K,\cdot\,)$,
+the {\it Gauss image measure of $\lambda$ via $K$},  is the submeasure on $\sn$ defined by
+\[
+\lambda(K,\omega)=\lambda(\balpha_K(\omega)),
+\]
+for each Borel $\omega\subset\sn$.
+\end{definition-non}
+
+
+When we write that a Borel measure $\mu$ on $\sn$ is {\it absolutely continuous}
+ we shall always mean that it is absolutely continuous with respect to spherical
+ Lebesgue measure. Obviously, the completion of an absolutely continuous Borel measure
+ is defined on all spherically Lebesgue measurable subsets of $\sn$. When we speak of Borel measures on $\sn$ we shall always assume them to be finite, non-negative, and non-zero. 
+
+As will be shown, when $\lambda$ is an absolutely continuous Borel measure on $\sn$, 
+and $K\in\kno$, then $\lambda(K,\cdot\,)$,
+is a Borel measure on $\sn$.
+When $\lambda$ is Lebesgue measure on $\sn$ then $\lambda(K,\cdot\,)$ is simply
+{\it Aleksandrov's integral curvature} of the body $K$ (see e.g.\ \cite{Al4}).
+Moreover, the classical surface area measures of Aleksandrov-Fenchel-Jessen,
+and the recently discovered, in \cite{HLYZ16},
+dual curvature measures are all Gauss image measures. This makes the Gauss image measure an object of significant interest that requires extensive study.
+
+
+\smallskip
+
+It is the aim of this work to introduce and attack the {\it Gauss image problem}:
+\smallskip
+
+\noindent
+{\bf The Gauss image problem.}\
+{\it
+Suppose $\lambda$ is submeasure defined on the Lebesgue measurable subsets of $\sn$,
+and $\mu$ is a Borel submeasure on $\sn$.
+What are the necessary and sufficient conditions, on $\lambda$ and $\mu$, so that
+there exists a convex body
+$K\in\kno$ such that
+\begin{equation}\label{mppp}
+\lambda(K,\cdot\,)=\mu,
+\end{equation}
+on the Borel subsets of $\sn$? And if such a body exists, to what extent is it unique?
+}
+
+When $\lambda$ is spherical Lebesgue measure, the Gauss image problem is just the classical
+Aleksandrov problem. Note that since obviously $\balpha_K(\sn)=\sn$, a solution to
+\eqref{mppp} is only possible if $|\lambda|=|\mu|$; i.e., $\lambda(\sn)=\mu(\sn)$.
+
+
+
+Purely as an aside, we note that for the special case in which $\mu$ is a measure that has a density, say $f$, and $\lambda$ is a measure that has a density, say $g$,
+the geometric problem \eqref{mppp} is the equation of Monge-Amp\`ere type,
+\begin{equation}\label{PDE}
+g\Big(\frac{\nabla h +h \iota}{|\nabla h +h \iota|}\Big)
+|\nabla h +h \iota|^{-n}
+h\, \det\big(\nabla^2h + h I\big) = f,
+\end{equation}
+where $h:\sn\to(0,\infty)$ is the unknown function. In \eqref{PDE},  $I$ is the standard Riemannian metric on $\sn$, the map $\iota : \sn \to \sn$ is the identity, while $\nabla h$
+and $\nabla^2 h$ are respectively the gradient and the Hessian of $h$ with respect to $I$.
+
+The focus of this work will be on solving the general question posed by \eqref{mppp}. 
+Special cases, such as (1.2), shall be ignored. Our approach in attacking equation \eqref{mppp} uses convex geometric methods of a variational nature. What will be needed are delicate estimates for geometric invariants in order to solve an
+associated maximization problem. The techniques developed in this work in order to obtain these critical estimates are new and different from those developed in \cite{BLYZ13jams} and \cite{HLYZ16}.
+
+
+\smallskip
+
+If $K\in\kno$, then its
+radial function $\rho_K:\rn\setminus \{0\} \to \ro$
+is defined, for each $x \neq 0$, by $\rho_K(x) = \max\{r>0 : r x \in K\}$. If $\mu$ is
+a Borel measure on $\sn$, then for a real $q\neq 0$, define the {\it $q$-th dual
+ volume of $K$ with respect to $\mu$} by,
+\[
+\mu_q(K) = \left(\frac1{|\mu|}\int_{\sn} \rho_K^q(u) \, d\mu(u)\right)^\frac1q.
+\]
+Recall that $\mu_q(K)$ is monotone non-decreasing and continuous in $q$.
+Define the {\it log-volume} of $K$, 
+with respect to 
+$\mu$, by $\mu_0(K)=\lim_{q\to 0}\mu_q(K)$.
+If $\mu$ is spherical Lebesgue measure, then the dual volume
+$\mu_q(K)$ is just the normalized classical $q$-th dual volume. Dual volumes
+associated with spherical Lebesgue measure are
+fundamental geometric invariants. Their connections to dual curvature measures and
+the dual Minkowski problem were discovered in \cite{HLYZ16}. Surprisingly, as will be seen, log-volumes
+are closely related to the Gauss image problem.
+
+For $Q\in\kno$, let $Q^*=\{x\in\rn: \text{$x\cdot y\le 1$
+for all $y\in K$}\}$ denote the {\it polar} of $Q$.
+As will be shown, the solutions of the Gauss image problem is closely tied to:
+\vspace{4mm}
+
+\noindent
+{\bf Maximizing the log-volume-product.}
+{\it If $\mu, \lambda$ are Borel measures on $\sn$
+of the same total mass, 
+what are the necessary and sufficient conditions on $\lambda$ and $\mu$ so that
+there exists a convex body
+$K\in\kno$ such that
+\[
+\sup\nolimits_{Q\in \kno} \mu_0(Q) \lambda_0(Q^*) = \mu_0(K) \lambda_0(K^*)\, ?
+\]
+}
+
+If $\omega\subset S^{n-1}$ is contained in a closed hemisphere,
+then the {\it polar set} $\omega^*$ is defined by:
+\begin{equation}\label{polarset}
+\omega^* =\{v\in S^{n-1} : \text{$u\cdot v\leq 0$, for all $u\in\omega$}\}=
+\bigcap_{u\in\omega}\{v\in S^{n-1} : u\cdot v\leq 0 \}.
+\end{equation}
+
+A critical new concept introduced here is that of two Borel measures on $\sn$ being
+{\it Aleksandrov related}.
+
+\begin{definition-non}
+Two Borel measures $\mu$ and $\lambda$ on $S^{n-1}$ are called {\it Aleksandrov related} if
+\begin{equation*}
+\lambda(S^{n-1})=\mu(S^{n-1}) > \lambda(\omega^*) + \mu(\omega),
+\end{equation*}
+for each compact, spherically convex set $\omega\subset\sn$.
+\end{definition-non}
+
+\noindent
+This relationship is easily seen to be symmetric since $\omega^{**}=\omega$, for each compact, spherically convex set $\omega\subset\sn$.
+If $\mu$ is Aleksandrov related to spherical Lebesgue measure, then the measure  $\mu$ is said to
+{\it satisfy the Aleksandrov condition}, which is an important well-known notion.
+
+
+
+The following solution to a critical case of the Gauss image problem will be presented:
+
+\begin{theo}\label{smt}
+Suppose $\mu$ and $\lambda$ are Borel measures on $\sn$ and
+$\lambda$ is absolutely continuous.
+If $\mu$ and $\lambda$ are Aleksandrov related, then
+there exists a body $K\in\kno$ such that $\mu=\lambda(K,\cdot\,)$.
+\end{theo}
+
+
+It will be shown that when the measure $\lambda$ is strictly positive on nonempty open sets,
+the requirement that the measures be Aleksandrov related is also necessary. Moreover,
+it will be shown that the convex body
+in the solution is unique up to dilation.
+
+When the measure $\lambda$ is spherical Lebesgue measure, Theorem \ref{smt} is originally due to Aleksandrov.
+New proofs were presented by Oliker \cite{Ol} and later by Bertrand \cite{Bgeomded}.
+The approach taken below is different from these.
+
+%\begin{definition-non}
+%A pair of Borel measures $\lambda$ and $\mu$ on %$\sn$ are said to be
+%{\it a polar pair} if there exists a body %$K\in\kno$ so that $\mu = \lambda(K,\cdot)$ while %also $\lambda = \mu(K^*, \cdot)$. 
+%\end{definition-non}
+
+%Note, as an aside, that if $\mu$ is the Gauss %image %measure of %$\lambda$ under $K$, i.e., $\mu %= \lambda(K,\cdot)$, and the %convex body $K$ is %$C^2$ and has positive curvature, then %$\lambda$ %is the Gauss image %measure of 
+%$\mu$ under $K^*$ because the Gauss image map of %$K$ is a %homeomorphism. Thus, regularity of the %convex body involved %implies that the measures %are a polar pair. However, in general, %the convex %body $K$ as a solution
+%of the related Monge-Amp\`ere equation, does not %have such %regularity. 
+
+%Our results show (under mild assumptions) %precisely when 
+%a pair of measures are a polar pair. 
+
+%\begin{theo}\label{mmm}
+%Suppose $\lambda$ and $\mu$ are absolutely %continuous Borel measures on $\sn$
+%that are strictly positive on nonempty open sets.
+%Then $\lambda$ and $\mu$ are a polar pair,  
+%if and only if, $\lambda$ and $\mu$ are %Aleksandrov related.
+% \end{theo}
+
+
+It will be shown that in an important case,
+the Gauss image problem and the problem of maximizing the log-volume-product are equivalent.
+
+
+
+
+\begin{theo}\label{es1}
+Suppose $\lambda$ and $\mu$ are Borel measures on $S^{n-1}$, and $\lambda$ is both absolutely continuous and strictly positive on nonempty open sets.
+If $|\mu|=|\lambda|$,
+then the following statements are equivalent:
+\begin{enumerate}
+\item there exists a body $K\in \kno$ such that
+$\lambda({K},\cdot\,) =\mu$.
+\item there exists a body $K\in\kno$ such that
+\[
+\sup\nolimits_{Q\in \kno} \mu_0(Q) \lambda_0(Q^*) = \mu_0(K) \lambda_0(K^*).
+\]
+\item $\mu$ and $\lambda$ are Aleksandrov related.
+\end{enumerate}
+Moreover, if the convex body $K$ exists, then it is unique up to dilation.
+\end{theo}
+
+
+It can be shown that even (i.e., assumes the same value on antipodal Borel subsets
+ of $\sn$) Borel measures of the same total mass are always Aleksandrov related.
+
+
+\begin{theo}\label{es2}
+Suppose $\mu$ is an even Borel measure on $S^{n-1}$ that is not concentrated on any great hypersphere, and $\lambda$ is an even Borel measure on $S^{n-1}$ that is absolutely continuous and strictly positive on nonempty open sets.
+If
+$|\mu|=|\lambda|$, then there exists an origin-symmetric convex body
+$K \in \kno$, unique up to dilation,
+such that
+\begin{enumerate}
+\item
+$\lambda({K},\cdot\,) =\mu$, and
+\item
+the maximum of $\mu_0(Q) \lambda_0(Q^*)$, over $Q\in\kno$, is attained at $K$.
+\end{enumerate}
+\end{theo}
+
+
+
+
+It is necessary to contrast the Gauss image problem with the various Minkowski problems
+and dual Minkowski problems that have been extensively studied (see e.g.
+ \cite{BHP17jdg, BLYZ13jams, ChengYau, CW06adv}, \cite{HLYZ16,HLYZ16p,HZ18adv},
+ \cite{L93jdg, LO95jdg, LYZ00jdg, LYZ04tams, LYZ06imrn, LYZ16}, 
+ \cite{Ol2,Ol21,Ol}, \cite{Sta1}, \cite{YZCVPDE, YZJDG, Zu, Zu2}). A good way to do that is to contrast
+ the Gauss image problem with a specific Minkowski problem, say the log-Minkowski
+  problem. {\it Cone-volume measure} of convex bodies has been of considerable
+   recent interest (see e.g., \cite{ BGMN05annprob, BH16adv, BH17adv,  BLYZ13jams},
+   \cite{HL14adv}, \cite{HP18adv}, \cite{N07tams}, \cite{NR03aihpps}, \cite{Sta1}). The {\it cone-volume measure}
+   $V_K$ of a convex body $K$ is a Borel measure on the unit sphere, defined for
+    Borel $\omega\subset\sn$ as the $n$-dimensional Lebesgue measure of the cone
+\begin{equation*}
+\{tx: \text{$0\le t\le 1$  and $x\in\partial K$ with $N(K,x)\cap\omega\neq\varnothing$}\}.
+\end{equation*}
+The {\it log-Minkowski problem} asks: Given a Borel measure $\mu$, does there exist
+ a convex body $K$ such that $\mu=V_K$? And if the body exists, to what extent is it unique?
+ (For recent work on this see e.g., \cite{And96jdg, And99inv, And03jams}, \cite{BLYZ13jams},
+ \cite{HL14adv}, \cite{HP18adv}.) It is precisely here that we can see the difference between Minkowski
+ problems and the Gauss image problem. In the Gauss image problem, a pair of submeasures
+ is given and it is asked if there exists a convex body ``linking" them
+via its radial Gauss image.
+Thus, we need to construct a convex body
+whose radial Gauss image
+``links" the two given submeasures.
+On the other hand, in a Minkowski problem, only one measure
+is given and the question asks if this measure is a specific geometric measure of a convex body, say the cone-volume
+ measure of a convex body. To solve a Minkowski problem, we are attempting to construct
+ a convex body for a specific geometric measure of convex bodies. However, the Gauss
+ image problem could become a Minkowski problem. For example, if $\lambda$ is spherical
+  Lebesgue measure, then $\lambda(K,\cdot\,)$ is just Aleksandrov's integral curvature of $K$.
+  Here we are dealing with a Minkowski problem, the Minkowski problem for Aleksandrov's
+   integral curvature: Given a Borel measure $\mu$, does there exist a convex body $K$
+   such that $\mu=\lambda(K,\cdot\,)$; i.e., does there exist a convex body $K$ whose
+   integral curvature is the given measure $\mu$? And if the body exists, to what extent is it unique?
+In this sense, the Gauss image problem broadens the study of Minkowski problems. But the essence
+of the problem is an attempt at a deeper understanding of the Gauss image map.
+\medskip
+
+
+
+
+\smallskip
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Preliminaries}
+
+
+
+For $x\in\rn$,
+let $|x|=\sqrt{x\cdot x}$ be the Euclidean norm of $x$.
+For $x\in\rn \setminus \{0\}$, define
+$\xoverline{x}  = x/|x|$. For a subset $E\subset\rn$,
+let $\bar E = \{\bar x : x\in E\setminus\negthinspace\{0\}\}$.
+The origin-centered unit ball $\{x\in\rn : |x|\le 1\}$ is always
+denoted by $B$.
+
+Lebesgue measure in $\rn$
+is denoted by $V$, which is also called ``volume".
+Write $\omega_n$ for the volume of $B$.
+We shall write $\hm$ for $(n-1)$-dimensional Hausdorff measure.
+
+For the set of continuous functions defined on
+$\sn$ write $C(\sn)$, and for
+$f\in C(\sn)$ write $\| f \|_\infty=\max_{v\in\sn} |f(v)|$.
+ We shall view $C(\sn)$ as endowed with the topology induced
+ by this {\it max-norm}. We write $C^+(\sn)$ for the set of
+ strictly positive functions in $C(\sn)$, and $C_e^+(\sn)$
+ for the set of even functions in $C^+(\sn)$.
+
+
+
+
+
+
+
+
+
+
+
+
+
+Let $\mathcal K^n$ denote the set of compact, convex subsets of $\rn$.
+For $K\in \mathcal K^n$, the
+support function
+$h_K:\rn \to \ro$ of $K$ is defined by
+$
+h_K(x) = \max\{x\cdot y : y\in K\}
+$,
+for $x\in\rn$. The
+support function is convex and homogeneous of degree $1$.
+A compact convex subset of $\rn$ is uniquely determined by its support function.
+The set $\mathcal K^n$ is viewed as endowed with the {\it Hausdorff metric}. So,
+the distance between $K,L\in\mathcal K^n$ is simply $d(K,L)=\|h_K - h_L\|_\infty$.
+If $A$ is a compact subset of $\rn$ then $\conv\negthinspace A$, the {\it convex hull}
+of $A$ is the smallest convex set that contains $A$.
+It is easily seen that its support function is given by
+\begin{equation}\label{hullsup}
+h_{\conv\negthinspace A}(x) = \max\{x\cdot y : y\in A\},
+\end{equation}
+for $x\in\rn$.
+
+A {\it convex body} in $\rn$ is a compact convex set with nonempty interior.
+Denote by $\Int K$ the interior of the convex body $K$.
+Denote by $\kne$ the class of origin-symmetric convex bodies in $\rn$.
+Obviously, $\kno$ is a subspace of $\mathcal K^n$, and $\kne$ is a subspace of
+$\kno$.
+
+The radial function $\rho_K:\sn \to \ro$ of a compact set $K$ that is star-shaped,
+with respect to the origin, is defined by $\rho_K(x) = \max\{a : a u \in K\}$, for $u\in\sn$.
+A compact star-shaped set with respect to the origin is uniquely determined
+by its radial function.
+The radial function of a convex body in $\kno$
+is continuous and positive.  If $K\in\kno$, then obviously
+\[
+\partial K =\{\rho_K(u)u : u\in \sn\}.
+\]
+The {\it radial metric}, defines the distance between $K,L\in\kno$, as $\|\rho_K - \rho_L\|_\infty$.
+We shall use the well-known fact that on $\kno$, the Hausdorff metric and radial
+ metric are topologically equivalent.
+
+For a Borel measure $\mu$ on $\sn$, define
+\begin{equation*}
+\mu_p(f) = \left(\frac 1{|\mu|} \int_{\sn} f^p \, d\mu\right)^\frac1p, \quad p\neq 0,
+\end{equation*}
+and
+\begin{equation*}
+\mu_0(f) = \exp \left(\frac 1{|\mu|} \int_{\sn} \log f \, d\mu\right),
+\end{equation*}
+for each $f\in C^+(\sn)$. When $f=\rho_K$, for some $K\in\kno$, then $\mu_p(f)$ will
+be written as $\mu_p(K)$.
+When $\mu$ is spherical Lebesgue measure, then the $\mu_p(K)$ are the normalized dual
+volumes from the dual Brunn-Minkowski theory --- a theory that played a critical role
+in the ultimate solution of the Busemann-Petty problem. (See e.g., \cite{G94ann},
+\cite{GKS99ann}, \cite{K98ajm}, \cite{K00gafa}, \cite{Z99ann}.)
+
+
+
+
+If $K\in \kno$, then it is easily seen that
+the radial function and the support function of $K$ are related by,
+\begin{align*}
+h_K(v)        &= \max\nolimits_{u\in\sn}   (u\cdot v) \,\rho_K(u), \qquad v\in\sn,  \\
+\shortintertext{and}
+1/\rho_K(u) &=  \max\nolimits_{v\in\sn}  (u\cdot v)/h_K(v),  \qquad u\in\sn.
+\end{align*}
+From the definition of the polar body, we see that,
+\begin{equation}\label{polar}
+ \rho_K = 1/h_{K^*}\quad\text{and}\quad h_K= 1/\rho_{K^*},
+\end{equation}
+on $\sn$.
+
+
+%The Minkowski functional $g_K : \rn \to [0,\infty)$ of a convex body $K\in \kno$ is
+%defined by
+%\[
+%g_K = \frac1{\rho_K}=h_{K^*},
+%\]
+%which is an $n$-dimensional norm when $K$ is origin-symmetric. There is
+%\[
+%K=\{x\in\rn : g_K(x)\le 1\}.
+%\]
+
+
+For $K,L\in\kn$, and real $a,b \ge 0$,
+the {\it Minkowski combination}, $aK + bL\in\kn$, is the compact convex set defined by
+\[
+aK + bL = \{ax + by :\text{$x\in K$ and $y \in L$}\},
+\]
+and its support function is given by
+\begin{equation*}
+h_{aK+bL} = ah_K + bh_L.
+\end{equation*}
+
+%For $K,L\in \kno$ and $a,b \ge 0$, the {\it geometric Minkowski combination},
+%$a\thin\cdot K \qsum{0} b\thin\cdot L$, is the convex body defined by
+%\begin{equation}
+%a\thin\cdot K \qsum{0} b\thin\cdot L =  \bigcap_{u\in \sn}
+%\{x\in \mathbb R^n : x\cdot u \le h_K^a(u) h_L^b(u) \}.
+%\end{equation}
+%\smallskip
+
+
+Suppose $\Omega\subset\sn$ is closed and not contained in
+any closed hemisphere of $\sn$. For a function 
+$f:\Omega\to (0,\infty)$, define
+$\bla f \bra$ to be the convex hull in $\rn$,
+\[
+\bla f \bra = \conv \{f(u)u : u\in\Omega \}.
+\]
+Since $f$ is strictly positive, and $\Omega$ is
+not contained in any closed hemisphere of $\sn$, it follows that
+$\bla f \bra \in\kno$. Note that
+$\bla a f \bra = a \bla  f \bra$, for $a>0$.
+From \eqref{hullsup}, we see that the support function of $\bla f \bra$ is given by
+\begin{equation}\label{suphull}
+h_{\bla f \bra}(x) = \max\nolimits_{u\in\Omega}   (x\cdot u)f(u),
+\end{equation}
+for $x\in\rn$.
+We shall make use of the fact that if
+$f_0, f_1,\ldots \in C^+(\sn)$, then
+\begin{equation}\label{uniform1}
+\text{$\lim_{k\to\infty}f_k = f_0$, uniformly on $\sn$\quad$\implies$\quad\
+$\bla f_k \bra\ \to\ \bla f_0 \bra$, in $\kno$}.
+\end{equation}
+See e.g., \cite{HLYZ16}, p.\ 345 for a proof.
+
+
+
+
+%In this paper,
+%a convex cone $\gamma$ in $\rn$ is a convex set such that $tx \in \gamma$
+%whenever $x\in \gamma$ and $t\ge0$. The polar cone $\gamma^*$ is defined by
+%\[
+%\gamma^* = \{y \in \rn : x\cdot y \le 0 \ \text{for all }\ x\in \gamma\}.
+%\]
+%The intersection of a convex cone $\gamma$ with the unit sphere $\sn$ will be
+%denoted by $\xoverline{\gamma}$, that is
+%\[
+%\xoverline{\gamma}=\sn \cap \gamma.
+%\]
+
+
+If $\omega \subset S^{n-1}$, define $\text{cone}\,\omega $,
+the {\it cone that $\omega $ generates}, as
+\[
+\text{cone}\,\omega = \{tu:\text{$t\ge 0$ and $u\in\omega$}\}
+\]
+and define $\hat \omega$, the {\it restricted cone that $\omega $ generates}, as
+\[
+\hat \omega =
+\{tu : \text{$0\le t \le 1$ and $u\in \omega$}  \}.
+\]
+A subset $\omega \subset S^{n-1}$ is said to be {\it spherically convex} if the
+cone that $\omega $ generates is a nonempty convex subset of $\rn$,
+that is not all of $\rn$.
+%$\gamma \neq \rn$, so that $\omega = \bar \gamma$.
+This definition implies that
+ a spherically convex set on $\sn$ is nonempty and
+ %is not the whole sphere.
+ %Then a spherically convex set $\omega \subset\sn$
+ is always contained in a closed hemisphere of $\sn$.
+A spherically convex set $\omega\subset S^{n-1}$, is said to be {\it strongly spherically convex}
+if it is contained in an open hemisphere.
+
+If $\omega$ is a compact spherically convex set on $\sn$, then $\omega$
+is strongly spherically convex
+if and only if $\omega\cap(-\omega)=\varnothing$, or equivalently $\omega$
+does not contain a pair of antipodal points.
+Indeed, when $\omega\subset \sn$
+is compact spherically convex and
+$\omega\cap(-\omega)=\varnothing$, then  $\text{conv}\, \omega$ and
+$\text{conv}\, (-\omega)$, the convex hulls in $\rn$, are disjoint. If this
+were not the case then this would immediately imply that the origin belongs to $\text{conv}\, \omega$.
+But, to see this is impossible write the origin as a convex combination of
+$u_1,\ldots,u_r\in \omega$ with strictly positive coefficients. This would imply that the point $-u_1 \in \text{cone}\,\omega$ and since $-u_1\in\sn$ it
+would follow that $-u_1\in\omega$ contradicting the fact that $u_1\in\omega$.
+Since  $\text{conv}\, \omega$ and
+$\text{conv}\, (-\omega)$,
+are disjoint compact convex sets in $\rn$ that do not contain the origin,
+the hyperplane separation theorem,  tells us that $\text{conv}\, \omega$ and
+$\text{conv}\, (-\omega)$ are contained in the opposite open sides of a hyperplane passing
+through the origin. Thus, $\omega$ is contained in an open hemisphere.
+
+
+
+For a subset $\omega\subset S^{n-1}$ that is contained in a closed hemisphere,
+its {\it polar set} $\omega^*$ is defined by
+\begin{equation*}
+\omega^* =\{v\in S^{n-1} : u\cdot v\leq 0\ \text{for all } u\in\omega\}.
+\end{equation*}
+The {\it spherical convex hull}, $\bla \omega \bra$, of $\omega$ is defined by
+\[
+\bla \omega \bra =\sn\cap\text{conv}\,(\text{cone}\,\omega).
+\]
+The polar set $\omega^*$ is always convex and
+\begin{equation}
+\label{yz2}
+\omega^* = \bla \omega \bra^*.
+\end{equation}
+
+As is well known, the Hausdorff metric can be extended to the set of all nonempty compact subsets of $\rn$. If $K$ and $L$ are nonempty compact subsets of $\rn$, then the Hausdorff distance between them can be defined by 
+\[
+\max\big\{\adjustlimits\sup_{x\in K}\inf_{y\in L}|x-y|, \, \adjustlimits\sup_{y\in L} \inf_{x\in K} |x-y|\big\}.
+\]
+
+Let $\sco$ denote the set of spherically-compact convex sets of $\sn$ endowed with the topology of the Hausdorff metric. It is easily verified  that a sequence $\omega_i\in \sco $ converges to $\omega \in \sco$ if and only if $\hat \omega_i$ converges to $\hat \omega$. 
+
+
+
+
+\medskip
+
+
+Let $\Omega \subset \sn$
+be a closed set that is not contained in a closed hemisphere of $\sn$.
+Let $f: \Omega \to \ro$ be continuous, and $\delta>0$.
+Let $h_t : \Omega \to (0, \infty)$ be a continuous function defined
+for each $t\in(-\delta,\delta)$ by
+\begin{equation*}
+\log h_t= \log h + t f + o(t,\cdot\,),
+\end{equation*}
+where $o(t,\cdot\,): \Omega \to \ro$ is continuous and $\lim_{t\to 0} o(t,\cdot\,)/t = 0$,
+uniformly on $\Omega$.
+Denote by
+\[
+\blb h_t \brb = \{x\in\rn : \text{$x\cdot v \le h_t(v)$ for all $v\in \Omega$}\},
+\]
+the Wulff shape determined by $h_t$. We shall call $\blb h_t \brb$
+a {\it logarithmic family of Wulff shapes formed by $(h,f)$}. On occasion,
+we shall write $\blb h_t \brb$ as $\blb h,f\brb$, and if $h$ happens to
+be the support function of a convex body $K$ perhaps as $\blb K,f \brb$  or $\blb K,f,t\brb$
+or $\blb K,f,o,t\brb$ if required for clarity.
+We call $\blb K,f\brb$ a logarithmic family of Wulff shapes formed by $(K,f)$.
+\smallskip
+
+
+Let $g: \Omega \to \ro$ be continuous and $\delta>0$.
+Let $\rho_t : \Omega \to (0,\infty)$ be a continuous function defined
+for each $t\in(-\delta,\delta)$ by
+\begin{equation*}
+\log \rho_t= \log \rho + t g + o(t,\cdot\,),
+\end{equation*}
+where again $o(t,\cdot\,): \Omega \to \ro$ is continuous and $\lim_{t\to 0} o(t,\cdot\,)/t = 0$,
+uniformly on $\Omega$.
+Denote by
+\[
+\bla \rho_{t} \bra = \conv \{\rho_{t}(u)u : u\in\sn \}
+\]
+the convex hull generated by $\rho_{t}$. We will call $\bla \rho_{t} \bra$
+a {\it logarithmic family of convex hulls generated by $(\rho,g)$}.
+On occasion, we shall write $\bla \rho_{t} \bra$ as $\bla \rho,g,t\bra$,
+and if $\rho$ happens to be the radial function of a convex body $K\in\kno$
+as $\bla K,g\bra$ or $\bla K,g,t\bra$ or $\bla K,g,o,t\bra$ if required for clarity.
+We call $\bla K,g\bra$ a logarithmic family of convex hulls generated by $(K,g)$.
+
+From \cite{HLYZ16} we will use the easily established fact that if $K\in\kno$ and
+$f: \Omega \to \rbo$ is continuous, where $\Omega \subset \sn$ is a closed set that
+is not contained in a closed hemisphere of $\sn$, then
+\begin{equation}\label{polarHLYZ}
+\bla K,f\bra^* = \blb K^*,-f\brb.
+\end{equation}
+
+
+It will be important to recall the fact that every Borel  measure that is absolutely continuous vanishes on the boundaries of spherically convex subsets of the sphere.
+
+\smallskip
+
+
+
+
+
+Schneider's book \cite{S14} is our standard reference for the basics regarding
+convex bodies. The books \cite{G06book, Gruberbook} are also good references.
+
+
+
+
+
+
+
+\section{The Gauss image measure} \label{gim}
+
+Let $K$ be a convex body in $\rn$. For each $v\in \sn$, the hyperplane
+\begin{equation*}
+H_K(v) = \{x \in \rn : x\cdot v = h_K(v)\}
+\end{equation*}
+is called the {\it supporting hyperplane to $K$ with unit normal $v$}.
+For $\sigma\subset\partial K$, the {\it spherical image of $\sigma$} is defined by
+\begin{equation*}
+\bu_K(\sigma) = \{v\in\sn : x\in H_K(v)\ \text{for some}\ x\in\sigma \} \subset\sn.
+\end{equation*}
+For $\eta\subset\sn$, the {\it reverse spherical image of $\eta$} is defined by
+\[
+\bx_K(\eta)=\{ x\in \partial K : x\in H_K(v) \text{ for some } v\in \eta\}
+\subset \partial K.
+\]
+
+Let $\sigma_K\subset \partial K$ be the set consisting of all $x\in \partial K$,
+for which the set
+$\bu_K(\{x\})$, abbreviated as $\bu_K(x)$, contains more than a single element.
+The set of points in
+$\partial K \setminus \sigma_K$ are called the {\it regular} points of $\partial K$.
+It is well known (Schneider \cite{S14},  p.\ 84) that the $(n-1)$-dimensional Hausdorff measure of the set of {\it singular}
+(i.e., non-regular) points of a convex body is $0$; i.e.,  $\hm (\sigma_K) = 0$.
+The function
+\begin{equation*}
+\nu_K: \partial K \setminus \sigma_K \to \sn,
+\end{equation*}
+defined by letting $\nu_K(x)$ be the unique element in $\bu_K(x)$, for each
+$x \in \partial K \setminus \sigma_K $, is called the {\it spherical image map} of $K$
+and is known to be continuous. (See Lemma 2.2.12 of Schneider \cite{S14}.)
+
+
+
+
+The set $\eta_K\subset \sn$ consisting of all $v\in \sn$,
+for which the set $\bx_K(v)$ contains
+more than a single element, is of $\mathcal H^{n-1}$-measure $0$
+(see Theorem 2.2.11 of Schneider \cite{S14}). The function
+\begin{equation*}
+x_K : \sn  \setminus \eta_K \to \partial K,
+\end{equation*}
+defined, for each $v \in \sn  \setminus \eta_K $,
+by letting $x_K(v)$ be the unique element in $\bx_K(v)$, is called the
+{\it reverse spherical image map}. The vectors in $\sn  \setminus \eta_K$
+are called the {\it regular normal vectors} of $K$. Thus, $v\in\sn$ is
+ a regular normal vector of $K$ if and only if
+$\partial K \cap H_K(v)$ consists of a single point. The function $x_K$
+is well known to be continuous (see Lemma 2.2.12 of Schneider \cite{S14}).
+
+
+For $K\in \kno$, define  the {\it radial map} of $K$,
+\[
+r_K : \sn \to \partial K\qquad\text{by}\qquad r_K(u) = \rho_K(u) u \in \partial K,
+\]
+for $u\in\sn$. Note that the mapping $r_K^{-1}: \partial K \to \sn$ is just the restriction
+ of the map $\xoverline{\,\cdot\,}: \rn\setminus\{0\} \to\sn$ to the set $\partial K$.
+The radial map is bi-Lipschitz.
+
+For $\omega\subset\sn$, define the {\it radial Gauss image of $\omega$}  by
+\[
+\balpha_K(\omega) = \bu_K(r_K(\omega)) \subset \sn.
+\]
+Thus, for $u\in\sn$,
+\begin{equation*}
+\balpha_K(\{u\}) = \{ v\in \sn : r_K(u) \in H_K(v)\}.
+\end{equation*}
+
+
+We will need the fact that $\balpha_K$ maps closed sets of $\sn$ into closed sets of $\sn$.
+\begin{lemm}\label{closed}
+If $\omega\subset\sn$ is closed then $\balpha_K(\omega)$ is closed as well.
+\end{lemm}
+\begin{proof}
+
+Suppose the points $v_i\in\balpha_K(\omega)$ are such that $v_i\to v_0$. We will show
+that $v_0\in\balpha_K(\omega)$.
+Now  $v_i\in \bu_K(r_K(\omega))$ means that $v_i$ is a unit outer normal
+to $K$ at $r_K(u_i)$, for some $u_i\in\omega$; i.e.,
+\begin{equation}\label{3.1}
+x\cdot v_i \le r_K(u_i)\cdot v_i\quad  \text{for all } x\in K.
+\end{equation}
+Since $\omega\subset\sn$ is compact $u_i\in\omega$ has a convergent subsequence,
+ which we will again denote by $u_i$, that is $u_i\to u_0\in\omega$.
+ Since $r_K$ is a continuous function,  $r_K(u_i)\to r_K(u_0)$, and together with
+$v_i\to v_0$, and \eqref{3.1} gives
+\begin{equation*}
+x\cdot v_0 \le r_K(u_0)\cdot v_0\quad  \text{for all } x\in K.
+\end{equation*}
+Hence, $v_0\in \bu_K(r_K(\omega))=\balpha_K(\omega)$.
+\end{proof}
+
+
+
+Define the {\it radial Gauss map} of the convex body $K\in\kno$
+\[
+\alpha_K : \sn\setminus \omega_K \to \sn\qquad\text{by}\qquad
+\alpha_K = \nu_K \circ r_K,
+\]
+where $\omega_K = \xoverline{\sigma_K} = r_K^{-1} (\sigma_K)$.
+Since $r_K^{-1}= \xoverline{\,\cdot\,}$ is a bi-Lipschitz map between
+the spaces $\partial K$ and $\sn$ it follows that
+$\omega_K$ has spherical Lebesgue measure $0$. Observe that
+if $u\in\sn\setminus \omega_K$, then $\balpha_K(\{u\})$ contains
+only the element $\alpha_K(u)$.  Note that since both $\nu_K$
+and $r_K$ are continuous, $\alpha_K$ is continuous.
+
+From \cite{HLYZ16} Lemma 2.2, if $K_0,K_1,\ldots\in\kno$ then
+\begin{equation}\label{maybe1}
+K_i \to K_0 \ \ \implies \ \ \alpha_{K_i} \to \alpha_{K_0},
+\end{equation}
+almost everywhere, with respect to spherical Lebesgue measure.
+
+For $\eta\subset\sn$, define the {\it reverse radial Gauss image} of $\eta$ by
+\begin{equation}\label{alpha-star}
+\balpha^*_K(\eta) = r^{-1}_K ( \bx_K(\eta) )= \xoverline{\bx_K(\eta)}.
+\end{equation}
+Thus,
+\begin{equation}\label{alpha-star-1}
+\pmb{\alpha}^*_K(\eta) =\{\xoverline{x} : \text{  $x\in\partial K$ where
+$x\in H_K(v)$ for some $v \in \eta$}\}.
+\end{equation}
+Define the {\it reverse radial Gauss map} of the convex body $K\in\kno$,
+\begin{equation*}
+\alpha^*_K : \sn\setminus \eta_K \to \sn,\qquad\text{by}\qquad
+\alpha^*_K = r_K^{-1} \circ x_K.
+\end{equation*}
+Note that since both $r_K^{-1}$ and $x_K$ are continuous, $\alpha^*_K $ is continuous.
+%Note that $\alpha_K^*$ is just the inverse $\alpha_K^{-1}$ of $\alpha_K$.
+
+
+
+If $\eta \subset \sn$ is a Borel set, then
+$\balpha^*_K(\eta)=\xoverline{ \bx_K(\eta)} \subset\sn$ is
+spherical Lebesgue measurable.
+This fact is Lemma 2.2.14 of Schneider \cite{S14}; an alternate proof was given in \cite{HLYZ16}.
+It was shown in \cite{HLYZ16} that if $v\notin \eta_K$, and $\omega \subset\sn$, then
+\begin{equation}\label{g1}
+v\in \balpha_K(\omega) \ \text{ if and only if } \ \alpha_K^*(v)\in\omega.
+\end{equation}
+Hence \eqref{g1} holds for almost all $v\in \sn$, with respect to the spherical
+Lebesgue measure.
+It was also shown in \cite{HLYZ16} that if  $K\in\kno$, then
+the reverse radial Gauss image of $K$ and the radial Gauss image
+of the polar body, $K^*$, are identical; i.e.,
+\begin{equation}\label{dg}
+\balpha^*_K(\eta) = \balpha_{K^*}(\eta),
+\end{equation}
+for each $\eta \subset \sn$.
+It follows that for $K\in\kno$, the set $\balpha_{K^*}(\eta)$ is
+spherical Lebesgue measurable whenever $\eta \subset \sn$ is a Borel set. Since $K^{**}=K$,
+this shows that $\balpha_{K}(\omega)$ is
+spherically Lebesgue measurable whenever $\omega \subset \sn$ is a Borel set and $K\in\kno$.
+From \eqref{dg} we also see that for $K\in \kno$,
+\begin{equation}\label{dg1}
+\alpha_K^* = \alpha_{K^*},
+\end{equation}
+almost everywhere on $\sn$, with respect to spherical Lebesgue measure.
+
+
+If $K_0,K_1,\ldots\in\kno$ are such that $K_i \to K_0$, then $K_i^* \to K_0^*$.
+This and \eqref{maybe1} give us
+$\alpha_{K_i^*} \to \alpha_{K_0^*}$,
+almost everywhere, with respect to spherical Lebesgue measure.
+Now \eqref{dg1} allows us to conclude that
+\begin{equation}\label{maybe2}
+K_i \to K_0 \ \ \implies \ \ \alpha^*_{K_i} \to \alpha^*_{K_0},
+\end{equation}
+almost everywhere, with respect to spherical Lebesgue measure.
+
+
+
+
+%\alpha_K = \frac{\nabla g_K}{|\nabla g_K|} = - \frac{\nabla \rho_K}{|\nabla \rho_K|},
+%\qquad\qquad\text{on\ \ %$\sn \setminus \omega_K$},
+%\end{equation*}
+%and using \eqref{dg1}, the reverse radial Gauss map
+%\begin{equation*}
+%\alpha_K^* = \frac{\nabla h_K}{|\nabla h_K|},\qquad\qquad\text{on\ \ $\sn \setminus \eta_{K}$},
+%\end{equation*}
+%almost everywhere with respect to spherical Lebesgue measure.
+%For a proof, see \cite{LYZ16}.
+
+
+
+
+
+
+\smallskip
+
+
+For $K\in\kno$, Aleksandrov's
+{\it integral curvature}, $C_0(K, \cdot\,)$ of $K$, is a Borel measure on $\sn$ defined,
+for Borel $\omega \subset \sn$,  by
+\begin{equation}\label{int-cur}
+C_0(K, \omega) = \mathcal H^{n-1}(\balpha_K(\omega));
+\end{equation}
+i.e., $C_0(K,\omega)$ is the spherical Lebesgue measure of $\balpha_K(\omega)$.
+The total measure $C_0(K, \sn)$ of integral curvature of each convex body $K$ is $n\omega_n$,
+the surface area of the unit sphere $\sn$ in $\rn$.
+%The integral curvature of $K$ was defined by Aleksandrov.
+
+The {\it solid-angle measure} $\wt C_0(K, \cdot\,)$, also known as the 0-$th$ dual curvature measure,
+introduced in  \cite{HLYZ16}, can be defined by
+\begin{equation}\label{dic}
+n\wt C_0(K, \omega) = \mathcal H^{n-1}(\balpha_K^*(\omega)).
+\end{equation}
+From \eqref{int-cur}, \eqref{dic}, and \eqref{dg}, we have
+\begin{equation*}
+C_0(K,\cdot\,)=n \wt C_0(K^*,\cdot\,).
+\end{equation*}
+
+
+The $(n-1)$-th area measure $S_{n-1}(K,\cdot\,)$
+is the classical surface area measure $S(K,\cdot\,)$
+which is defined, for each Borel $\eta\subset\sn$, by
+\begin{equation}\label{temp1}
+S_{n-1}(K, \eta) = \mathcal H^{n-1}(\bx_K(\eta)).
+\end{equation}
+Federer's $(n - 1)$-th curvature measure $C_{n-1}(K, \cdot\,)$ on $\sn$ can be defined,
+for each Borel $\omega\subset\sn$, by
+\begin{equation}\label{temp2}
+C_{n-1}(K, \omega) = \mathcal H^{n-1}(r_K(\omega)).
+\end{equation}
+From \eqref{temp1} and \eqref{temp2}, and the definition \eqref{alpha-star} that
+$\balpha^*_K = r_K^{-1}\circ \bx_K$, we see that the $(n - 1)$-th
+curvature measure $C_{n-1}(K, \cdot\,)$ on $\sn$ and the $(n-1)$-th area measure
+$S_{n-1}(K,\cdot\,)$ on $\sn$, are related by
+\begin{equation}\label{temp3}
+C_{n-1}(K,\balpha^*_K(\eta)) = S_{n-1}(K, \eta),
+\end{equation}
+for each Borel $\eta\subset\sn$.
+See Schneider \cite{S14}, Theorem 4.2.3.
+
+
+
+The following lemma establishes a fundamental property of the radial Gauss image.
+
+\begin{lemm}\label{a1}
+Let $K\in \kno$. If $\omega \subset \sn$ is a spherically convex set, then
+\begin{equation}\label{a1.1}
+\balpha_K(\omega) \subset \sn \setminus \omega^*,
+\end{equation}
+and furthermore the set $(\sn \setminus \omega^*)\setminus \balpha_K(\omega)$ has interior points.
+\end{lemm}
+
+\begin{proof}
+Consider an arbitrary $u\in \omega$ and an arbitrary $v\in \balpha_K(u)$;
+i.e., $v$ is an outer unit normal
+of $K$ at $r_K(u)$. By the definition of support function, we have
+$$\rho_0\leq h_K(v)=\rho_K(u)u\cdot v\leq \rho_1 u\cdot v,$$
+which implies,
+\begin{equation}\label{a1.2}
+u\cdot v \geq \rho_0/\rho_1,
+\end{equation}
+where $\rho_0$ is the minimum of $\rho_K$, on $\sn$, and $\rho_1$ is
+the maximum of $\rho_K$, on $\sn$.
+The definition of $\omega^*$, and the fact that $u\in\omega$, gives us
+that $v\notin \omega^*$, which yields \eqref{a1.1}.
+
+
+Now \eqref{a1.1} is just $\balpha_K(\omega) \cap \omega^*=\varnothing$.
+When $\omega$ is spherically convex, $\omega^*$ is nonempty.
+However, \eqref{a1.2} implies that if we choose
+$\delta_0 \in (0, \rho_0/\rho_1), $, then the set
+\[
+\omega'_{\delta_0} = \medcap_{u\in \omega}\{v\in \sn: v\cdot u<\delta_0\}\setminus \omega^*,
+\]
+is disjoint from
+$\balpha_K(\omega)$. Note that $\omega_{\delta_0}'$ has non-empty interior. Therefore, the set
+$$(\sn \setminus \omega^*)\setminus \balpha_K(\omega)$$ has interior points.
+\end{proof}
+
+
+
+
+
+
+A {\it spherical submeasure} $\mu: \mathcal{B} \to [0,\infty)$, defined on a
+$\sigma$-algebra $\mathcal{B}$ of subsets of $\sn$, is a function that satisfies: 
+
+\begin{enumerate}
+\item 
+$\mu(\varnothing)=0$. 
+\item 
+If $A, B \in \mathcal{B}$ are such that $A\subset B$ then $\mu(A)\le \mu(B)$.
+\item 
+If $A_1, A_2,\ldots \in \mathcal{B}$, then $\mu(\cup_1^\infty A_i) \le \sum_1^\infty \mu(A_i)$.
+\end{enumerate}
+
+Our interest will be limited to 
+spherical Lebesgue submeasures and
+spherical Borel submeasures, 
+where $\mathcal{B}$ is the collection of spherical Lebesgue measurable subsets of $\sn$ and spherical Borel subsets of $\sn$, respectively.
+
+
+Suppose $\lambda$ is a spherical Lebesgue submeasure and $K\in\kno$.
+The {\it Gauss image measure} $\lambda(K,\cdot\,)$ of $\lambda$ via $K$
+is the spherical Borel submeasure defined by
+\begin{equation}\label{rgim0}
+\lambda(K,\omega) = \lambda\big(\balpha_K(\omega)\big),
+\end{equation}
+for each Borel set $\omega \subset \sn$.
+To see that $\lambda(K,\cdot\,)$ is indeed a submeasure, we recall the basic properties of the Gauss image $\balpha_K$ of a body $K\in\kno$:
+\begin{enumerate}
+\item 
+$\balpha_K(\varnothing)=\varnothing$. 
+\item 
+If $\omega, \omega' \subset\sn$ are such that $\omega \subset \omega' $ then $\balpha_K(\omega)
+\subset
+\balpha_K(\omega')$.
+\item 
+If $\omega_1, \omega_2,\ldots \subset\sn$, then $\balpha_K(\cup_1^\infty \omega_i) 
+=
+\cup_1^\infty \balpha_K(\omega_i)$.
+\item 
+If $\omega_1, \omega_2,\ldots \subset\sn$, are pairwise disjoint, then up to a set of spherical Lebesgue measure $0$, the sets
+$\balpha_K(\omega_1), \balpha_K(\omega_2),\ldots $ are pairwise disjoint as well.
+\end{enumerate}
+Properties (1) and (2) are completely trivial, while Property (3) follows directly from the trivial Lemma 2.3 in \cite{HLYZ16} together with \eqref{dg}.
+Property (4) is Lemma 2.4 in \cite{HLYZ16}. 
+The {\it reverse Gauss image measure} $\lambda^*(K,\cdot\,)$ of $\lambda$ via $K$
+is the Borel submeasure on $\sn$ defined by
+\begin{equation}\label{rgim}
+\lambda^*(K,\omega) 
+= 
+\lambda\big(\balpha_K^*(\omega)\big)
+=
+\lambda\big(\balpha_{K^*}(\omega)\big),
+\end{equation}
+for each Borel set $\omega \subset \sn$.
+Note that the second identity in \eqref{rgim} is from \eqref{dg}.
+
+Since for $a>0$,
+obviously $\balpha_{aK}=\balpha_K$ and
+$\balpha^*_{aK}=\balpha^*_K$, it follows, from their definitions, that
+\begin{equation*}
+\text{$\lambda(aK,\cdot\,)=\lambda(K,\cdot\,)$\quad
+and\quad $\lambda^*(aK,\cdot\,)=\lambda^*(K,\cdot\,)$},
+\end{equation*}
+for all $a>0$; i.e., the Gauss image measure and the reverse Gauss image measure
+ of a convex body are invariant under dilations of the convex body.
+From
+\eqref{rgim0}, \eqref{rgim}, and \eqref{dg}, we immediately obtain
+\begin{equation}\label{dgi}
+\lambda^*(K,\cdot\,) = \lambda(K^*,\cdot\,).
+\end{equation}
+When $\lambda$ is spherical Lebesgue measure $\mathcal H^{n-1}|_{\sn}$,
+from \eqref{int-cur} and \eqref{dic}, we see that the Gauss image measure
+$\lambda(K,\cdot\,)$ is a measure, the integral curvature, and the reverse Gauss
+image measure $\lambda^*(K,\cdot\,)$ is a measure;
+it's $n$ times the solid-angle measure, i.e.,
+\[
+\lambda = \mathcal H^{n-1}|_{\sn} \ \  \Longrightarrow \ \  \text{$\lambda(K,\cdot\,)
+= C_0(K,\cdot\,)$ and
+$\lambda^*(K,\cdot\,) = n \wt C_0(K,\cdot\,)$}.
+\]
+
+
+
+
+When $\lambda$ is the curvature measure $C_{n-1}(K, \cdot\,)$ of the convex body $K$,
+by \eqref{temp3},
+the reverse Gauss image measure, $\lambda^*(K,\cdot\,)$, is a measure; it's the surface area measure $S_{n-1}(K,\cdot\,)$; i.e.,
+\[
+\lambda = C_{n-1}(K, \cdot\,)\  \Longrightarrow \ \lambda^*(K,\cdot\,)= S_{n-1}(K,\cdot\,).
+\]
+
+
+When $\lambda$ is an absolutely continuous Borel measure, the Gauss image measure is a Borel measure, and for it we have an integral representation. 
+
+
+\begin{lemm}\label{di}
+If $\lambda$ is an absolutely continuous Borel measure and $K\in \kno$, then
+\begin{equation}\label{di1}
+\int_{\sn} f(u)\, d\lambda(K,u) = \int_{\sn} f(\alpha_K^*(v))\, d\lambda(v),
+\end{equation}
+for each bounded Borel $f\negthinspace :\sn \to \mathbb R$.
+\end{lemm}
+
+\begin{proof}
+Let $\phi$ be a simple function on $\sn$ given by
+\[
+\phi= \sum_i c_i \chara{\omega_i}
+\]
+where $c_i\in\mathbb R$, where $\omega_i\subset\sn$ are Borel sets, and where $\chara{\omega_i}$ is the indicator function of $\omega_i$.
+Since $\eta_K$ has spherical Lebesgue measure $0$, we can conclude from \eqref{g1} that
+\begin{equation}\label{di2}
+\chara{\balpha_K(\omega_i)}(v)=\chara{\omega_i}(\alpha_K^*(v)),
+\end{equation}
+for almost all $v\in \sn$, with respect to spherical Lebesgue measure.
+Since $\lambda$ is absolutely continuous,
+\eqref{di2} gives
+\begin{equation}\label{di3}
+\int_{\sn} \chara{\balpha_K(\omega_i)}(v)\, \lambda(v)
+=\int_{\sn} \chara{\omega_i}(\alpha_K^*(v))\, \lambda(v).
+\end{equation}
+We now use \eqref{rgim0} and \eqref{di3}, and get
+\begin{align*}
+\int_{\sn} \phi(u)\, d\lambda(K,u)
+&=\int_{\sn} \sum_i c_i \chara{\omega_i}(u) \, d\lambda(K,u)\\
+&=\sum_i c_i \lambda(K,\omega_i)\\
+&=\sum_i c_i \lambda(\balpha_K(\omega_i))\\
+&= \int_{\sn} \sum_i c_i \chara{\balpha_K(\omega_i)}(v) \, d\lambda(v) \\
+&=\int_{\sn} \sum_i c_i \chara{\omega_i}(\alpha_K^*(v)) \, d\lambda(v) \\
+&= \int_{\sn} \phi(\alpha_K^*(v)) \, d\lambda(v).
+\end{align*}
+Now that we have established \eqref{di1} for simple functions, for a bounded Borel $f$,
+choose a sequence of simple functions $\phi_k \to f$ uniformly.
+Then $\phi_k\circ \alpha_K^*$  converges
+to $f\circ \alpha_K^*$ a.e.\ with respect to spherical Lebesgue measure, and thus a.e.\
+with respect to $\lambda$.
+Since $f$ is a Borel function on $\sn$ and the inverse radial Gauss map $\alpha_K^*$
+is continuous on $\sn\setminus \eta_K$, the composite function $f\circ \alpha_K^*$
+is a Borel function on $\sn\setminus \eta_K$. Since $\phi_k\to f$ uniformly and $f$ is bounded, the functions $\phi_k$ are uniformly bounded. Note that both $\lambda$ and $\lambda(K,\cdot)$ are finite measures. By the dominated convergence theorem, we take the limit $k\to \infty$ to establish \eqref{di1}.
+\end{proof}
+
+When the measure $\lambda$ is an absolutely continuous Borel measure, we can (and will) speak of its
+Gauss image measure (as opposed to submeasure). 
+The Gauss image measure as a functional from the space $\kno$ to the space of
+Borel measures on $\sn$ is weakly convergent with respect to the Hausdorff metric:
+
+
+\begin{lemm}\label{cont}
+If $\lambda$ is an absolutely continuous Borel measure on $\sn$ and the bodies $K_0, K_1,\ldots\in \kno$ are such that
+$K_i \to K_0$, then $\lambda({K_i},\cdot\,) \to \lambda({K},\cdot\,)$, weakly.
+\end{lemm}
+
+\begin{proof}
+Since $K_i \to K_0$, from \eqref{maybe2} we see that
+%then $K_i^* \to K^*$, Now \eqref{maybe1} gives us $\alpha_{K_i^*} \to \alpha_{K^*}$,
+%almost everywhere, with respect to spherical Lebesgue measure. Now \eqref{dg1}, gives
+$\alpha_{K_i}^* \to \alpha_{K_0}^*$ almost everywhere
+with respect to spherical Lebesgue measure. Then for each continuous function
+$f$ on $\sn$, we have $f\circ\alpha_{K_i}^* \to f\circ\alpha_{K_0}^*$ almost everywhere
+with respect to spherical Lebesgue measure, and thus almost everywhere
+with respect to $\lambda$. Since $|f\circ\alpha_{K_i}^*|$ is obviously bounded by $\max_{v\in\sn}|f(v)|$,
+we have
+\[
+\int_{\sn} f(\alpha_{K_i}^*(v))\, d\lambda(v)\ \
+\to\ \  \int_{\sn} f(\alpha_{K_0}^*(v))\, d\lambda(v).
+\]
+This, and Lemma \ref{di}, shows that
+\[
+\int_{\sn} f(u)\, d\lambda(K_i,u)\ \  \to\ \  \int_{\sn} f(u)\, d\lambda(K_0,u),
+\]
+for each continuous $f\negthinspace:\sn\to\rbo$.
+Thus, $\lambda(K_i,\cdot\,) \to \lambda(K_0,\cdot\,)$ weakly.
+\end{proof}
+
+
+
+
+
+
+\begin{lemm}\label{ab-cont1}
+If $\lambda$ is an absolutely continuous Borel measure on $\sn$,
+then for each $K\in \kno$,
+the Gauss image measure $\lambda(K,\cdot\,)$
+is absolutely continuous with respect to
+the surface area measure $S(K^*,\cdot\,)$ of the polar body $K^*$ of $K$.
+\end{lemm}
+
+\begin{proof}
+Since the polar of the polar is the original body, from \eqref{dgi} we see that
+all we need show is that the reverse Gauss image measure $\lambda^*(K,\cdot\,)$ is
+absolutely continuous with respect to
+the surface area measure $S(K,\cdot\,)$ of $K$.
+
+Suppose $\eta \subset \sn$ is such that $S(K,\eta)=0$. Then from the definition
+of $S(K,\cdot\,)$ we know that $\hm(\bx_K(\eta))=0$. But
+since the map $\xoverline{\,\cdot\,}: \partial K \to\sn$ is bi-Lipschitz, we have
+$\hm(\,\overline{\bx_K(\eta)}\,)=0$. This, in turn, can be rewritten using
+the definition \eqref{alpha-star} of $\balpha_K^*$, as
+\begin{equation*}
+\hm(\balpha_K^*(\eta))=0.
+\end{equation*}
+
+
+This, \eqref{rgim}, and the fact that $\lambda$ is absolutely continuous imply:
+\[
+\lambda^*(K,\eta) = \lambda(\balpha_K^*(\eta))  =0.
+\]
+\end{proof}
+
+Taking $\lambda$ to be spherical Lebesgue measure in Lemma \ref{ab-cont1},
+and using definition \eqref{int-cur} gives:
+
+
+\begin{coro}\label{ab-cont}
+The integral curvature $C_0(K,\cdot\,)$ of $K$ is absolutely continuous with respect to
+the surface area measure $S(K^*,\cdot\,)$ of the polar body $K^*$ of $K$.
+\end{coro}
+
+
+The following lemma shows that an absolutely continuous Borel measure $\lambda$, that is positive
+on nonempty open subsets of $\sn$, and its Gauss image measure $\lambda(K,\cdot\,)$
+are always Aleksandrov related. As will be seen, this turns out to be a critical property.
+
+
+\begin{lemm}\label{a2}
+Suppose $\lambda$ is an absolutely continuous Borel measure that
+is strictly positive on nonempty open subsets of $\sn$.
+If $K\in \kno$, then the
+Gauss image measure $\lambda(K,\cdot\,)$ satisfies
+\begin{equation}\label{a2.1}
+\lambda(K,\omega) < \lambda (\sn \setminus \omega^*),
+\end{equation}
+for each spherically convex set $\omega \subset \sn$.
+\end{lemm}
+
+
+\begin{proof}
+Lemma \ref{a1} tells us that $\balpha_K(\omega) \subset \sn \setminus \omega^*$
+for each convex set $\omega \subset \sn$, and that
+ $(\sn \setminus \omega^*) \setminus \balpha_K(\omega)$ has interior points.
+Thus,
+\[
+\lambda(\balpha_K(\omega)) \le \lambda(\sn \setminus \omega^*),
+\]
+and since $\lambda$ is strictly positive on open sets, we also know that
+\[
+\lambda((\sn \setminus \omega^*) \setminus \balpha_K(\omega))>0.
+\]
+Thus,
+\[
+\lambda(\balpha_K(\omega)) < \lambda(\sn \setminus \omega^*).
+\]
+This and \eqref{rgim0}, the definition of the Gauss image measure, $\lambda(K,\cdot\,)$,
+immediately yield \eqref{a2.1}.
+\end{proof}
+
+
+
+
+
+The following lemma establishes uniqueness, up to dilation, for the Gauss image measure.
+The proof below is in the spirit of Aleksandrov's proof for the case of integral curvature.
+
+
+We shall use the fact that if the convex bodies $K$ and $L$ have parallel support hyperplanes
+at the points $r_K(u)$ and $r_L(u)$, whenever both points are regular, then $K$ and $L$
+are  dilates (of one another).
+
+
+
+\begin{lemm}\label{u1}
+Suppose $\lambda$ is an absolutely continuous Borel
+measure on $\sn$ that is strictly positive on open sets. If $K, L \in \kno$ are such that
+$\lambda(K,\cdot\,) = \lambda(L,\cdot\,)$, then $K$ and $L$ are dilates (of one another).
+\end{lemm}
+
+\begin{proof}
+We will show that $K$ and $L$ have parallel support hyperplanes
+at points $r_K(u)$ and $r_L(u)$ that are regular. Assume that there exists a
+$u_0\in \sn$ so that  $r_K(u_0)$ and $r_L(u_0)$ are regular and the support
+hyperplane of $K$ at $r_K(u_0)$ and the support hyperplane of $L$ at $r_L(u_0)$
+are not parallel; i.e., $\alpha_{K}(u_0) \neq \alpha_L(u_0)$. Let $c >0$ be
+such that $c r_K(u_0) = r_L(u_0)$,
+and let $K' = c K$. Define the regular point $x_0=r_{K'}(u_0) = r_L(u_0)$.
+
+Define the disjoint decomposition $\sn=\omega'\cup \omega \cup \omega_0$ by letting
+\begin{align*}
+\omega' &=\{u\in\sn : \rho_{K'}(u) > \rho_{L}(u)\}, \\
+\omega&=\{u\in\sn : \rho_{K'}(u) < \rho_{L}(u)\}, \\
+\omega_0&=\{u\in\sn : \rho_{K'}(u) = \rho_{L}(u)\}.
+\end{align*}
+%From the continuity of the radial function it follows that $\omega'$
+%and $\omega$ are open, while $\omega_0$ is %closed.
+Suppose $u\in \omega'$ and $\xi_L$ is a support hyperplane of $L$ at $r_{L}(u)$.
+Obviously, $r_{K'}(\omega')$ is not completely contained in the half-space containing $L$ that is generated by $\xi_L$. Thus,
+there is a support hyperplane $\xi_{K'}$ of $K'$ at some point
+of $r_{K'}(\omega')$ that is parallel to $\xi_L$. This implies that
+\begin{equation}\label{u1.1}
+\balpha_{L}(\omega') \subset \balpha_{K'}(\omega') = \balpha_{K}(\omega'),
+\end{equation}
+from which follows,
+\begin{equation}\label{u1.2}
+\lambda(L,\omega') \le \lambda(K,\omega').
+\end{equation}
+To obtain the contradiction, we shall show that the inequality \eqref{u1.2} is strict.
+
+The continuity of radial function,
+and the definition of $\omega$ and $\omega'$, shows that the sets
+$\omega \cup \omega_0$ and $\omega'\cup \omega_0$ are
+closed, and thus by Lemma \ref{closed} the Gauss images $\balpha_{K'}(\omega \cup \omega_0)$
+and $\balpha_{L}(\omega' \cup \omega_0)$ are closed as well.
+Thus $\sn \setminus\balpha_{K'}(\omega \cup \omega_0)$ and
+$\sn \setminus\balpha_{L}(\omega' \cup \omega_0)$ are open.
+Observe that, from the definition of $\omega_0$, $\omega_0$, $\omega'$,
+and the definition of the the Gauss image, we have
+\begin{equation}\label{oo7}
+\sn \setminus\balpha_{K'}(\omega \cup \omega_0)\
+\subset\  \balpha_{K'}(\omega')
+\end{equation}
+and
+\begin{equation}\label{oo8}
+   (\sn \setminus\balpha_{L}(\omega' \cup \omega_0))
+ \cap \balpha_{L}(\omega')=\varnothing.
+\end{equation}
+
+Let
+\begin{equation*}
+\beta =
+(\sn \setminus\balpha_{K'}(\omega \cup \omega_0))
+\cap
+(\sn \setminus\balpha_{L}(\omega' \cup \omega_0)).
+\end{equation*}
+Then $\beta$ is an open set, and from \eqref{oo8} and \eqref{oo7} we obviously have
+\begin{equation}\label{u1.3}
+\text{$\beta \cap \balpha_{L}(\omega')=\varnothing$,\quad and \quad
+$\beta \subset \balpha_{K'}(\omega')$}.
+\end{equation}
+
+
+
+Let $\xi_0'$ be the support
+hyperplane of $K'$ at the regular point $x_0=r_{K'}(u_0) \in \partial K'$
+with outer unit normal $\alpha_K(u_0)$, and let $\xi_0$ be the support
+hyperplane of $L$ at the regular point $x_0=r_L(u_0)\in \partial L$
+with outer unit normal $\alpha_L(u_0)$. Recall that, we assumed that
+the point $u_0$ is such that $\xi_0 \neq \xi_0'$. Note that $\alpha_K(u_0)$ and $\alpha_{L}(u_0)$ cannot be opposite of each other, since both $K$ and $L$ contain the origin in the interior.
+%that is assumed not to be parallel to $\xi_0'$.
+%Recall that $\xi_0'$ is the supporting hyperplane of $K'$ at the regular
+%point $r_{K'}(u_0)$ of $K'$ and that
+%$\xi_0$ ($\neq \xi_0'$) is the supporting hyperplane of $L$ at the regular
+%point $r_{L}(u_0)$ of $L$, and %r_{K'}(u_0)=r_{L}(u_0)$.
+%The only way this can happen is if every $\varepsilon$-neighborhood of
+% the point $r_{K'}(u_0)=r_{L}(u_0)$ has points
+%of both $r_{K'}(\omega')$ and of $r_{K}(\omega)$ in it.
+%of $\xi_0'$ and $\xi_0$ that intersects with
+%$r_{K'}(\omega')$ and $r_L(\omega)$, and which is not a support hyperplane
+%of either $K'$ or $L$.
+
+
+Consider the hyperplane $P$
+that is orthogonal to
+\[
+v_1=(\alpha_K(u_0)+\alpha_L(u_0))/|\alpha_K(u_0)+\alpha_L(u_0)|,
+\]
+and passes through the point $x_0$. Note that $v_1\cdot \alpha_K(u_0)>0$ and $v_1\cdot \alpha_L(u_0)>0$.
+
+%Now $\xi''$ passes though the regular boundary point $x_0$ of both $K'$ and $L$
+%so it cannot be a supporting plane
+ %to either $K'$ nor $L$. Hence it intersects both $r_{K'}(\omega')$ and $r_L(\omega)$.
+
+
+Let $P_+$ be the half-space defined by
+\[
+P_+ = \{x\in \mathbb{R}^n:x\cdot v_1>x_0\cdot v_1\}.
+\]
+Since $x_0$ is a regular point for both $K'$ and $L$, the intersections $P_+\cap K'$ and $P_+\cap L$ must be non-empty.
+
+Observe that if $r_{K'}(u)\in H_{K'}(v_1)$ then $u\in \omega'$. To see this, note that
+\begin{equation}
+\label{yz4}
+r_{K'}(u) = x'+cv_1,
+\end{equation}
+for some $x'\in P$ and $c>0$. By definition of support function,
+\begin{equation*}
+x_0\cdot \alpha_{K'}(u_0)=h_{K'}(\alpha_{K'}(u_0))\geq r_{K'}(u)\cdot \alpha_{K'}(u_0)=x'\cdot \alpha_{K'}(u_0)+cv_1\cdot \alpha_{K'}(u_0).
+\end{equation*}
+Since $v_1\cdot \alpha_{K'}(u_0)>0$, we have $x'\cdot \alpha_{K'}(u_0)<x_0\cdot \alpha_{K'}(u_0)$. This, combined with the fact that $x'\cdot v_1 = x_0\cdot v_1$ (since $x', x_0\in P$) and the definition of $v_1$, implies
+\begin{equation}
+\label{yz5}
+x'\cdot \alpha_L(u_0)>x_0\cdot \alpha_L(u_0).
+\end{equation}
+By \eqref{yz4}, \eqref{yz5}, and the fact that $v_1\cdot \alpha_L(u_0)>0$,
+\begin{equation*}
+r_{K'}(u)\cdot \alpha_L(u_0)=x'\cdot \alpha_{L}(u_0)+cv_1\cdot \alpha_L(u_0)>x_0\cdot \alpha_L(u_0)=h_L(\alpha_L(u_0)).
+\end{equation*}
+This implies that $r_{K'}(u)\notin L$, which in turn gives $\rho_{K'}(u)>\rho_L(u)$ or $u\in \omega'$. This implies that $v_1\notin \alpha_{K'}(\omega\cup \omega_0)$.
+
+The same argument gives $v_1\notin \alpha_L(\omega'\cup \omega_0)$.
+
+Hence, $v_1\in \beta$.
+Therefore, $\beta$ is a nonempty open set. Since $\lambda$ is by hypothesis positive
+on open sets, $\lambda(\beta)>0$.
+%This and \eqref{u1.3} imply that
+
+
+From \eqref{u1.1} and \eqref{u1.3},
+\begin{equation}\label{oo2}
+\balpha_{L}(\omega') = \balpha_{L}(\omega')\setminus\beta\  \subset\
+\balpha_{K'}(\omega')\setminus\beta.
+\end{equation}
+Thus, \eqref{oo2} and $\lambda(\beta)>0$, give:
+\begin{multline*}
+\lambda(L,\omega')=\lambda(\balpha_{L}(\omega'))
+\le \lambda(\balpha_{K'}(\omega')\setminus\beta)\\
+< \lambda(\balpha_{K'}(\omega')\setminus\beta)  + \lambda(\beta)
+= \lambda(\balpha_{K'}(\omega')) =\lambda(K,\omega'),
+\end{multline*}
+which contradicts $\lambda(L,\cdot\,) = \lambda(K,\cdot\,)$.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+It is easily seen that the integral curvature of a convex body is
+not concentrated in any closed
+hemisphere, and the total measure of the integral curvature of a convex body
+is the surface area of the unit sphere. Then it is natural to find a complete set
+of properties that characterize the integral curvature. The following result
+shows that, when $\lambda$ is an absolutely continuous Borel measure, then
+the Gauss image measure as a functional from the space $\kno$ of convex bodies
+to the space of Borel measures is a valuation. The theory of valuations has seen
+explosive growth in the last quarter century (see, e.g. \cite{A99ann, A04gafa, ABS11gafa}, \cite{BL19jems}, 
+\cite{H12}, \cite{HP14JAMS}, \cite{Lud03, Lud04, Lud10, LR10annals},
+\cite{S10duke, SW15ajm, SW16jems},
+and the references therein.)
+It would be interesting to characterize this valuation.
+
+
+
+
+
+
+\begin{prop}\label{va}
+If $\lambda$ is an absolutely continuous Borel measure on $\sn$ then the Gauss image measure of $\lambda$ is a
+valuation; i.e., for $K, L \in \kno$,
+\[
+\lambda(K,\cdot\,) + \lambda(L,\cdot\,) =\lambda(K\cup L,\cdot\,) + \lambda(K\cap L,\cdot\,),
+\]
+whenever $K\cup L\in \kno$.
+\end{prop}
+
+\begin{proof}
+Since $r_K$ and $r_L$ are bijections between $\sn$ and $\partial K$ and $\partial L$, respectively,
+we have the following disjoint partition of $\sn = \Omega_0 \cup \Omega_L \cup \Omega_K$, where
+\begin{align*}
+\Omega_0 &= r_K^{-1}(\partial K \cap \partial L)
+= r_L^{-1}(\partial K \cap \partial L)
+=\{ u\in\sn: \rho_K(u)=\rho_L(u) \}, \\
+\Omega_L &= r_K^{-1}(\partial K \cap \text{int} L)
+= r_L^{-1}((\rn\setminus K) \cap \partial L)
+=\{ u\in\sn: \rho_K(u) < \rho_L(u) \},  \\
+\Omega_K &= r_K^{-1}(\partial K \cap (\rn\setminus L))
+= r_L^{-1}(\text{int} K \cap \partial L)
+=\{ u\in\sn: \rho_K(u) > \rho_L(u) \}.
+\end{align*}
+
+Since $K\cup L$ is a convex body, we have,
+for $\hm$-almost all $u\in \Omega_K$,
+\[
+\text{
+$\alpha_K(u)=\alpha_{K\cup L}(u),$\quad and\quad  $\alpha_L(u)=\alpha_{K\cap L}(u)$};
+\]
+for $\hm$-almost all $u\in \Omega_L $,
+\[
+\text{
+$
+\alpha_K(u)=\alpha_{K\cap L}(u)$,\quad and\quad $\alpha_L(u)=\alpha_{K\cup L}(u)$};
+\]
+and for $\hm$-almost all $u \in \Omega_0$,
+\[
+\alpha_K(u)=\alpha_L(u)=\alpha_{K\cap L}(u) = \alpha_{K\cup L}(u).
+\]
+
+Since $\lambda$ is absolutely continuous, for a Borel set $\omega \subset \sn$, we have
+\[
+\lambda(K,\omega\cap \Omega_K) = \lambda(\balpha_K(\omega\cap \Omega_K))
+=\lambda(\balpha_{K\cup L} (\omega\cap \Omega_K)) = \lambda(K\cup L,\omega\cap \Omega_K),
+\]
+and also,
+\[
+\lambda(L,\omega\cap \Omega_K)=\lambda(K\cap L,\omega\cap \Omega_K).
+\]
+Adding the last two, we obtain
+\[
+\lambda(K,\omega\cap \Omega_K) + \lambda(L,\omega\cap \Omega_K)
+=\lambda(K\cup L, \omega\cap \Omega_K) + \lambda(K\cap L, \omega\cap \Omega_K).
+\]
+Similarly, we have
+\begin{align*}
+\lambda(K,\omega\cap \Omega_L) + \lambda(L,\omega\cap \Omega_L)
+&=\lambda(K\cup L,\omega\cap \Omega_L) + \lambda(K\cap L,\omega\cap \Omega_L), \\
+\lambda(K,\omega\cap \Omega_0) + \lambda(L,\omega\cap \Omega_0)
+&=\lambda(K\cup L,\omega\cap \Omega_0) + \lambda(K\cap L,\omega\cap \Omega_0).
+\end{align*}
+Summing up the last three gives the desired valuation property.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
+\section{Variational formulas for the log-volumes of convex bodies}
+
+
+
+Let $\lambda$ be a Borel measure on $\sn$.
+The {\it log-volume $\lambda_0(K)$ of a convex body $K\in \kno$,
+with respect to $\lambda$}, is defined by
+\begin{equation}\label{ent}
+ \lambda_0(K)= \exp\Big\{\frac{1}{|\lambda|} \int_{\sn} \log\rho_K(v)\, d\lambda(v) \Big\}.
+\end{equation}
+%The dual entropy $E_\lambda(K)$ of a convex body $K\in \kno$
+%with respect to $\lambda$ is defined by
+%\begin{equation}\label{ent1}
+%E_\lambda(K)= \int_{\sn} \log \rho_K(u)\, d\lambda(u).
+%\end{equation}
+%From \eqref{polar}, it follows that the entropy of the polar of a convex bodies,
+%and the entropy body are the same; i.e.,
+%\begin{equation}\label{ent2}
+%\mathcal E_\lambda(K^*) = E_\lambda(K).
+%\end{equation}
+
+We require the following lemma established in \cite{HLYZ16}.
+
+\begin{lemm}\label{lemma4.1}
+Suppose
+$\Omega \subset \sn$ is a closed set that is not contained
+in any closed hemisphere of $\sn$.
+Suppose $\rho_0 : \Omega \to (0,\infty)$ and $g: \Omega \to \mathbb R$ are continuous.
+If $\bla \rho_{t} \bra$ is a logarithmic family of convex hulls of $(\rho_0, g)$, then
+\begin{equation}\label{radial-variation1}
+\lim_{t\to 0} \frac{\log h_{\sbla \rho_{t} \sbra } (v)
+- \log h_{\sbla \rho_{0} \sbra}(v)} t = g(\alpha_{\sbla \rho_{0} \sbra}^{*}(v)),
+\end{equation}
+for all $v\in \sn\setminus \eta_{\sbla \rho_{0} \sbra}$; i.e.,
+for all regular normals $v$ of ${\bla \rho_{0} \bra}$. Hence
+\eqref{radial-variation1} holds a.e. with respect to spherical
+Lebesgue measure. Moreover, there exists
+ $\delta_0 > 0$ and  $M>0$ so that
+\begin{equation*}
+|\log h_{\sbla \rho_{t} \sbra } (v) - \log h_{\sbla \rho_{0} \sbra}(v)| \le M |t|,
+\end{equation*}
+for all $v\in \sn$ and all $t\in (-\delta_0, \delta_0)$.
+\end{lemm}
+
+
+
+
+
+We require the following lemma. When the measure is spherical Lebesgue measure, it was established in \cite{HLYZ16}.
+
+
+
+\begin{lemm}\label{val-f}
+Suppose $\lambda$ is an absolutely continuous Borel measure on $\sn$, the body $K \in \kno$ and $f, g : \sn \to \ro$ are continuous.
+If $\bla K, g\bra$ is a logarithmic family of convex hulls generated by $(K,g)$, then
+\begin{equation}\label{mm11}
+\frac{d}{dt} \log\lambda_0(\bla K,g,t\bra^*)\Big|_{t=0}
+= -\frac1{|\lambda|}\int_{\sn} g(u)\, d\lambda(K,u).
+\end{equation}
+If $\blb K,f\brb$ is a logarithmic family of Wulff shapes formed by $(K,f)$, then
+\begin{equation}\label{mm12}
+\frac{d}{dt} \log\lambda_0(\blb K,f,t\brb)\Big|_{t=0}
+= \frac1{|\lambda|}\int_{\sn} f(v)\, d\lambda^*(K,v).
+\end{equation}
+\end{lemm}
+
+
+\begin{proof}
+Write $\rho_t=\rho_K+tg+o(t,\cdot)$. Note that $\bla K,g,t\bra=\bla \rho_t\bra$. In particular, $\rho_0=\rho_K$ and $\bla \rho_0\bra = K$.
+
+From Lemma \ref{lemma4.1}, the dominated convergence theorem, and \eqref{di1}, we have
+\begin{align*}
+\frac{d}{dt} \log\lambda_0(\bla K,g,t\bra^*)\Big|_{t=0}
+&=-\lim_{t\to 0}\frac1{|\lambda|}\int_{\sn}
+\frac{\log h_{\sbla \rho_{t} \sbra}(v)
+- \log h_{\sbla \rho_{0} \sbra}(v)}t \, d\lambda(v) \\
+&=-\frac1{|\lambda|}\int_{\sn}
+        g(\alpha_{\sbla \rho_{0} \sbra}^{*}(v))\, d\lambda(v) \\
+&=-\frac1{|\lambda|}\int_{\sn} g(u)\, d\lambda(K, u).
+\end{align*}
+
+From \eqref{polarHLYZ} we know that $\bla K^*, -f\bra^*= \blb K, f\brb$, so \eqref{mm11} gives
+\begin{equation*}
+\frac{d}{dt} \log\lambda_0(\blb K, f,t\brb)\Big|_{t=0}
+= \frac1{|\lambda|}\int_{\sn} f(v)\, d\lambda(K^*,v),
+\end{equation*}
+which using \eqref{dgi} now gives the desired \eqref{mm12}.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Strengthening the Aleksandrov relation}
+
+
+
+Let $O_\alpha(u)$ be the spherical cap on $\sn$ that is centered at $u$
+and is of radius $\alpha$; i.e.,
+\[
+O_\alpha(u)= \{v\in \sn : u\cdot v > \cos\alpha \}.
+\]
+For a nonempty compact set $\omega\subset S^{n-1}$ that is contained in some closed hemisphere,
+the outer parallel set $\omega_\alpha$, where $\alpha \in \big(0,\frac\pi 2\big]$,
+is defined by
+\begin{equation}\label{s0.1}
+%\begin{split}
+\omega_\alpha =
+%\{v\in S^{n-1}: u\cdot v>\cos\alpha \ \text{for %some  }  u\in\omega\}
+%&=\bigcup_{u\in \omega} O_\alpha(u)
+\bigcup_{u\in \omega} \{v\in \sn : u\cdot v > \cos\alpha \}.
+%\end{split}
+\end{equation}
+(Observe that, as defined, $\omega_\alpha$ may not be contained in any closed hemisphere.)
+Obviously, $\omega_\alpha$ is open and increasing (with respect to set inclusion) as a function of $\alpha$.
+ Also obvious is the fact that,
+%\begin{equation*}
+%\omega_\alpha \to \omega, \quad \text{as } \alpha \to 0,
+%\end{equation*}
+%with respect to the Hausdorff metric,
+by \eqref{polarset},
+\begin{equation}\label{s3.2}
+\text{$\omega_{\pi/2} = \sn \setminus \omega^*$,\quad or equivalently,\quad
+$\omega^*= \sn \setminus \omega_{\pi/2}$.}
+\end{equation}
+From \eqref{yz2}, we see that
+\begin{equation}
+\label{yz3}
+\omega_{\pi/2}=\bla \omega\bra_{\pi/2}.
+\end{equation}
+
+
+
+
+
+From definition \eqref{s0.1}, we immediately have:
+
+\begin{lemm}\label{s0}
+Let $\omega_1, \ldots, \omega_k\subset \sn$ be nonempty compact sets that are contained in some closed hemisphere, and
+let $\alpha \in \big(0,\frac\pi2\big]$. Then
+\[
+\Big(\medcup\limits_{j=1}^k \,\, \omega_j\Big)_\alpha\
+=\  \medcup\limits_{j=1}^k \,(\omega_j)_\alpha.
+\]
+\end{lemm}
+
+%\begin{proof}
+%By \eqref{s0.1},
+%\begin{align*}
+%\Big(\bigcup_{j=1}^k \omega_j\Big)_\alpha
+%&= \Big\{v\in S^{n-1}:  u\cdot v>\cos\alpha \
+%   \text{for some  }  u\in \bigcup_{j=1}^k \omega_j\Big\} \\
+%&=\bigcup_{j=1}^k \big\{v\in S^{n-1}:  u\cdot v>\cos\alpha \
+%   \text{for some  }  u\in \omega_j\big\} \\
+%&=\bigcup_{j=1}^k \omega_{j,\alpha}.
+%\end{align*}
+%\end{proof}
+
+
+For a nonempty compact set $\omega$ on $\sn$ that is contained in some closed hemisphere and $\alpha \in \big[0, \frac\pi2\big)$,
+define
+\begin{equation}\label{s6}
+\omega_\alpha^- = \sn \setminus \omega_{\frac\pi2-\alpha}
+\end{equation}
+or equivalently,
+\begin{equation*}
+\omega_\alpha^-
+=\{v\in\sn : u\cdot v \le \sin \alpha, \ \text{for all } u\in \omega\}
+=\bigcap_{u\in \omega} \{v\in\sn : u\cdot v \le \sin \alpha \}.
+\end{equation*}
+
+
+Obviously, the sets $\omega_\alpha^-$ are compact and increasing
+(with respect to set inclusion) as a function of $\alpha$. Also obvious is the fact that
+\begin{equation} \label{s6.2}
+\text{$\omega_0^- = \omega^*$,\quad and thus,\quad   $\omega^*\subset \omega_\alpha^-$}.
+\end{equation}
+%and,
+%\begin{equation*}
+%\omega_\alpha^- \to \sn\setminus \omega, \quad \text{as } \alpha \to \pi/2,
+%\end{equation*}
+%in the Hausdorff metric.
+
+
+
+\begin{lemm}\label{s7}
+Let $\omega_i\subset\sn$ be a sequence of nonempty compact sets, each one of which is contained in some closed hemisphere, such that
+$\omega_i \to \omega$ and
+$\alpha_i \in \big(0, \frac\pi2\big)$ be a sequence such that $\alpha_i \to 0$.
+Then, if
+\begin{equation*}
+\eta_j = \medcup\limits_{i=j}^\infty \,\, (\omega_i)_{\alpha_i}^-,
+\end{equation*}
+it follows that
+\begin{equation*}
+\omega^* = \medcap\limits_{j=1}^\infty\big(\omega^* \cup \eta_j\big).
+\end{equation*}
+\end{lemm}
+
+\begin{proof}
+To see that
+$\bigcap_{j=1}^\infty\big(\omega^* \cup \eta_j\big) \subset\omega^*$,
+suppose $v\notin \omega^*$. By definition (of $\omega^*$) there exists a $u_0\in \omega$
+such that $u_0\cdot v=2\varepsilon>0$. Since $\omega_i \to \omega$, we may choose
+a sequence $u_i\in\omega_i$ such that $u_i\to u_0$.
+Hence $\lim_{i\to\infty} u_i \cdot v=u_0\cdot v =2\varepsilon>0$.
+This and the fact that $\alpha_i \to 0$, shows that there exists $j_0$ such that
+$u_i \cdot v >\varepsilon> \sin\alpha_i$ for all $i\geq j_0$. Therefore,
+$v\notin  (\omega_i)_{\alpha_i}^-$,
+for all $i\geq j_0$. Therefore, $v\notin \eta_{j_0}$, and thus
+$v\notin \omega^*\cup \eta_{j_0}$, which shows that
+$v\notin \bigcap_{j=1}^\infty\big(\omega^* \cup \eta_j\big)$, as desired.
+
+
+That $\omega^* \subset \bigcap_{j=1}^\infty\big(\omega^* \cup \eta_j\big)$
+is obvious.
+\end{proof}
+
+
+
+
+
+\noindent
+
+We recall the definition of being
+Aleksandrov related: If $\mu$ and $\lambda$ are Borel measures
+on $S^{n-1}$,
+%with $|\mu|=|\lambda|$, 
+then the measures $\mu$ and $\lambda$ are said to be
+{\it Aleksandrov related}
+%with respect to $\lambda$ if
+%\begin{equation}\label{s1.8}
+%\mu(S^{n-1}\setminus \omega) > \lambda(\omega^*),
+%\end{equation}
+provided
+\begin{equation}\label{s1.8}
+\lambda(S^{n-1})=\mu(S^{n-1}) > \lambda(\omega^*) + \mu(\omega),
+\end{equation}
+or, equivalently,
+\begin{equation*}
+\lambda(S^{n-1})=\mu(S^{n-1}) > \lambda(\omega) + \mu(\omega^*),
+\end{equation*}
+for each compact, spherically convex $\omega\subset S^{n-1}$. (Recall that each $\omega$ is
+required to be contained in a closed hemisphere.)
+
+If $|\mu|=|\lambda|$, it is easily seen, from \eqref{s3.2}, that condition \eqref{s1.8}
+is equivalent to
+\begin{equation*}
+        \mu(\omega) < \lambda(\sn \setminus \omega^*) = \lambda(\omega_{\pi/2}).
+\end{equation*}
+If the set $\omega$ is a closed hemisphere, then $\sn \setminus \omega$ is an open hemisphere
+and the set $\omega^*$ consists of a single point. Since $\lambda(\omega^*)\ge 0$,
+condition \eqref{s1.8} shows that
+\[
+\mu(\sn\setminus\omega)>0,
+\]
+which means that $\mu$ must be strictly positive on open hemispheres. Thus,
+condition \eqref{s1.8} implies that $\mu$ (and hence $\lambda$) can not
+be concentrated on any closed hemisphere. For quick future reference, we state this in
+
+\begin{lemm}\label{new88}
+If $\lambda$ and $\mu$ are Borel measures on $\sn$ that are Aleksandrov related,
+then neither $\lambda$ nor $\mu$ can be concentrated in any closed hemisphere of $\sn$.
+\end{lemm}
+
+%If $\omega$ is a single point, then $\omega^*$ is a closed hemisphere and
+%$\sn\setminus \omega^*$ is an open hemisphere. Then $\mu(\omega) \ge 0$
+%and \eqref{s1.9} give that
+%\[
+%\lambda(\sn\setminus \omega^*) >0,
+%\]
+%which means that $\lambda$ is strictly positive on an open hemisphere.
+%Thus,  the Aleksandrov condition implies that the measure $\lambda$ does not
+%concentrate on any closed hemisphere.
+
+
+
+
+
+For convenience, we restate Lemma \ref{a2} in terms of being Aleksandrov related.
+
+\begin{lemm}\label{s4}
+Suppose $K\in \kno$ and $\lambda$ is
+an absolutely continuous Borel measure on $\sn$
+that is strictly positive on nonempty open sets. Then $\lambda$ and the
+Gauss image measure $\lambda(K,\cdot\,)$ are Aleksandrov related.
+\end{lemm}
+
+
+
+\begin{lemm}\label{s3}
+Let $\lambda$ be a Borel measure on $\sn$ that vanishes on all great hyperspheres.
+For nonempty compact $\omega\subset S^{n-1}$ contained in  a closed hemisphere,
+\begin{equation} \label{s1.0}
+\omega\cap(-\omega)\neq \varnothing \ \Rightarrow \
+\lambda(\omega_{\pi/2})=\lambda(\sn\setminus\omega^*)=|\lambda|.
+\end{equation}
+\end{lemm}
+
+\begin{proof}
+If $\omega\cap(-\omega)\neq \varnothing$, then there exists $u_1\in \sn$ so that
+both $u_1, -u_1 \in \omega$. Thus, for any $v\in \omega^*$, we have
+$u_1\cdot v\le 0$ and $-u_1\cdot v\le0$. Thus,
+$\omega^*$ is contained in the great hypersphere orthogonal to $u_1$.
+Since $\lambda$  vanishes on great hyperspheres, we have
+$\lambda(\omega^*)=0$. This and \eqref{s3.2} give \eqref{s1.0}.
+\end{proof}
+
+
+
+
+The next lemma tells us that, under mild assumptions, even measures are Aleksandrov related.
+
+\begin{lemm}\label{s5}
+Let $\mu$ be an even Borel measure on $\sn$ that is not concentrated
+on any great hypersphere, and let $\lambda$ be an even Borel measure
+that vanishes on great hyperspheres and is strictly positive on nonempty open sets. If
+$|\mu|=|\lambda|$, then $\mu$ and $\lambda$ are Aleksandrov related.
+\end{lemm}
+
+\begin{proof}
+First, assume that $\omega$ is strongly spherically convex on $\sn$, that is, $\omega$ is
+contained in an open hemisphere $\Omega_0$. The spherically convex set $\omega^*$ is
+contained in a close hemisphere $\Omega_0'$.
+
+Since we are given that $\mu$ and $\lambda$ are even and that
+$\lambda( \partial(\sn\setminus \Omega_0'))=0$,
+we have
+
+\begin{equation}\label{conven1}
+\mu(\omega) \le \mu(\Omega_0)
+\le \frac12 |\mu| =\frac12 |\lambda| =\lambda(\sn\setminus\Omega_0')
+\le\lambda(\sn \setminus \omega^*).
+\end{equation}
+
+
+If $\omega$ contains only one point, then $\mu(\omega) < \frac12 |\mu|$ because $\mu$
+is not concentrated on a pair of antipodal points.
+If $\omega$ contains at least two points, then
+$\omega^*$ is contained in the intersection of two closed hemispheres, and thus
+$(\sn \setminus \omega^*)\setminus (\sn\setminus\Omega_0')$
+contains nonempty open sets. Since $\lambda$ is strictly positive on open sets,
+\[
+\lambda(\sn\setminus\Omega_0') < \lambda (\sn \setminus \omega^*).
+\]
+We have just shown that equality in both of the inequalities $\mu(\Omega_0) \le \frac12|\mu| $ and
+$\lambda(\sn\setminus\Omega_0') \le \lambda (\sn \setminus \omega^*)$
+can not hold simultaneously in \eqref{conven1}. Thus, from \eqref{conven1} we get
+\[
+\mu(\omega) < \lambda (\sn \setminus \omega^*),
+\]
+as desired.
+
+
+Suppose $\omega$ is not strongly convex, then $\omega\cap (-\omega)\neq \varnothing$.
+From Lemma \ref{s3}, we know that
+\[
+\lambda(\sn \setminus \omega^*) = |\lambda|.
+\]
+Since $|\mu|=|\lambda|$, to show that $\mu$ and $\lambda$ are Aleksandrov related,
+ we need to show that $\mu(\omega) < |\mu|$.
+Suppose this were not the case; i.e., $\mu(\omega) = |\mu|$. Thus,
+\[
+|\mu|=\mu(\omega\cup (-\omega)) = \mu(\omega)+\mu(-\omega) - \mu(\omega\cap (-\omega)).
+\]
+Since $\mu$ is even, it follows that $|\mu|=\mu(\omega\cap (-\omega))$. The fact
+that $\omega$ is spherically convex tells us that $\omega\cap (-\omega)$
+is contained in a great hypersphere, and hence $\mu$ is
+concentrated on a great hypersphere. This provides the desired contradiction.
+\end{proof}
+
+
+
+
+
+
+
+
+Let $\omega\subset S^{n-1}$.
+%Denote by $\hat{\omega}$
+%the cone generated by $\omega$ and the origin, i.e.,
+%\begin{equation*}
+%\hat{\omega}=\{t u:t\in [0,1],u\in \omega\}.
+%\end{equation*}
+Obviously,
+\begin{equation}
+\label{b1.1}
+\hat{\omega}\cap S^{n-1}=\omega,
+\end{equation}
+and $u\in \omega$ if and only if there exists
+$t\in (0,1]$ such that $t u\in \hat{\omega}$. In particular,
+\begin{equation}
+\label{b1.2}
+\chara{\hat{\omega}}(u)=\chara{\hat{\omega}}(\textstyle\frac12 u),
+\end{equation}
+for each $u\in S^{n-1}$. We shall make use of the fact that a proper subset $\omega \subset \sn$
+is spherically convex
+ if and only if $\hat{\omega}$ is convex in $\mathbb{R}^n$.
+ Let $\{\omega_i\}$ be a sequence
+  of spherically convex sets in $S^{n-1}$. Recall that $\omega_i$ converges to a
+  spherically convex set $\omega\subset S^{n-1}$, in the Hausdorff metric, if
+  ${\hat{\omega}_i}$ converges to $\hat{\omega}$, in the Hausdorff metric in $\rn$.
+
+
+We shall need the following trivial facts.
+
+
+\begin{lemm}\label{b0}
+If $K_i$ is a sequence of compact convex sets in $\mathbb{R}^n$
+that converges to a compact convex set $K\subset \mathbb{R}^n$
+in the Hausdorff metric, then
+\begin{equation}
+\label{b1.3}
+\lim_{i\rightarrow \infty}\chara{K_i}(x)=0, \qquad\text{if } x \notin K.
+\end{equation}
+Moreover, if $\Int K$ is not empty, then
+\begin{equation}
+\label{b1.4}
+\lim_{i\rightarrow \infty}\chara{K_i}(y)=1,\qquad \text{if } y \in \Int K.
+\end{equation}
+\end{lemm}
+\begin{proof}
+Consider a fixed $x\notin K$. Since $K$ is compact, we know the Hausdorff
+distance $d(x,K)>0$.
+Since $K_i$ converges to $K$ in the Hausdorff metric, $d(x, K_i)>0$ for
+sufficiently large $i$,  and thus $x\notin K_i$ for
+sufficiently large $i$. Hence we have \eqref{b1.3}.
+
+Assume $\Int K$ is not empty. Consider a fixed $y_0\in \Int K$. Let
+$\delta$ be such that $B_{\delta}(y_0)\subset K$, where $B_\delta(y_0)$
+is the closed ball of radius $\delta>0$ centered at $y_0$. Then
+$y_0+B_\delta(o)  \subset K$. Thus,
+\begin{equation*}
+y_0\cdot v\leq h_{K}(v)-\delta,
+\end{equation*}
+for all $v\in \sn$.
+We are given that $h_{K_i} \to h_K$, uniformly on $\sn$. Thus, there exists $i_0>0$ such that
+\begin{equation*}
+y_0\cdot v<h_{K_i}(v) - \textstyle\frac\delta 2,
+\end{equation*}
+for all $v\in S^{n-1}$ and for all $i>i_0$.
+This shows that $y_0\in K_i$ for $i>i_0$, which gives \eqref{b1.4}.
+\end{proof}
+
+
+
+
+
+The following lemma concerns the continuity of finite Borel measures on $\sn$
+when regarded as defined on spherical compact convex sets endowed with the Hausdorff metric.
+For $\omega\subset\sn$, we write $\tilde{\partial} \omega$ to denote the boundary
+ of the set $\omega$ viewed as a subset of $S^{n-1}$.
+
+
+\begin{lemm}
+\label{b1}
+Let $\lambda$ be a Borel measure on $S^{n-1}$, and
+ $\omega_i$ be a sequence of compact, spherically convex sets in $S^{n-1}$
+ that converges to the compact, spherically convex set $\omega$,
+ in the Hausdorff metric. If $\lambda$ vanishes on the boundary
+of $\omega$, then
+\begin{equation*}
+\lim_{i\rightarrow \infty}\lambda(\omega_i)= \lambda(\omega).
+\end{equation*}
+\end{lemm}
+
+\begin{proof}
+From the definition of spherical convex set, the sets $\hat{\omega}$
+and $\hat{\omega}_i$ are non-empty compact convex sets, and since $\omega_i$
+converges to $\omega$ in the Hausdorff metric, it follows that $\hat{\omega}_i$
+converges to $\hat{\omega}$ in the Hausdorff metric.
+We claim that
+\begin{equation}
+\label{b1.6}
+\lim_{i\rightarrow \infty} \chara{\omega_i}(u)=
+\begin{cases}
+1,& u\in \omega\setminus\tilde{\partial}\omega,\\
+0,& u\notin \omega.
+\end{cases}
+\end{equation}
+
+First, assume $u\notin \omega$. Then $u\notin \hat{\omega}$.
+Since $\hat{\omega}_i$ converges to $\hat{\omega}$, from Lemma \ref{b0}, we have
+\begin{equation}
+\label{b1.7}
+\lim_{i\rightarrow \infty}\chara{\hat{\omega}_i}(u)=0.
+\end{equation}
+From \eqref{b1.1} we know that $\chara{\hat{\omega}_i}(u)= \chara{\omega_i}(u)$
+for all $u\in S^{n-1}$. Hence \eqref{b1.7} can be rewritten as
+\begin{equation}
+\label{b1.8}
+\lim_{i\rightarrow \infty}\chara{\omega_i}(u)=0,
+\end{equation}
+when $u\notin \omega$.
+
+Suppose $u\in \omega\setminus \tilde{\partial} \omega$.
+(If $\omega\setminus\tilde{\partial} \omega =\varnothing$, then \eqref{b1.6}
+hold by vacuous implication.)
+From the definition of $\hat{\omega}$, we can conclude that $\frac{1}{2}u\in \Int \hat{\omega}$.
+ Since
+$\hat{\omega}_i$ converges to $\hat{\omega}$, from Lemma \ref{b0} we have
+\begin{equation}
+\label{b1.9}
+\lim_{i\rightarrow \infty}\chara{\hat{\omega}_i}\big(\textstyle\frac{1}{2}u\big)=1.
+\end{equation}
+Now \eqref{b1.1}, \eqref{b1.2} and \eqref{b1.9} imply
+\begin{equation*}
+\lim_{i\rightarrow \infty}\chara{\omega_i}(u)
+=\lim_{i\rightarrow \infty}\chara{\hat{\omega}_i}(u)
+=\lim_{i\rightarrow \infty}\chara{\hat{\omega}_i}\big(\textstyle\frac{1}{2}u\big)=1.
+\end{equation*}
+This, and \eqref{b1.8} yield \eqref{b1.6}.
+
+By assumption, $\lambda$ vanishes on the boundary of $\omega$; i.e.,
+$\lambda(\tilde{\partial}\omega)=0$.
+This and \eqref{b1.6} give us
+\begin{equation}\label{imed3}
+\lim_{i\rightarrow \infty}\chara{\omega_i}(u)=\chara{\omega}(u),
+\end{equation}
+almost everywhere with respect to $\lambda$. Since $\lambda$ is finite,
+from the dominated convergence theorem and \eqref{imed3}, we obtain
+\begin{equation*}
+\lim_{i\rightarrow \infty}\lambda(\omega_i)
+=\lim_{i\rightarrow \infty}\int_{S^{n-1}}\chara{\omega_i}(u)d\lambda(u)
+=\int_{S^{n-1}}\chara{\omega}(u)d\lambda(u)=\lambda(\omega),
+\end{equation*}
+which is the desired result.
+\end{proof}
+
+
+
+
+
+
+
+The following lemma establishes uniform continuity of $\omega\mapsto\lambda(\omega_\alpha)$
+at $\alpha=\frac\pi2$.
+
+
+
+\begin{lemm}\label{s1}
+Let $\lambda$ be a Borel measure on $\sn$ that vanishes on the boundary
+of all compact, spherically convex sets. Then, given
+$\varepsilon>0$, there exists $\alpha \in \big(0, \frac\pi2\big)$
+so that
+\begin{equation}\label{s1.1}
+\lambda\big(\omega_\frac\pi2\big) - \lambda\big(\omega_{\frac\pi2-\alpha}\big)
+<\varepsilon,
+\end{equation}
+for each nonempty compact set $\omega\subset\sn$ contained in some closed hemisphere.
+\end{lemm}
+
+\begin{proof}
+Assume that \eqref{s1.1} does not hold. Then there exists $\varepsilon_0>0$, a sequence $\alpha_i \in \big(0, \frac\pi2\big)$ converging to 0, and a sequence $\omega_i\subset \sn$ of nonempty compact sets contained in closed hemispheres so that
+\begin{equation}\label{s1.2}
+\lambda \big(\omega_{i,\frac\pi2}\big) -
+\lambda\big(\omega_{i,\frac\pi2-\alpha_i}\big)
+\ge \varepsilon_0,
+\end{equation}
+for all $i$, where $\omega_{i, \alpha}$ is used to abbreviate $(\omega_i)_\alpha$.
+Since the set of compact subsets of $\sn$, is compact when endowed with the
+topology of the Hausdorff metric, $\omega_i$ has a convergent subsequence,
+which we again denote by $\omega_i$,
+that converges to a nonempty compact set $\omega$ in the Hausdorff metric.
+But, $\omega_i \to \omega$ implies $\bla \omega_i\bra \to\bla\omega\bra$, which, together with \eqref{yz2}, shows that $\omega_i^* \to \omega^*$.
+
+
+
+
+From Lemma \ref{b1} and the fact that polar sets are spherically convex,
+it follows that
+\begin{equation*}
+\lim_{i\to \infty} \lambda(\omega_i^*) = \lambda(\omega^*),
+\end{equation*}
+or via \eqref{s3.2},
+\begin{equation}\label{s1.4}
+\lim_{i\to \infty} \lambda(\sn \setminus \omega_{i,\frac\pi2})
+= \lim_{i\to \infty} \lambda(\omega_i^*) = \lambda(\omega^*).
+\end{equation}
+
+
+Next we will show that
+\begin{equation} \label{s1.5}
+\lim_{i\to\infty} \lambda(\sn \setminus \omega_{i,\frac\pi2-\alpha_i})= \lambda(\omega^*).
+\end{equation}
+Since,
+$\omega_i \to \omega$ and
+$\alpha_i \in \big(0, \frac\pi2\big)$ is such that $\alpha_i \to 0$,
+Lemma \ref{s7}, states precisely that
+\begin{equation}\label{s1.6}
+\omega^* = \medcap\limits_{j=1}^\infty\big(\omega^* \cup \eta_j\big), \quad
+\text{ where }\ \eta_j = \medcup\limits_{i=j}^\infty \omega_{i,\alpha_i}^-,
+\end{equation}
+where $\omega_{i, \alpha_i}^-$ is used to abbreviate $(\omega_i)_{\alpha_i}^-$.
+Since $\eta_j$ is a decreasing sequence, we have
+\begin{equation}\label{s1.7}
+\lambda \big(\medcap\limits_{j=1}^\infty\big(\omega^* \cup \eta_j\big) \big)
+= \lim_{j\to \infty} \lambda(\omega^* \cup \eta_j).
+\end{equation}
+
+
+
+From \eqref{s1.4}, the fact that $\omega_j^* \subset \omega_{j,\alpha_j}^-$
+from \eqref{s6.2}, the fact that $\omega_{j,\alpha_j}^- \subset \eta_j$
+from the definition of $\eta_j$,
+\eqref{s1.7}, and \eqref{s1.6}, we have
+\begin{align*}
+\lambda(\omega^*) &= \lim_{j\to \infty} \lambda(\omega_j^*) \\
+&\le \lim_{j\to \infty} \lambda(\omega_{j,\alpha_j}^-) \\
+&\le \lim_{j\to \infty} \lambda(\eta_j) \\
+&\le \lim_{j\to \infty} \lambda(\omega^* \cup \eta_j) \\
+&=\lambda \Big(\medcap\limits_{j=1}^\infty\big(\omega^* \cup \eta_j\big) \Big) \\
+&= \lambda(\omega^*).
+\end{align*}
+This establishes
+\[
+\lim_{i\to\infty} \lambda(\omega^-_{i, \alpha_i})= \lambda(\omega^*).
+\]
+But this establishes the promised \eqref{s1.5}, as can be seen after recalling that
+ $\omega_{i,\alpha_i}^-$ is defined in \eqref{s6}, to be
+$\sn \setminus \omega_{i,\frac\pi2-\alpha_i}$.
+
+
+
+Together, \eqref{s1.4} and \eqref{s1.5},
+give
+\begin{equation*}
+\text{$\lambda\big(\omega_{i,\frac\pi2}\big) -
+\lambda\big(\omega_{i,\frac\pi2 - \alpha_i}\big)\  \to\  0$\qquad as\ $i\to \infty$.}
+\end{equation*}
+This contradicts \eqref{s1.2}, and thus establishes \eqref{s1.1}.
+\end{proof}
+
+
+
+
+
+For $u\in\sn$ and $\varepsilon \in [0,\frac\pi2]$, let $\Omega_\varepsilon(u)$
+denote the closed spherical cap of radius
+$\frac\pi2 - \varepsilon$ centered at $u$. The open spherical cap of radius
+$\frac\pi2 - \varepsilon$ centered at $u$ will be
+denoted by $\Omega'_\varepsilon(u)$.
+
+
+
+\begin{lemm}\label{s2}
+Let $\lambda$ be a Borel measure that is not concentrated in any closed hemisphere of $\sn$.
+Then there exist a real $c_0>0$ and a real $\varepsilon_0 > 0$ such that
+\begin{equation*}
+\lambda(\Omega_{\varepsilon}(u)) > c_0,
+\end{equation*}
+for all $u\in\sn$ and for all $0\leq \varepsilon<\varepsilon_0$.
+\end{lemm}
+
+\begin{proof}
+It is sufficient to prove that there exist $c_0,\varepsilon_0 > 0$ such that
+\begin{equation}\label{s2.1.1}
+\lambda(\Omega_{\varepsilon_0}(u)) > c_0,
+\end{equation}
+for all $u\in\sn$.
+To that end, suppose \eqref{s2.1.1} does not hold. Then there exists a strictly decreasing,
+strictly positive sequence $\varepsilon_i$ with limit 0, and a sequence of spherical
+caps $\Omega_{\varepsilon_i}(u_i)$, with $u_i\in\sn$,
+so that $\lambda(\Omega_{\varepsilon_i}(u_i)) \to 0$. A standard compactness
+argument allows us to conclude that
+$\Omega_{\varepsilon_i}(u_i)$ has a convergent subsequence, which we again denote by
+$\Omega_{\varepsilon_i}(u_i)$, that converges to a closed hemisphere $\Omega_0(u_0)$,
+in the Hausdorff metric.
+Let $\delta_j$ be a strictly decreasing, strictly positive sequence with limit $0$.
+%Note that $\Omega_{\delta_j}(u_0)$ is the closed spherical cap
+%of radius $\frac\pi2 -\delta_j$ in $\Omega_0'(u_0)$.
+Since $\Omega_{\varepsilon_i}(u_i)\to\Omega_0(u_0)$, for every $\delta_j$, there is an
+$\varepsilon_{i_j}>0$ so that
+$\Omega'_{\delta_j}(u_0) \subset \Omega_{\varepsilon_{i_j}}(u_{i_j})$. Then
+\[
+\text{$0\le \lambda(\Omega'_{\delta_j}(u_0)) \le \lambda(\Omega_{\varepsilon_{i_j}}(u_{i_j}))
+ \to 0$\qquad as\ $j\to\infty$.}
+\]
+Note that $\Omega_0'(u_0) = \bigcup_{j} \Omega_{\delta_j}'(u_0)$, and that the sequence
+$\Omega_{\delta_k}'(u_0)$ is increasing, with respect to set inclusion, as $\delta_k \downarrow 0$.
+Thus,
+\[
+\lambda(\Omega_0'(u_0)) = \lim_{j \to \infty} \lambda(\Omega_{\delta_j}'(u_0)) = 0.
+\]
+Thus, $\lambda$ is concentrated in the closed hemisphere $\sn \setminus \Omega_0'(u_0)$, in
+contradiction to the hypothesis of the lemma.
+\end{proof}
+
+
+
+
+
+
+
+
+\begin{lemm}\label{s2.1}
+Suppose $\mu$ and $\lambda$ are Borel measures on $\sn$
+such that
+$\lambda$ vanishes on the boundary of all compact, spherically convex sets.
+If $\mu$ and $\lambda$ are Aleksandrov related, then there exists a
+$\delta=\delta(\mu,\lambda)\in(0,1)$, and an $\alpha=\alpha(\mu,\lambda) \in(0,1)$ such that
+\begin{equation}\label{s2.2}
+\mu(\omega)<(1-\delta) \lambda(\omega_{\frac\pi2-\alpha}),
+\end{equation}
+for every nonempty compact set $\omega\subset S^{n-1}$ contained in some closed hemisphere.
+\end{lemm}
+
+\begin{proof}
+We first show that it is sufficient to demonstrate that there exists $\tilde\delta\in (0,1)$
+so that
+\begin{equation}\label{s2.3}
+\mu(\omega)<(1-\tilde\delta) \lambda(\omega_{\frac\pi2}),
+\end{equation}
+for each compact, spherically convex set $\omega\subset S^{n-1}$.
+
+From Lemma \ref{s2}, we know that there exists a $c>0$ so that
+\begin{equation}\label{s2.3.1}
+\lambda (\Omega)>c,
+\end{equation}
+for each closed hemisphere $\Omega$.
+From definition \eqref{s0.1},  we see that $\omega_\frac\pi2$ always contains an open hemisphere.
+ Since
+$\lambda$ vanishes on all great hyperspheres,  from \eqref{s2.3.1}, we see that
+\begin{equation}\label{s2.3.2}
+\lambda(\omega_\frac\pi2) > c.
+\end{equation}
+
+Let $0<\varepsilon<\frac {c}2 \min\{1,\tilde\delta/(1-\tilde\delta)\}$ and
+$\delta =\tilde\delta - \varepsilon(1-\tilde\delta)\frac2{c}>0$. Then, since obviously,
+\begin{equation}\label{s2.4}
+(\tilde\delta -\delta)\frac{c}2 = (1-\tilde\delta)\varepsilon,
+\end{equation}
+Lemma \ref{s1}, guarantees the existence of an $\alpha \in (0,\frac\pi2)$ such that
+\begin{equation}\label{s2.5}
+\lambda\big(\omega_\frac\pi2\big) - \lambda\big(\omega_{\frac\pi2-\alpha}\big)
+<\varepsilon,
+\end{equation}
+for each nonempty compact set $\omega\subset\sn$ contained in some closed hemisphere. From
+\eqref{s2.3.2}, \eqref{s2.5}, and that $0<\varepsilon<\frac {c}2$,
+\begin{equation*}
+\lambda\big(\omega_{\frac\pi2-\alpha}\big) > \frac{c}2.
+\end{equation*}
+Rewriting this using \eqref{s2.4}, gives
+\begin{equation}\label{s2.6}
+(\tilde\delta -\delta) \lambda\big(\omega_{\frac\pi2-\alpha}\big)
+> (1-\tilde\delta)\varepsilon.
+\end{equation}
+
+From \eqref{s2.3}, \eqref{yz3}, \eqref{s2.5}, and \eqref{s2.6}, we have
+\begin{align*}
+\mu(\omega)
+&\leq \mu(\bla \omega\bra)\\
+&<(1-\tilde\delta) \lambda(\bla\omega\bra_\frac\pi2)\\
+&=(1-\tilde\delta) \lambda(\omega_\frac\pi2) \\
+&<(1-\tilde\delta) \big(\varepsilon + \lambda(\omega_{\frac\pi2-\alpha})\big) \\
+&< (\tilde\delta -\delta) \lambda\big(\omega_{\frac\pi2-\alpha}\big)
+  + (1-\tilde\delta) \lambda(\omega_{\frac\pi2-\alpha}) \\
+&=(1-\delta) \lambda (\omega_{\frac\pi2-\alpha}).
+\end{align*}
+This shows \eqref{s2.2} would follow from \eqref{s2.3}. It now remains to establish \eqref{s2.3}.
+
+Suppose \eqref{s2.3} does not hold. Since $\lambda$ and $\mu$ are Aleksandrov related, there exists a sequence
+of compact, spherically convex $\omega_i\subset\sn$ such that
+\begin{equation}\label{s2.7}
+\lim_{i\to \infty} \frac{\lambda(\omega_{i,\frac\pi2})}{\mu(\omega_i)} =1.
+\end{equation}
+A standard compactness argument, allows us to assume that
+\begin{equation}\label{new55}
+\omega_i \text{ converge to a compact, spherically convex set } \omega \subset \sn.
+\end{equation}\
+Then $\omega_i^*$ converges to $\omega^*$.
+Using Lemma \ref{b1}, we see that
+\begin{equation*}
+\text{$
+\lim_{i\to \infty} \lambda(\omega_{i}) = \lambda(\omega)$.
+\quad and \quad\
+$\lim_{i\to \infty} \lambda(\omega_{i}^*) = \lambda(\omega^*).
+$}
+\end{equation*}
+The second of these together with \eqref{s3.2}, shows that
+\begin{equation}\label{s2.8}
+\lim_{i\to \infty} \lambda(\omega_{i,\frac\pi2}) = \lambda(\omega_{\frac\pi2}).
+\end{equation}
+
+The spherical convex set $\omega$ can either satisfy
+$\omega \cap (-\omega) \neq \varnothing$, or be
+strongly spherically convex. We shall show that in both possible cases we are led to a contradiction.
+
+First, suppose  $\omega \cap (-\omega) \neq \varnothing$. Then \eqref{s3.2} and Lemma \ref{s3}, give
+\begin{equation}\label{need90}
+\lambda(\sn \setminus \omega^*) = \lambda(\omega_{\frac\pi2}) = \lambda(\sn).
+\end{equation}
+This, gives $\lambda(\omega^*)=0$ and the hypothesis that $\mu$ and $\lambda$ are
+ Aleksandrov related, gives
+$\mu(\omega) < \lambda(\sn)$.
+
+Since $\omega_\alpha$ is a monotone non-increasing sequence of Borel sets with a limit
+ of $\omega$ as $\alpha$ decreases to 0, and $\mu$ is a finite Borel measure, we know that
+  $\lim_{\alpha \to 0^+} \mu(\omega_\alpha) = \mu(\omega)$. Now $\mu(\omega) < \lambda(\sn)$,
+  yields the existence of an $\alpha_0>0$ such that $\mu(\omega_{\alpha_0}) < \lambda(\sn).$
+  Since $\omega_i\to\omega$ and $\omega_{\alpha_0}$ is an open set containing $\omega$,
+  there exists an $i_0$ such that $\omega_i\subset \omega_{\alpha_0}$, for all $i\ge i_0$,
+and hence
+%Pick an open set $\eta \subset \sn$
+%so that $\omega \subset \eta$, $\mu(\eta) < |\lambda|$, and $\omega_i \subset \eta$
+%when $i$ is large (for example, $\eta=\omega_\alpha$ for some small $\alpha>0$).
+from \eqref{need90}, \eqref{s2.8}, and \eqref{s2.7} coupled with \eqref{s2.3.2}, we have
+\begin{align*}
+\lambda(\sn) = \lambda(\omega_{\frac\pi2})
+=\lim_{i\to \infty} \lambda(\omega_{i,\frac\pi2})
+=\lim_{i\to \infty} \mu(\omega_i)
+\le \mu(\omega_{\alpha_0})
+<\lambda(\sn),
+\end{align*}
+which provides the desired contradiction.
+
+
+
+For the case that $\omega$ is strongly spherically convex, when $i$ is sufficiently large, the
+$\omega_i$ from \eqref{new55} are also contained in the
+open hemisphere that contains $\omega$.
+Let $\tilde\omega_i = \bla \omega\cup\omega_i\bra$, the spherical convex hull of
+$\omega\cup\omega_i$. Observe that $\tilde\omega_i$ also converges to $\omega$.
+There is a subsequence $\tilde \omega_{i_k}$ so that
+\begin{equation}\label{s2.9}
+\omega \subset \tilde \omega_{i_k} \subset \omega_{\frac1k}.
+\end{equation}
+Since $\omega_{\frac1k}$ is a decreasing sequence that converges to $\omega$, and
+$\mu$ is a finite measure, it follows that
+$\lim_{k\to \infty} \mu(\omega_{\frac1k}) =\mu(\omega)$, and thus,
+from \eqref{s2.9}, we see that $\mu(\omega) =\lim_{k\to\infty} \mu(\tilde\omega_{i_k})$.
+This, together with
+\eqref{s2.7} coupled with \eqref{s2.3.2}, \eqref{s2.8}, and \eqref{s3.2}, gives
+\[
+\mu(\omega) =\lim_{k\to\infty} \mu(\tilde\omega_{i_k}) \ge \lim_{k\to\infty}
+\mu(\omega_{i_k}) = \lim_{k\to\infty} \lambda(\omega_{i_k, \frac\pi2})
+=\lambda(\omega_{\frac\pi2}).
+\]
+This shows that $\mu(\omega)=\lambda(\sn\setminus\omega^*)$, which contradicts the fact that $\lambda$ and $\mu$ are Aleksandrov related.
+%which would have required that $\mu(\omega)<
+%\lambda(\sn\setminus\omega^*)$.
+
+We have shown that in both the cases where $\omega$ is strongly spherically convex, and where
+it is not, we are led to a contradiction if \eqref{s2.3} is presumed not to hold.
+
+\end{proof}
+
+
+
+
+
+
+
+
+\section{Estimates for the log-volumes of convex bodies}
+
+
+This section presents estimates for the log-volumes of convex bodies with respect
+to a Borel measure. These estimates will prove crucial in solving the problem of log-volume-product maximization.
+
+
+\begin{lemm}\label{e1.2}
+If $\mu$ is a Borel measure  on $S^{n-1}$, then the set
+\begin{equation*}
+\Omega=\{u\in S^{n-1} : \mu(S^{n-1}\cap u^\bot)>0 \}
+\end{equation*}
+has spherical Lebesgue measure zero.
+\end{lemm}
+
+\begin{proof}
+Let $G_{n,k}$ be the Grassmann manifold of $k$-dimensional subspaces in $\rn$,
+and for $k=1, \ldots, n-1$, define $\Omega_k$ as
+\[
+\{\xi\in G_{n,k} :\text{$\mu(\xi\cap \sn)>0$  but $\mu(\xi'\cap \sn)=0$
+ for each subspace $\xi' \subsetneq \xi$ } \}.
+\]
+For each $u\in S^{n-1}$ with $\mu(S^{n-1}\cap u^\perp)>0$,
+there exists a subspace $\xi\subset u^\perp$ such that $\xi$ belongs to some $\Omega_k$.
+Using this and the observation that
+$\xi \subset u^\bot$ is equivalent to $u\in \xi^\bot$, we can write
+\begin{align}
+\Omega
+&=
+\{u\in S^{n-1} : \mu(S^{n-1}\cap u^\bot)>0 \}\nonumber\\
+&=\bigcup_{k=1}^{n-1} \big\{u\in S^{n-1} :
+   \xi \subset u^\bot \text{ for some } \xi \in \Omega_k\big\}  \label{e1.2.1}\\
+&=\bigcup_{k=1}^{n-1} \bigcup_{\xi\in\Omega_k} \{u\in S^{n-1} : u\in\xi^\bot \}.\nonumber
+\end{align}
+Obviously, for any $\xi \in G_{n,k}$, the set $\{u\in S^{n-1} : u\in\xi^\bot \}$
+is of spherical Lebesgue measure zero.
+Thus, to show that the set $\Omega$
+%\eqref{e1.3}
+is of spherical Lebesgue measure zero,
+by using \eqref{e1.2.1}, it is sufficient to show that
+$\Omega_k$ is countable.
+
+If $\xi_1,\ldots, \xi_m\in \Omega_k$ are distinct, then
+\begin{equation}\label{e1.4}
+|\mu| \ge \sum_{i=1}^m \mu(\xi_i\cap S^{n-1}).
+\end{equation}
+To see this observe that
+\begin{align*}
+|\mu| &\ge \mu\big(\medcup\limits_{\xi\in \Omega_k} \xi\cap S^{n-1}\big) \nonumber\\
+&\ge \mu\big(\medcup\limits_{i=1}^m (\xi_i\cap S^{n-1}) \big) \nonumber\\
+&=\sum_{i=1}^m \mu(\xi_i\cap S^{n-1})+
+  \sum_{i=2}^m(-1)^{i-1}\sum_{1\leq j_1<\cdots<j_i\leq m}
+  \mu(\xi_{j_1}\cap\cdots\cap \xi_{j_i}\cap S^{n-1}) \nonumber\\
+&=\sum_{i=1}^m \mu(\xi_i\cap S^{n-1}),
+\end{align*}
+where the last equality follows from the fact that
+$\xi_{j_1}\cap\cdots\cap \xi_{j_i}$ is a proper
+subspace of $\xi_{j_1}\in \Omega_k$. For any positive integer $j$, inequality
+\eqref{e1.4} implies that the set
+\[
+\big\{ \xi \in \Omega_k : \mu(\xi\cap \sn)> {|\mu|}/j\big\}
+\]
+cannot have more than $j$ elements. Hence,
+\[
+\Omega_k = \bigcup_{j=1}^\infty
+  \big\{ \xi \in \Omega_k : \mu(\xi\cap \sn)> {|\mu|}/j\big\}
+\]
+is countable.
+\end{proof}
+
+
+Lemma \ref{e1.2} yields immediately the following lemma.
+
+\begin{lemm}\label{e1a}
+Let $\mu$ be a Borel measure on $S^{n-1}$,
+and let $\xi_0$ be a codimension $1$ subspace of $\rn$.
+Then the set
+\[
+\mathcal A = \{A\in \son :  \mu(A\xi_0 \cap S^{n-1})>0\}
+\]
+has Haar measure zero.
+\end{lemm}
+
+\begin{proof}
+As in the previous lemma, let
+\begin{equation*}
+\Omega = \{u\in S^{n-1} : \mu(S^{n-1}\cap u^\bot)>0 \}.
+\end{equation*}
+Let $\xi_0=u_0^\perp$ and for each $u\in\sn$, define
+\begin{equation*}
+\mathcal A_u =\{A\in \son : A\xi_0 = u^\bot\}=\{A\in \son : Au_0^\perp = u^\bot\}.
+\end{equation*}
+Thus,
+\[
+\mathcal A = \medcup\limits_{u\in \Omega} \mathcal A_u.
+\]
+
+
+With the usual identifications, the space $S^{n-1}$ is isometric to the quotient space $\son/\sonm$.
+Let $\sigma_n$ denote Haar measure of $\son$, and let $\sigma_{n-1}$ denote Haar measure of
+$\sonm$ when transferred to $\mathcal A_u$.
+When suitably normalized, $\sigma_n$, $\sigma_{n-1}$, and spherical
+Lebesgue measure, denoted here by $du$, are related by
+\[
+d\sigma_n = d\sigma_{n-1} du,
+\]
+(see, e.g., Santal\'o \cite{Sa}, (12.10)).
+Each set $\mathcal A_u$ is a coset of $\sonm$, and thus $\sigma_{n-1}(\mathcal A_u)=\sigma_{n-1}(\sonm)$.
+We have
+\begin{align*}
+\sigma_n({\mathcal A})
+&=\int_{\mathcal A} d\sigma_n\\
+&= \int_\Omega \Big(\int_{\mathcal A_u} d\sigma_{n-1}\Big)\, du \\
+&=\sigma_{n-1}(\sonm) \int_\Omega du,
+\end{align*}
+with Lemma \ref{e1.2} telling us that the last integral is $0$. Hence,
+the Haar measure of $\mathcal A$ is $0$, as claimed.
+\end{proof}
+
+
+To estimate the log-volumes of convex bodies with respect to a measure $\mu$,
+we need to use a partition of closed hemispheres.
+The following lemma allows us to partition a closed hemisphere
+in a manner suitable for the measure $\mu$.
+
+
+\begin{lemm}\label{e1.5}
+Let $\mu$ be a Borel measure on $S^{n-1}$ and $\Omega$
+be a closed hemisphere of $S^{n-1}$. Then for each $\varepsilon>0$,
+there exist $m=m(\mu, \varepsilon,\Omega)$ compact, spherically convex subsets $\omega_1,\cdots, \omega_m$ such that
+\begin{equation*}
+\medcup\limits_{i=1}^m\omega_i = \Omega,
+\end{equation*}
+and, for each $j$,
+\begin{equation}\label{e1.6}
+\text{$|u-v| \leq \varepsilon$,\qquad for all\quad  $u,v\in \omega_j$},
+\end{equation}
+while,
+\begin{equation}\label{e1.7}
+\mu\big(\omega_j\cap\big(\medcup\limits_{i\neq j}\omega_i\big)\big)=0.
+\end{equation}
+\end{lemm}
+
+
+\begin{proof}
+Divide each of the $(n-1)$-dimensional faces of the $n$-dimensional cube $[-1,1]^n$ into $(2k)^{n-1}$
+small $(n-1)$-dimensional cubes whose edge lengths are all $1/k$, where the integer $k$
+is chosen so that
+the diameter of each small cube is equal to $\sqrt{n-1}/k \le \varepsilon$.
+Denote by $\mathcal T$ the collection of all these $(n-1)$-dimensional cubes on the boundary
+of the cube $[-1,1]^n$.
+
+For each $(n-1)$-dimensional cube $C\in \mathcal{T}$, consider an $(n-2)$ dimensional
+face $E$ of $C$. Since $C$ is on one of the faces of the cube $[-1,1]^n$, we know that
+the subspace,  $\spane E$, generated by $E$ is of dimension $n-1$. Denote by $\mathcal L$
+the set of all $(n-1)$-dimensional subspaces generated in this manner. Thus,
+an $(n-1)$-dimensional subspace $\xi\in \mathcal L$ if and only if there exists
+$C\in \mathcal{T}$ such that $\xi = \spane E$ for some $(n-2)$-dimensional face
+ $E$ of $C$. Obviously, $\mathcal L$ is a finite set.
+ %(since $\mathcal T$ is finite and every $(n-1)$ dimensional cube has finitely
+ %many $n-2$ dimensional faces).
+
+%By Lemma \ref{e1a}, for each $(n-1)$ dimensional subspace $\xi_0$, the set
+For each $\xi \in \mathcal L$, let
+\[
+\mathcal A_\xi = \{A\in \son :  \mu(A\xi \cap S^{n-1})>0\},
+\]
+which Lemma \ref{e1a} tells us has Haar measure $0$. Since $\mathcal L$ is finite,
+the union $\cup_{\xi \in \mathcal L} \mathcal A_\xi$ has Haar measure $0$ as well. Therefore
+there exists an $A_0\in \son$ so that
+\begin{equation} \label{e1.8}
+\mu(A_0 \xi \cap S^{n-1})=0,  \quad \text{ for all } \xi \in \mathcal L.
+\end{equation}
+
+
+
+Define the partition
+\[
+\mathcal{P} = \{\xoverline{C}\cap \Omega: C\in A_0\mathcal{T}\}.
+\]
+where, as before, $\xoverline{\,\cdot\,}: [-1,1]^n \to \sn$ is the radial projection map.
+Note that $\mathcal{P}$ is a finite partition of $\Omega$ whose cardinality depends only
+on $\mu, \varepsilon,\Omega$.
+
+The partition $\mathcal P$ satisfies \eqref{e1.6} because the radial projection map
+is a contraction and the diameter of each $C\in A_0\mathcal{T}$ is at most $\varepsilon$.
+%$r$ from the cube $[-1,1]^n$ to $S^{n-1}$ is a contraction map.
+
+In order to see that $\mathcal P$ satisfies \eqref{e1.7}, take any two elements
+$\omega=\xoverline{C}\cap \Omega$, and $\omega'=\xoverline{C'}\cap \Omega$ from $\mathcal P$,
+where $C,C'\in A_0\mathcal{T}$.
+%are such that $\omega_i = r(C_i)\cap \Omega$ for $i=1,2$.
+Then
+\begin{equation*}
+\omega\cap\omega' 
+\subset 
+\spane (C\cap C')\cap \sn.
+\end{equation*}
+Note that $C\cap C'$ is contained in some $(n-2)$-dimensional face of $C$. Hence, \eqref{e1.8}, gives
+ $\mu(\spane (C\cap C')\cap S^{n-1})=0$, which in turn gives $\mu(\omega\cap \omega')=0$.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
+\begin{lemm}\label{e2}
+Let $\lambda$ be a Borel measure on $\sn$ that is not concentrated in any closed hemisphere.
+Suppose $K_i\in \mathcal{K}_o^n$ is a sequence whose members are contained in the unit ball
+and such that
+$h_i=\min\{h_{K_i}(v):v\in S^{n-1}\}\rightarrow 0$. Then there exists a $c>0$ so that
+\begin{equation*}
+\liminf_{i\rightarrow\infty}\frac{\log\lambda_0(K_i)}{\log h_i}\geq c.
+\end{equation*}
+\end{lemm}
+
+
+
+\begin{proof}
+Without loss of generality we may assume that none of the $K_i$ is the unit ball, $B$.
+For each $K_i$, choose a $v_i\in S^{n-1}$ such that $h_{K_i}(v_i)=h_i$, and let
+\[
+\Omega_i=\{u\in S^{n-1}:\,u\cdot v_i>1/\log{\scriptstyle\frac1{h_i}}\}.
+\]
+%If $K_i$ is not the unit ball, $h_i\in(0,1)$.
+By using Lemma \ref{s2}, we know that there exists a real $c_1>0$ so that
+\begin{equation}\label{e2.0}
+\lambda(\Omega_i) > c_1,
+\end{equation}
+for sufficiently large $i$.
+
+
+For $u\in \Omega_i$,
+%from the definition of $\Omega_i$, and the definition of a support and radial function, we see that
+\begin{equation}\label{new34}
+\rho_{K_i}(u)\frac{1}{\log\frac{1}{h_i}}<\rho_{K_i}(u)u\cdot v_i\leq h_{K_i}(v_i)=h_i,
+\end{equation}
+where the first inequality comes from the definition of $\Omega_i$, and the second
+from the definition of the support function and the fact that $\rho_{K_i}(u)u\in K_i$,
+from the definition of the radial function.
+From \eqref{new34} we immediately obtain,
+\begin{equation}\label{e2.1}
+\log{\rho_{K_i}(u)^{-1}}\geq \log\frac1{h_i\log\frac1{h_i}}
+=\log\frac1{h_i}-\log\log \frac1{h_i},
+\end{equation}
+for all $u\in \Omega_i$.
+
+From the fact that $K_i\subset B$, the definition of $\Omega_i$, \eqref{e2.1},
+$h_i \to 0$, and \eqref{e2.0}, we have
+\begin{align*}
+\liminf_{i\to \infty} \frac{\int_{S^{n-1}}\log \rho_{K_i}(u)\,
+ d\lambda(u)}{\log h_i}
+&\ge
+\liminf_{i\to \infty} \frac{\int_{\Omega_i}
+\log{\rho_{K_i}(u)^{-1}}\, d\lambda(u)}{\log \frac1{h_i}}\\
+&\geq \liminf_{i\to \infty}\frac{\int_{\Omega_i}
+  \big(\log \frac{1}{h_i}-\log\log\frac{1}{h_i}\big) \,
+  d\lambda(u)}{\log\frac{1}{h_i}}\\
+&= \liminf_{i\to \infty}\lambda(\Omega_i)
+\Big(1-\frac{\log\log \frac{1}{h_i}}{\log \frac{1}{h_i}}\Big)\\
+&=\liminf_{i\to\infty}\lambda(\Omega_i) \\
+&\ge c_1.
+\end{align*}
+\end{proof}
+
+
+
+
+
+
+\begin{lemm}\label{e3}
+Let $\mu$ be a Borel measure on $\sn$
+and $K_i\in \mathcal{K}_o^n$ be a sequence
+such that $K_i\subset B$, and
+$h_i=\min\{h_{K_i}(v):v\in S^{n-1}\}\rightarrow 0.$
+Assume that there exists a $c_0>0$, and there exist $x_i\in K_i$
+so that $|x_i|\ge c_0 >0$, for sufficiently large $i$, and $x_i\rightarrow x$.
+Then
+\begin{equation*}
+\lim_{i\rightarrow \infty}\frac{\int_{\Omega'_0(x)}\log h_{K_i}(v) \, d\mu(v)}{\log h_i}=0,
+\end{equation*}
+where $\Omega'_0(x)=\{v\in S^{n-1}:v\cdot x>0\}$.
+\end{lemm}
+
+
+\begin{proof}
+Without loss of generality, we may assume that none of the $K_i$ is $B$.
+For $i=1,2,\ldots$, define
+\begin{equation*}
+ \varepsilon_i=\max\big\{|\bar{x}-\bar{x_i}|,h_i^{\frac1{\log \log(1/h_i)}}\big\},
+\end{equation*}
+and let $\Omega_i=\{v\in S^{n-1}:\,v\cdot \bar{x_i}>\varepsilon_i\}$.
+Since $x_i\to x$ we know $\bar{x_i}\to \bar{x}$. Since $h_i \to 0$, we have $\lim_{i\to\infty}\varepsilon_i=0$.
+Using the fact that $x_i\in K_i$ and the definition
+of $\varepsilon_i$, we see that for $v\in\Omega_i$,
+\[
+v\cdot \bar{x}= v\cdot \bar{x_i}-v\cdot (\bar{x_i}-\bar{x})>
+\varepsilon_i-|\bar{x}-\bar{x_i}|\geq 0,
+\]
+which implies that $\Omega_i\subset \Omega'_0(x)$.
+Since we are given that $|x_i|\ge c_0>0$, for sufficiently large $i$, we see that for $v\in\Omega_i$,
+\[
+h_{K_i}(v)\ge v\cdot x_i = |x_i|\, v\cdot \bar x_i > c_0\,
+\varepsilon_i \ge c_0\, h_i^\frac1{\log\log(1/h_i)},
+\]
+for sufficiently large $i$. Thus,
+\begin{equation}\label{e3.1}
+\log {\frac1{h_{K_i}(v)}}\leq \log\frac{1}{c_0}+
+\frac{\log\frac1{h_i}}{\log \log\frac1{h_i}}\ ,
+\end{equation}
+for sufficiently large $i$.
+The facts that $0<h_i\le h_{K_i}(v)\le 1$,
+for all $v\in\sn$, and $h_i\to 0$, together with \eqref{e3.1}, gives us
+\begin{equation}\label{e3.2}
+0\leq\lim_{i\to \infty} \frac{\int_{\Omega_i}\log{\frac1{h_{K_i}(v)}}\,
+d\mu(v)}{\log \frac1{h_i}}\leq \lim_{i\to \infty}
+\mu(\Omega_i)\Big(\frac{\log \frac1{c_0}}{\log \frac1{h_i}}+\frac{1}
+{\log\log\frac1{h_i}}\Big)=0.
+\end{equation}
+
+
+Let $\delta_k$ be a strictly decreasing sequence of reals in the open interval $(0,1)$
+whose limit is $0$, and let
+\[
+\Omega_{\delta_k} = \{ v\in \sn : v\cdot \bar x > \delta_k\}.
+\]
+The $\Omega_{\delta_k}$ are
+obviously monotone increasing, with respect to set inclusion, and their union
+is obviously $\Omega'_0(x)$, hence
+\[
+\lim_{k\to \infty} \mu(\Omega_{\delta_k})) = \mu(\Omega'_0(x)),
+\]
+or
+\begin{equation}\label{n55}
+\lim_{k\to \infty} \mu(\Omega'_0(x) \setminus \Omega_{\delta_k}) =0.
+\end{equation}
+
+
+
+From the definition of $\Omega_i$, it follows that
+for $v\in\Omega'_0(x)\setminus \Omega_i$,
+\[
+0<v\cdot \bar{x}= v\cdot \bar{x_i}+v\cdot (\bar{x}-\bar{x_i})
+\leq\varepsilon_i+|\bar{x}-\bar{x_i}|.
+\]
+Since $\lim_{i\to \infty}(\varepsilon_i+|\bar{x}-\bar{x_i}|)=0$,
+it follows that for fixed $k$, when $i$ is sufficiently large, $\varepsilon_i+|\bar{x}-\bar{x_i}|<\delta_k$.
+Thus, $v\cdot \bar x <\delta_k$, and $v\in \Omega'_0(x) \setminus \Omega_{\delta_k}$.
+Hence, for fixed $k$, when $i$ is sufficiently large,
+\[
+\Omega'_0(x)\setminus \Omega_i \subset  \Omega'_0(x)\setminus \Omega_{\delta_k}.
+\]
+In light of \eqref{n55}, this gives
+\begin{equation}\label{n56}
+\lim_{i\to \infty}\mu(\Omega'_0(x)\setminus \Omega_i)=0.
+\end{equation}
+Since $0<h_i\leq h_{K_i}(v)\le 1$, for all $v\in\sn$, we get
+\begin{equation}\label{e3.3}
+0\leq \lim_{i\to \infty} \frac{\int_{\Omega'_0(x)\setminus \Omega_i}
+\log\frac1{{h_{K_i}(v)}}\, d\mu(v)}{\log \frac1{h_i}}\leq
+\lim_{i\to \infty}\mu(\Omega'_0(x)\setminus \Omega_i)=0,
+\end{equation}
+from \eqref{n56}.
+
+To obtain our desired result, we now
+combine (\ref{e3.2}) and (\ref{e3.3}) to complete the proof.
+\end{proof}
+
+
+
+
+
+
+We shall require the fact that
+for $K\in \mathcal{K}_o^n$ such that $K\subset rB$, where $r>0$, we have
+\begin{equation}\label{e1.9}
+|h_K(u)-h_K(v)|\leq r |u-v|,
+\end{equation}
+for all $u,v\in S^{n-1}$. That this is the case follows trivially from the fact
+ that the support function $h_K:\rn\to\rbo$ is always subadditive; specifically,
+\[
+h_K(u) \le h_K(u-v) + h_K(v) \le h_{rB}(u-v) + h_K(v) = r|u-v| + h_K(v).
+\]
+
+
+
+
+
+
+Note that the $\delta, \alpha \in(0,1)$ in the hypothesis below are guaranteed to exist
+ by appealing to Lemma \ref{s2.1}.
+\begin{lemm}\label{e4}
+Suppose $\mu$ and $\lambda$ are Borel measures on $\sn$
+such that
+$\lambda$ vanishes on the boundary of all compact, spherically convex sets
+and suppose also that
+$\mu$ and $\lambda$ are Aleksandrov related. Let $\delta, \alpha \in(0,1)$ be
+such that
+\begin{equation*}
+\mu(\omega)<(1-\delta) \lambda(\omega_{\frac\pi2-\alpha}),
+\end{equation*}
+for every nonempty compact set $\omega\subset S^{n-1}$ contained in some closed hemisphere,
+and let
+\begin{equation}\label{c0}
+c_0=\min\{e^{\frac{4}{\delta}\log\frac{\alpha}{8}}, e^{-1}\}\in (0,1).
+\end{equation}
+Suppose also that $K_i\in \mathcal{K}_o^n$
+is a sequence such that $K_i\subset c_0B$, and
+\[
+h_i=\min\{h_{K_i}(v):v\in S^{n-1}\}\rightarrow 0.
+\]
+Then for every closed hemisphere $\Omega$, there exists an integer $i_0$ such that, for each $i>i_0$.
+\begin{equation*}
+\int_{\Omega}\log{ \frac1{h_{K_i}(v)} } \, d\mu(v) \leq
+\big(1-{\textstyle\frac\delta 2}\big)\int_{S^{n-1}}\log{ \frac1{\rho_{K_i}(u)} }\,d\lambda(u).
+\end{equation*}
+\end{lemm}
+
+
+
+
+
+
+\begin{proof}
+Lemma \ref{e1.5}, guarantees that for each positive integer $i$, there exists a partition
+of $\Omega$ into $m_i$ compact, spherically convex sets
+$\omega_{i,1},\ldots, \omega_{i,m_i}$,
+such that
+\begin{equation}\label{e4.1}
+\text{$|u-v|\leq h_i^2$, \qquad for all $u,v\in \omega_{i,j}$   },
+\end{equation}
+and
+\begin{equation}\label{e4.2}
+\mu\big(\omega_{i,j}\cap\big(\medcup\limits_{k\neq j}\omega_{i,k}\big)\big)=0,
+\end{equation}
+for $j=1,\ldots,m_i$.
+
+
+Let $v_{i,j}\in\omega_{i,j}$, and abbreviate
+$h_{i,j}=h_{K_i}(v_{i,j})$.
+From the definition of $h_i$, the fact that $K_i\subset c_0B$, and the definition of $c_0$, we have
+\[
+0<h_i\leq h_{i,j}\leq c_0\le \frac{1}{e} <1.
+\]
+From this and the fact
+%that $t\mapsto |t\log t|$ is monotone increasing on the interval $(0,\frac{1}{e}]$, and the fact
+that $\lim_{i\to \infty}h_i =0 $, we get
+$h_{i,j}-c_0h_i^2>0$, and
+
+
+\begin{equation*}
+\lim_{i\to \infty}\bigg|\frac{\log(1-\frac{c_0h_i^2}{h_{i,j}})}{\log h_{i,j}}\bigg|
+=\lim_{i\to \infty}\bigg|\frac{c_0h_i^2}{h_{i,j}\log h_{i,j}} \bigg|
+\leq \lim_{i\to \infty}\bigg|\frac{c_0h_i^2}{h_i\log h_i}\bigg|=0.
+\end{equation*}
+This, and $h_i\rightarrow 0$, imply that there exists a positive integer $i_0$ such that when $i>i_0$,
+\begin{equation}\label{eq5}
+0<\frac{\log(1-\frac{c_0h_i^2}{h_{i,j}})}{\log h_{i,j}} <  \frac{\delta}{4},
+\end{equation}
+and
+\begin{equation}
+\label{eq6}
+h_i^2<\frac{\alpha}{8},
+\end{equation}
+where $\alpha,\delta$ are from the hypothesis.
+
+Throughout the remainder of the proof, we will assume that $i>i_0$.
+From \eqref{e4.1}, we have
+\begin{equation}\label{new321}
+0<h_{i,j}-c_0h_i^2 \le h_{i,j}-c_0|v_{i,j}-v|, \qquad \text{for } v\in \omega_{i,j}.
+\end{equation}
+
+
+Now $v_{i,j}\in\omega_{i,j}$, and $h_{i,j}=h_{K_i}(v_{i,j})$, together with $K_i\subset c_0B$ and
+\eqref{e1.9}, \eqref{new321},
+and \eqref{eq5}, shows that for $v\in\omega_{i,j}$
+\begin{equation}\label{e4.3}
+\begin{aligned}
+\log \frac1{h_{K_i}(v)}
+&= \log \frac{1}{h_{i,j}-(h_{i,j}-h_{K_i}(v))}\\
+&\le \log \frac{1}{h_{i,j} - c_0|v_{i,j}-v|} \\
+&\leq \log \frac{1}{h_{i,j}-c_0h_i^2}\\
+&=\log\frac{1}{h_{i,j}}-\log \big(1-\frac{c_0h_i^2}{h_{i,j}}\big)\\
+&\leq \big(1+{\textstyle\frac{\delta}{4}}\big)\log \frac1{h_{i,j}}.
+\end{aligned}
+\end{equation}
+
+
+
+Suppose $v\in \omega_{i,j,\frac\pi2-\alpha}$.
+Then by definition \eqref{s0.1},
+there is some $u\in \omega_{i,j}$ such that $u\cdot v>\sin\alpha$.
+But from knowing $\alpha\in (0,1)$, an easy estimate shows that
+$\sin\alpha > \frac\alpha4$. Together with \eqref{e4.1},
+ and \eqref{eq6}, we have
+\begin{equation}\label{c77}
+v\cdot v_{i,j}= v\cdot u+v\cdot (v_{i,j}-u)>
+\sin\alpha-|v_{i,j}-u| > \frac\alpha4-h_i^2 > \frac{\alpha}{8}.
+\end{equation}
+Since $\rho_{K_i}(v)v\in K_i$, from the definition of support function, we have
+\begin{equation}\label{tt5}
+(\rho_{K_i}(v)v)\cdot v_{i,j}\leq h_{K_i}(v_{i,j})=h_{i,j}.
+\end{equation}
+From the fact that $K_i\subset c_0 B$, and the definition of $c_0$, we have
+\begin{equation}\label{tt6}
+h_{i,j}=h_{K_i}(v_{i,j})\leq c_0\leq e^{\frac{4}{\delta}\log\frac{\alpha}{8}}.
+\end{equation}
+Now \eqref{tt5} together with \eqref{c77}, and \eqref{tt6}, yield
+\begin{equation}\label{e4.4}
+\log\frac1{\rho_{K_i}(v)}\geq \log\frac{1}{h_{i,j}}+\log \frac{\alpha}{8}\geq
+\Big(1-\frac{\delta}{4}\Big)\log \frac1{h_{i,j}},
+\end{equation}
+for $v\in \omega_{i,j,\frac\pi2-\alpha}$.
+
+For each $i$, we reindex in $\omega_{i,j}$ so that we have that
+\begin{equation}\label{e4.5}
+\log \frac1{h_{i,1}}\geq\ \cdots\ \geq  \log \frac1{h_{i,m_i}}.
+\end{equation}
+For simplicity, abbreviate
+$$
+\beta_{i,j}=\mu(\omega_{i,j})\geq 0,
+$$
+and hence \eqref{e4.3} yields
+\begin{equation}\label{e4.6}
+\int_{\omega_{i,j}}\log\frac1{h_{K_i}(v)}\,d\mu(v)\leq
+\big(1+{\textstyle\frac\delta 4}\big)\beta_{i,j}\log \frac1{h_{i,j}}.
+\end{equation}
+
+Recalling that
+$\omega_{i,1},\ldots, \omega_{i,m_i}$, is a partition of
+$\Omega$ into $m_i$ compact, spherically convex sets, and summing in \eqref{e4.6},
+shows that for each $i$,
+\begin{equation}\label{fff}
+\int_{\Omega}\log\frac1{h_{K_i}(v)}\,d\mu(v)\leq
+\big(1+{\textstyle\frac\delta 4}\big)\sum_{j=1}^{m_i}\beta_{i,j}\log \frac1{h_{i,j}}.
+\end{equation}
+
+
+For each $i$, define
+\begin{align*}
+\Theta_{i,1}&=\omega_{i,1,\frac\pi2-\alpha}\\
+\Theta_{i,j}&=\omega_{i,j,\frac\pi2-\alpha}\setminus
+\big(\medcup\limits_{l=1}^{j-1}\omega_{i,l,\frac\pi2-\alpha}\big), \qquad
+j=2,\ldots,m_i.
+\end{align*}
+Then for fixed $i$, the $\Theta_{i,j}$ are disjoint, and
+\begin{equation}\label{e4.0}
+\medcup\limits_{j=1}^k \,\Theta_{i,j}\ =\ \medcup\limits_{j=1}^k\, \omega_{i,j,\frac\pi2-\alpha},
+\end{equation}
+for each $k=1, 2, \ldots, m_i$.
+Abbreviate,
+\[
+\gamma_{i,j}=\lambda(\Theta_{i,j})\geq 0.
+\]
+By \eqref{e4.4},
+\begin{equation}\label{e4.7}
+\int_{\Theta_{i,j}}\log\frac1{\rho_{K_i}(u)}\,d\lambda(u)\geq
+(1- {\textstyle\frac\delta4})\gamma_{i,j}\log \frac1{h_{i,j}}.
+\end{equation}
+For fixed $i$, using \eqref{e4.2}, Lemma~\ref{s2.1} and Lemma \ref{s0}, and \eqref{e4.0},
+and the fact that the $\Theta_{i,j}$ are disjoint, we deduce that, for $k=1,\ldots,m_i$,
+\begin{equation}\label{e4.8}
+\begin{aligned}
+\sum_{j=1}^k\beta_{i,j}
+&=\sum_{j=1}^k \mu(\omega_{ij})\\
+&=\mu\Big(\medcup\limits_{j=1}^k\omega_{i,j}\Big)\\
+&<(1-\delta) \lambda\Big(\Big(\medcup\limits_{j=1}^{k}\omega_{i,j}\Big)_{\frac\pi2-\alpha}\Big)\\
+&=(1-\delta)\lambda\Big(\medcup\limits_{j=1}^{k}\omega_{i,j,\frac\pi2-\alpha}\Big)\\
+&=(1-\delta)\lambda\Big(\medcup\limits_{j=1}^k \Theta_{i,j}\Big)\\
+&= (1-\delta)\sum_{j=1}^k\gamma_{i,j}.
+\end{aligned}
+\end{equation}
+
+
+For fixed $i>i_0$, it follows from \eqref{fff}, \eqref{e4.5}, \eqref{e4.8}, \eqref{e4.7}, and the fact that the
+$\Theta_{i,1},\ldots, \Theta_{i,m_i}\subset\sn$,
+are disjoint, that
+
+
+\begin{align*}
+\int_{\Omega}\log&\frac1{h_{K_i}(v)}\,d\mu(v)\\
+&\leq
+\big(1+{\textstyle\frac\delta 4}\big)\sum_{j=1}^{m_i}\beta_{i,j}\log \frac1{h_{i,j}}\\
+&=\big(1+{\textstyle\frac\delta 4}\big)
+\bigg(\Big(\sum_{j=1}^{m_i}\beta_{i,j}\Big)\log \frac1{h_{i,m_i}}+
+\sum_{k=1}^{m_i-1}\sum_{j=1}^{k}\beta_{i,j} \Big(\log \frac1{h_{i,k}}-\log\frac1{h_{i,k+1}}\Big)
+ \bigg)\\
+&\leq \big(1+{\textstyle\frac\delta 4}\big)\left(1-\delta\right)
+\bigg(\Big(\sum_{j=1}^{m_i}\gamma_{i,j}\Big)\log \frac1{h_{i,m_i}}+
+\sum_{k=1}^{m_i-1}\sum_{j=1}^{k}\gamma_{i,j} \Big(\log \frac1{h_{i,k}}-\log
+\frac1{h_{i,k+1}}\Big)  \bigg)\\
+&=\big(1+{\textstyle\frac\delta 4}\big)\left(1-\delta\right)
+\sum_{j=1}^{m_i}\gamma_{i,j}\log \frac1{h_{i,j}}\\
+&\leq\big(1+{\textstyle\frac\delta 4}\big)\left(1-\delta\right)
+\frac{1}{1-\frac{\delta}{4}}\sum_{j=1}^{m_i}
+\int_{\Theta_{i,j}}\log\frac1{\rho_{K_i}(u)}\,d\lambda(u)\\
+&\leq\big(1-{\textstyle\frac\delta 2}\big)\int_{S^{n-1}}\log\frac1{\rho_{K_i}(u)}\,d\lambda(u),
+\end{align*}
+which completes the proof.
+\end{proof}
+
+
+
+
+\section{Maximizing the log-volume product: Existence of solutions}
+
+Let $\mu$ and $\lambda$ be Borel measures on $\sn$ with $|\mu|=|\lambda|$.
+For  $K\in \mathcal{K}_o^n$, we define the functional
+ $\Phi_{\mu, \lambda}:\mathcal{K}_o^n\rightarrow \mathbb{R}$ by $\Phi_{\mu, \lambda}(K)=\log\mu_0(K^*) +  \log\lambda_0(K)$. However, since $|\mu|=|\lambda|$, we shall simply define it by
+\begin{equation*}
+\Phi_{\mu,\lambda}(K)= -\int_{S^{n-1}}\log h_K \, d\mu +\int_{S^{n-1}}\log \rho_K \, d\lambda,
+\end{equation*}
+and omit the $|\mu|$ and $|\lambda|$.
+Note that from the definition of $\Phi_{\mu,\lambda}(K)$, and \eqref{polar} it follows immediately that
+\begin{equation}\label{recippolar}
+\Phi_{\mu,\lambda}(K) = \Phi_{\lambda,\mu}(K^*),
+\end{equation}
+for all $K\in\kno$.
+
+
+
+Obviously, the functional $\Phi_{\mu, \lambda}$ is homogeneous of degree 0; i.e.,
+\[
+\Phi_{\mu,\lambda}(aK) = \Phi_{\mu,\lambda}(K),
+\]
+for every $a>0$.
+Since the radial metric is equivalent to the Hausdorff metric on the space
+$\kno$, the functional $\Phi_{\mu, \lambda}$ is continuous on $\kno$.
+
+\medskip
+
+\noindent
+{\bf Maximization of the log-volume-product.}
+Let $\mu$ and $\lambda$ be Borel measures on $\sn$ with $|\mu|=|\lambda|$.
+Under what conditions does there exist a convex body $K_0\in\kno$
+such that
+\begin{equation*}
+\sup_{K \in \kno} \Phi_{\mu, \lambda}(K) = \Phi_{\mu, \lambda}(K_0).
+\end{equation*}
+
+Existence for this problem is provided by the following lemma.
+
+
+\begin{lemm}\label{e1.1}
+Let $\mu$ and $\lambda$ be Borel measures on $\sn$ that are Aleksandrov related.
+If either $\lambda$ or $\mu$ vanishes on the boundary
+of all compact, spherically convex sets,
+then there exists $K_0\in \mathcal{K}_o^n$ such that
+\begin{equation*}
+\Phi_{\mu,\lambda}(K_0)= \sup_{Q\in \mathcal{K}_o^n} \Phi_{\mu,\lambda}(Q).
+\end{equation*}
+\end{lemm}
+
+
+\begin{proof}
+We begin with the trivial observation that for the unit ball, $B\in\kno$, we have $\Phi_{\mu,\lambda}(B) =0$.
+
+We first suppose that $\lambda$ vanishes on the boundary
+of all compact, spherically convex sets.
+Let $K_i$ be a maximizing sequence. Since $\Phi_{\mu,\lambda}$ is homogeneous
+of degree 0,
+we may dilate the $K_i$ such that both $K_i\subset c_0B^n$ and so that there exists an  $x_i\in K_i\cap c_0S^{n-1}$,
+where $c_0$ is defined by \eqref{c0}.
+By taking subsequences (twice), we may further assume that $K_i$ converges to a non-empty
+compact convex set $K_0\subset \mathbb{R}^n$ and that $x_i\rightarrow x\in c_0S^{n-1}$.
+
+If $o\in {\rm int} K_0$, then $K_0\in \kno$. The continuity of $\Phi_{\mu,\lambda}$,
+would assure us that $\Phi_{\mu,\lambda}(K_i) \to \Phi_{\mu,\lambda}(K_0)$, and we would be done.
+%Hence
+In order to show $o\in {\rm int} K_0$, we argue by contradiction.
+Assume that this is not the case; i.e., the origin $o\in \partial K_0$. Then,
+$h_i=\min\{h_{K_i}(v):v\in S^{n-1}\}$
+converges to $0$.
+
+Let
+\begin{align*}
+\Omega_{-}
+&= \big\{v\in\sn : v\cdot x \le 0\big\}, \\
+\Omega_+ &= \big\{v\in\sn : v\cdot x > 0\big\}.
+\end{align*}
+From Lemmas \ref{e2}, \ref{e3}, and \ref{e4}, we easily deduce that there exist $c_1,\delta > 0$, such that when $i$ is sufficiently large,
+\begin{equation*}
+\begin{aligned}
+\int_{S^{n-1}}\log\frac1{\rho_{K_i}(u)}\,d\lambda(u)
+&\geq \frac{c_1}{2}\log \frac1{h_i},\\
+\int_{\Omega_+}\log\frac1{h_{K_i}(v)}\, d\mu(v)
+&\leq \frac{c_1\delta}{8} \log\frac1{h_i},\\
+\int_{\Omega_{-}}\log\frac1{h_{K_i}(v)}\, d\mu(v)
+&\leq \big(1-\frac\delta2\big)\int_{S^{n-1}}\log\frac1{\rho_{K_i}(u)}\,d\lambda(u),
+\end{aligned}
+\end{equation*}
+where $c_1>0$ is a constant provided by Lemma \ref{e2} and $\delta$ is from Lemma \ref{e4}.
+The above inequalities, together with the fact that $h_i\rightarrow 0$, imply that
+\begin{equation*}
+\begin{aligned}
+&\Phi_{\mu,\lambda}(K_i)\\
+&=\int_{\Omega_{-}}\log\frac1{h_{K_i}(v)}\,d\mu(v) +
+\int_{\Omega_+}\log\frac1{h_{K_i}(v)}\, d\mu(v)
+-\int_{S^{n-1}}\log\frac1{\rho_{K_i}(u)}\,d\lambda(u)\\
+&\leq  \big(1-{\textstyle\frac\delta 2}\big)\int_{S^{n-1}}\log\frac1{\rho_{K_i}(u)}\,
+d\lambda(u) +\frac{c_1\delta}{8}\log \frac1{h_i}
+ -\int_{S^{n-1}}\log\frac1{\rho_{K_i}(u)}\,d\lambda(u) \\
+&=\frac{c_1\delta}{8}\log \frac1{h_i}
+ -\frac{\delta}{2}\int_{S^{n-1}}\log\frac1{\rho_{K_i}(u)}\,d\lambda(u)\\
+&\leq\frac{c_1\delta}{8}\log \frac1{h_i}-\frac{c_1 \delta}{4}\log\frac1{h_i}\\
+&=-\frac{c_1\delta}{8}\log \frac1{h_i} \rightarrow -\infty.
+\end{aligned}
+\end{equation*}
+This contradicts the fact that $K_i$ is
+a maximizing sequence for $\Phi_{\mu,\lambda}$.
+
+Having established Lemma \ref{e1.1} for the case where $\lambda$ vanishes on the boundary
+of all spherical compact convex sets, we turn to the case where
+$\mu$ is the measure that vanishes on the boundary
+of all spherical compact convex sets. We now use the previously established case of Lemma \ref{e1.1},
+but with the maximum taken over all $Q^*\in\kno$, together with \eqref{recippolar},
+and the fact that a convex body is equal to the polar of its polar.
+\end{proof}
+
+
+
+
+An immediate consequence of Lemma \ref{e1.1} is:
+
+
+\begin{theo}\label{f2}
+Suppose $\mu$ and $\lambda$ are Borel measures on $\sn$
+that are Aleksandrov related. If either $\lambda$ or $\mu$ is a measure that vanishes on the boundary
+of all spherical compact convex sets
+then there exists a convex body $K_0\in \mathcal{K}_o^n$ such that the log-volume-product $\sup_{Q\in\kno}\mu_0(Q)\lambda_0(Q^*)$
+attains its maximum at $K_0$.
+\end{theo}
+
+
+
+
+In the symmetric case, in view of Lemma \ref{s5}, arguments similar to those in the proof of Theorem \ref{f2} give the following result:
+
+\begin{theo}\label{f2.1}
+Let $\mu$ and $\lambda$ be even Borel measures on $\sn$
+satisfying $|\mu|=|\lambda|$. Suppose that $\mu$
+is not concentrated on any great hypersphere and
+$\lambda$ vanishes on the boundary
+of all compact, spherically convex sets and that it is strictly positive on all nonempty open sets.
+Then the
+log-volume-product $\sup_{Q\in\kne}\mu_0(Q^*)\lambda_0(Q)$
+attains its maximum at an origin-symmetric convex body $K_0\in \mathcal K_e^n$.
+\end{theo}
+
+This theorem is easily proved in a manner almost identical to that of Theorem \ref{f2}, but
+Lemma \ref{s5} is required to conclude that $\mu$ and $\lambda$ are Aleksandrov related and thus
+justify our ability to invoke Lemma \ref{e4}.
+
+
+
+
+
+
+
+
+
+
+\section{The Gauss image problem: Existence of solutions}
+
+
+Let $\lambda$ be a finite measure defined on the $\sigma$-algebra of Lebesgue measurable
+sets on $\sn$, and $\mu$ be a Borel measure on $\sn$ such that $|\mu|=|\lambda|$. Recall that $C^+(\sn)$ is the class of strictly positive continuous
+functions on $\sn$. Define the functional
+\[
+\Phi_{\mu,\lambda}:C^+(\sn) \to \ro,
+\]
+for $f\in C^+(\sn)$, by letting
+\begin{equation}\label{phi}
+\Phi_{\mu,\lambda}(f)= \int_{\sn} \log f(u) \, d\mu(u) -
+\int_{\sn} \log h_{\bla f \bra }(v) \, d\lambda(v),
+\end{equation}
+where $\bla f \bra = \conv \{f(u)u : u\in\sn \}\in\kno$ since $f$
+is strictly positive. Observe that, from \eqref{polar} we have
+\begin{equation*}
+\Phi_{\mu,\lambda}(f) = |\mu|\,\log \mu_0(f) + |\lambda|\,\log \lambda_0(\rho_{\bla f \bra^*}).
+\end{equation*}
+
+Since, $\bla a f \bra = a \bla  f \bra$, for $a>0$, and thus
+$h_{\bla a f \bra}=a h_{\bla f \bra}$, it follows from the definition of $\Phi_{\mu,\lambda}$,
+that $\Phi_{\mu,\lambda}(af)=\Phi_{\mu,\lambda}(f)$; i.e. $\Phi_{\mu,\lambda}$ is homogeneous
+of degree $0$.
+The continuity of $\Phi_{\mu,\lambda}$ follows immediately from \eqref{uniform1}.
+
+
+
+
+\begin{lemm} \label{MaxfK}
+Suppose $\lambda$ and $\mu$ are Borel measures defined on $\sn$.
+%A convex body $K \in \kno$ is a solution of the maximization problem,
+%\[
+%\sup \{\ee_\lambda (Q)  + E_\mu(Q) :  \ Q \in \kno\},
+%\]
+%if and only if radial function $\rho_{K}$ is a solution of the maximization problem,
+%\[
+%\sup \{ \ee_\lambda(\bla f \bra)  + E_\mu(f)  : f \in C^+(\sn)\}.
+%\]
+The supremum, taken over all $Q\in\kno$, of
+\[
+\int_{\sn} \log \rho_Q(u) \, d\mu(u) -  \int_{\sn} \log h_{Q}(u) \, d\lambda(u)
+\]
+is attained at $K\in\kno$, if and only if,
+\[
+\sup\{\Phi_{\mu,\lambda}(f): {f\in C^+(\sn)} \} = \Phi_{\mu,\lambda}(\rho_K).
+\]
+\end{lemm}
+
+\begin{proof}
+Note that in the maximization problem,
+\begin{equation}\label{max-prob}
+\sup\{\Phi_{\mu,\lambda}(f): {f\in C^+(\sn)} \},
+\end{equation}
+we have
+for the convex hull ${\bla f \bra}=\conv\{ f(u)u : u\in\sn  \}$,
+that $\rho_{{\sbla f \sbra}} \ge f$ and that $\bla {\rho_{{\sbla f \sbra}}} \bra = {\bla f \bra}$
+so $h_{\bla {\rho_{{\sbla f \sbra}}} \bra} = h_{\bla f \bra}$, for each $f\in C^+(\sn)$.
+Thus, directly from definition \eqref{phi}, it follows that
+\[
+\Phi_{\mu,\lambda}(f) \le \Phi_{\mu,\lambda}(\rho_{{\sbla f \sbra}}).
+\]
+This tells us that in searching for the supremum in \eqref{max-prob}
+we can restrict our attention to the radial functions of bodies in $\kno$; i.e.,
+\[
+\sup\{\Phi_{\mu,\lambda}(f) : f\in C^+(\sn) \}=\sup\{\Phi_{\mu,\lambda}(\rho_Q) : Q\in\kno \}.
+\]
+This yields the desired result.
+\end{proof}
+
+
+
+\begin{theo}\label{f3}
+Let $\mu$ be a Borel measure on $\sn$, and let
+$\lambda$ be a Borel measure on $\sn$ that is absolutely continuous.
+If the supremum, taken over all $Q\in\kno$, of
+\[
+\int_{\sn} \log \rho_Q(u) \, d\mu(u) -  \int_{\sn} \log h_{Q}(u) \, d\lambda(u)
+\]
+is attained at $K_0 \in \mathcal K_o^n$, then
+\[
+\mu=\lambda(K_0,\cdot).
+\]
+\end{theo}
+
+
+\begin{proof}
+Since $\bla \rho_Q\bra = Q$, for each $Q\in\kno$,
+the fact that $K_0$ is a solution of the
+the maximization problem
+%\[
+%\sup \{\ee_\lambda (Q)  + E_\mu(Q) :  \ Q \in \kno\},
+%\]
+ can be rewritten, in light of \eqref{phi}, as:
+\begin{equation}\label{max-probK}
+\Phi_{\mu,\lambda}(\rho_{K_0}) =\sup\{\Phi_{\mu,\lambda}(\rho_Q) : Q\in \kno \}.
+\end{equation}
+Lemma \ref{MaxfK}, and the fact that $K_0$ is a solution of the maximization problem
+\eqref{max-probK}, tells us that
+\[
+\Phi_{\mu,\lambda}(\rho_{K_0}) =\sup\{\Phi_{\mu,\lambda}(f) : f\in C^+(\sn) \}.
+\]
+
+Suppose $g\in C^+(\sn)$ is fixed. For real $t$, define $\rho_t:\sn\to(0,\infty)$, by
+\[
+\rho_t=\rho(t, \cdot\,) = \rho_{K_0} e^{t g},
+\]
+that is,
+\begin{equation}\label{logtg}
+\log \rho_t = \log\rho_{K_0} + tg.
+\end{equation}
+From Lemma \ref{val-f} we know
+\begin{equation}\label{newer3}
+|\lambda|\,\frac{d}{dt} \log\lambda_0(\bla \rho_t\bra^*)\Big|_{t=0}
+= -\int_{\sn} g(u)\, d\lambda(K_0,u).
+\end{equation}
+
+From \eqref{logtg} we see that
+\begin{equation*}
+|\mu|\,\log\mu_0(\rho_t)
+= \int_{\sn} \log \rho_t\, d\mu =
+\int_{\sn} (tg +\log \rho_{K_0})\, d\mu,
+\end{equation*}
+Therefore,
+\begin{equation}\label{newer4}
+|\mu|\,\frac{d}{dt} \log\mu_0(\rho_t)\Big|_{t=0}
+ = \int_{\sn} g(u) \, d\mu(u).
+\end{equation}
+
+The Euler-Lagrange equation,
+\[
+\frac{d}{dt} \Phi_{\mu,\lambda}(\rho_t)\Big|_{t=0}
+= \frac{d}{dt}\left( |\lambda|\,\log\lambda_0(\bla \rho_t\bra^*)
++ |\mu|\,\log \mu_0(\rho_t)\right)\Big|_{t=0} =0,
+\]
+together with \eqref{newer3} and \eqref{newer4}, gives
+\begin{equation}\label{stro}
+\int_{\sn} g(u)\, d\lambda(K_0,u) = \int_{\sn} g(u)\, d\mu(u).
+\end{equation}
+Since \eqref{stro} holds for all positive $g$, it holds for differences of these functions
+and thus for all continuous functions. The conclusion is that $\mu = \lambda(K_0,\cdot)$.
+\end{proof}
+
+
+
+\begin{theo}\label{f4}
+Suppose $\mu$ is a Borel measure on $\sn$, while 
+$\lambda$ is a Borel measure on $\sn$ that is absolutely continuous.
+If $\mu$ is Aleksandrov related to $\lambda$,
+then there exists a convex body $K_0\in\kno$ so that $\mu =\lambda(K_0,\cdot\,)$.
+Moreover, if $\lambda$ is strictly positive on nonempty open sets, then the convex body $K_0$
+is unique up to dilation.
+\end{theo}
+
+\begin{proof}
+Theorem \ref{f2}, and the fact that
+$\mu$ is Aleksandrov related to $\lambda$, tells us that
+the log-volume-product $\sup_{Q\in\kno}\mu_0(Q)\lambda_0(Q^*)$
+attains
+a maximum at a convex body $K\in \kno$. From Theorem \ref{f3}, together with $|\mu|=|\lambda|$ (since $\mu$ and $\lambda$ are Aleksandrov related), we know that $\mu = \lambda(K,\cdot\,)$.
+Uniqueness follows from Lemma \ref{u1}.
+\end{proof}
+
+
+
+
+If the measure $\lambda$ assumes positive values on all nonempty open sets,
+then the following statements are equivalent:
+
+\begin{theo}\label{f6}
+Suppose $\mu$ is a Borel measure on $\sn$, while
+$\lambda$ is a Borel measure on $\sn$ that is absolutely continuous and strictly positive on nonempty open sets. If
+$|\mu|=|\lambda|$, then the following statements are equivalent:
+\begin{enumerate}
+\item There exists a body $K_0\in \kno$ such that 
+$\lambda(K_0,\cdot\,)=\mu$.
+\item 
+There exists a body $K_0\in\kno$ such that
+\begin{equation*}
+\sup_{Q\in\kno}\mu_0(Q)\lambda_0(Q^*)
+=\mu_0(K_0)\lambda_0(K_0^*).    
+\end{equation*}
+\item The measures $\mu$ and $\lambda$ are Aleksandrov related.
+\end{enumerate}
+Moreover, the convex body $K_0$ is unique up to dilation.
+\end{theo}
+
+
+\begin{proof}
+Theorem \ref{f2} gives (3) $\Rightarrow$ (2).
+Theorem \ref{f3} gives (2) $\Rightarrow$ (1).
+Lemma \ref{a2} gives (1) $\Rightarrow$ (3).
+Uniqueness follows from Lemma \ref{u1}.
+\end{proof}
+
+
+%The following establishes the promised Theorem %\ref{mmm}.
+
+%\begin{coro}\label{ff6}
+%Suppose $\mu$ and $\lambda$ are finite Borel %measures on %$\sn$ that are absolutely continuous %with respect to %spherical Lebesgue measure, %strictly positive on nonempty %open sets. Then
+%$\lambda$ and $\mu$ are a polar pair,  
+%if and only if, $\lambda$ and $\mu$ are %Aleksandrov related.
+%\end{coro}
+
+
+For the origin-symmetric case, in view of Lemma \ref{s5} and Theorem \ref{f2.1},
+we have the following:
+
+\begin{theo}\label{f7}
+Suppose $\mu$ is an even Borel measure on $\sn$ that is not concentrated
+on any great hypersphere, and
+$\lambda$ is an even Borel measure on $\sn$ that is absolutely continuous and strictly positive on nonempty open sets.
+If $|\mu|=|\lambda|$, then there exists an origin-symmetric convex body
+$K_0 \in \mathcal K_e^n$, unique up to dilation, so that both
+\begin{enumerate}
+%\item  the Gauss image $\balpha_{K_0}$
+%transports $\lambda$ to $\mu$.
+\item the Gauss image measure
+$\lambda(K_0,\cdot\,)=\mu$, and
+\item the log-volume-product $\mu_0(Q)\lambda_0(Q^*)$, taken over $Q\in \mathcal K_e^n$,
+attains its maximum at
+$K_0\in\kno$.
+\end{enumerate}
+\end{theo}
+
+
+
+%%      ---------------------------------------------------------------------
+%%      ------------------------- APPENDIX (OPTIONAL) -----------------------
+%%      ---------------------------------------------------------------------
+        
+%%      If you have one appendix, uncomment the line \appendix and add
+%%      a \section{ *** APPENDIX TITLE ***}. If you have more than
+%%      one, uncomment the line \appendices and add a \section{ ***
+%%      APPENDIX TITLE ***} command for each appendix title.
+
+%\appendix
+%\appendices
+%\section{}
+
+%%      Type body of appendix/-ices here.
+
+
+%%      ---------------------------------------------------------------------
+%%      ---------------------------ACKNOWLEDGMENTS (OPTIONAL) ---------------
+%%      ---------------------------------------------------------------------
+
+%% ***** UNCOMMENT THE FOLLOWING LINE TO ADD ACKNOWLEDGMENTS.
+
+\ack 
+
+%%      Type acknowledgments here.
+
+It would be difficult to overstate our reliance upon and inspiration provided by
+the written works \cite{Ol2, Ol21, Ol} of, talks by, and discussions with Vladimir Oliker.
+The authors thank Rolf Schneider for his comments on a previous version of this work. Research of B\"or\"oczky was supported, in part, by NKFIH grants 116451, 121649 and 129630. Research of Lutwak, Yang, and Zhang was supported, in part, by NSF award DMS--1710450.
+
+%%      ---------------------------------------------------------------------
+%%      --------------------------- BIBLIOGRAPHY ----------------------------
+%%      ---------------------------------------------------------------------
+
+\frenchspacing
+\bibliographystyle{cpam}
+\begin{thebibliography}{99}
+
+\bibitem{Al2} Aleksandrov, A.D.
+On the theory of mixed volumes. III. Extension
+of two theorems of Minkowski on convex polyhedra to arbitrary convex
+bodies 
+\textit{Mat. Sbornik N.S.}
+\textbf{3} (1938), 27-46.
+
+
+\bibitem{Al4}
+Aleksandrov, A.D. 
+Existence and uniqueness of a convex surface
+with a given integral curvature 
+\textit{C. R. (Doklady) Acad. Sci. URSS (N.S.)}
+\textbf{35} (1942), 131--134.
+
+
+\bibitem{A99ann}
+Alesker, S.
+Continuous rotation invariant valuations on convex sets
+\textit{Ann. of Math.}
+\textbf{149} (1999), no.\ 3, 977--1005.
+
+\bibitem{A04gafa}
+Alesker, S.
+The multiplicative structure on continuous polynomial valuations
+\textit{Geom. Funct. Anal. (GAFA)}
+\textbf{14} (2004), no.\ 1, 1--26.
+
+\bibitem{ABS11gafa}
+Alesker, S.; Bernig, A.; Schuster, F.
+Harmonic analysis of translation invariant valuations
+\textit{Geom. Funct. Anal. (GAFA)}
+\textbf{21} (2011), no.\ 4, 751--773.
+
+\bibitem{And96jdg}
+Andrews, B.
+Contraction of convex hypersurfaces by their affine normal
+\textit{J. Differential Geom.}
+\textbf{43} (1996), no. 2, 207--230.
+
+
+\bibitem{And99inv}
+Andrews, B.
+Gauss curvature flow: the fate of the rolling stones
+\textit{Invent. Math.}
+\textbf{138} (1999), no.\ 1, 151--161.
+
+\bibitem{And03jams}
+Andrews, B.
+Classification of limiting shapes for isotropic curve flows
+\textit{J. Amer. Math. Soc. (JAMS)}
+\textbf{16} (2003), no.\ 2, 443--459.
+
+\bibitem{BGMN05annprob}
+Barthe, F; Gu\'edon, O.; Mendelson, S.; Naor, A.
+A probabilistic approach to the geometry of the $l_p^n$-ball
+\textit{Ann. Probab.}
+\textbf{33} (2005), no.\ 2, 480--513.
+
+\bibitem{Bgeomded}
+Bertrand, J.
+Prescription of Gauss curvature using optimal mass transport
+\textit{Geom. Dedicata}
+\textbf{183} (2016), no.\ 1, 81--99.
+
+\bibitem{BH16adv}
+B\"or\"oczky, K.J.; Henk, M.
+Cone-volume measure of general centered convex bodies,
+\textit{Adv. Math.}
+\textbf{286} (2016), 703--721.
+
+\bibitem{BH17adv}
+B\"or\"oczky, K.J.; Henk, M.
+Cone-volume measure and stability
+\textit{Adv. Math.}
+\textbf{306}
+(2017), 24--50.
+
+
+\bibitem{BHP17jdg}
+B\"or\"oczky, K.J.; Henk, M.; Pollehn, H.
+Subspace concentration of dual curvature measures of symmetric convex bodies
+\textit{J. Differential Geom.}
+\textbf{109} (2018), no.\ 3, 411--429.
+
+
+\bibitem{BL19jems}
+B\"or\"oczky, K.J.; Ludwig, M.
+Minkowski valuations on lattice polytopes
+\textit{J. Eur. Math. Soc. (JEMS)}
+\textbf{21} (2019), no.\ 1, 163--197.
+
+
+\bibitem{BLYZ13jams}
+B\"or\"oczky, K.J.; Lutwak, E.; Yang, D.; Zhang, G.
+The logarithmic Minkowski problem
+\textit{J. Amer. Math. Soc. (JAMS)}
+\textbf{26} (2013), no.\ 3, 831--852.
+
+
+
+
+
+
+\bibitem{ChengYau}
+Cheng, S.-Y.; Yau, S.-T.
+On the regularity of the solution of the $n$-dimensional
+Minkowski problem
+\textit{Comm. Pure Appl. Math.}
+\textbf{29} (1976), no.\ 5, 495--516.
+
+
+\bibitem{CW06adv}
+Chou, K.-S.; Wang, X.-J.
+The {$L\sb p$}-Minkowski problem and the Minkowski problem
+in centroaffine geometry
+\textit{Adv. Math.}
+\textbf{205} (2006), no.\ 1, 33--83.
+
+
+\bibitem{G06book}
+Gardner, R.J. 
+\textit{Geometric tomography.} Second edition. Encyclopedia of Mathematics and its Applications, 58. 
+Cambridge University Press, New York, 2006. 
+
+
+\bibitem{G94ann}
+Gardner, R.J. 
+A positive answer to the Busemann-Petty problem in three dimensions
+\textit{Ann. of Math. (2)}
+\textbf{140} (1994), no.\ 2, 435--447.
+
+
+\bibitem{GKS99ann}
+Gardner, R.J.; Koldobsky, A.; Schlumprecht, T.
+An analytic solution to the Busemann-Petty problem on sections of convex bodies
+\textit{Ann. of Math. (2)}
+\textbf{149} (1999), no\. 2, 691--703.
+
+
+
+\bibitem{Gruberbook}
+Gruber, P. M. 
+\textit{Convex and discrete geometry}.
+Grundlehren der Mathematischen Wissenschaften [Fundamental Principles of Mathematical Sciences], 336. 
+Springer, Berlin, 2007.
+
+
+\bibitem{H12}
+Haberl, C.
+Minkowski valuations intertwining with the special linear group
+\textit{J. Eur. Math. Soc. (JEMS)}
+\textbf{14} (2012), no.\ 5, 1565--1597.
+
+\bibitem{HP14JAMS}
+Haberl, C.; Parapatits, L.
+The centro-affine Hadwiger theorem 
+\textit{J. Amer. Math. Soc (JAMS)} 
+\textbf{27} (2014), no.\  3, 685--705.
+
+\bibitem{HL14adv}
+Henk, M.; Linke, E.
+Cone-volume measures of polytopes
+\textit{Adv. Math.} 
+\textbf{253} (2014), 50--62.
+
+\bibitem{HP18adv}
+Henk, M.; Pollehn, H.
+Necessary subspace concentration conditions for the even dual Minkowski problem
+\textit{Adv. Math.} 
+\textbf{323} (2018), 114--141.
+
+
+
+\bibitem{HLYZ16}
+Huang, Y.; Lutwak, E.; Yang, D.; Zhang, G.
+Geometric measures in the dual Brunn-Minkowski theory and their associated Minkowski problems
+\textit{Acta Math.}
+\textbf{216} (2016), no.\ 2, 325--388.
+
+\bibitem{HLYZ16p}
+Huang, Y.; Lutwak, E.; Yang, D.; Zhang, G.
+The $L_p$ Alexsandrov problem for $L_p$ integral curvature
+\textit{J. Differential Geom.} 
+\textbf{110} (2018), no. 1, 1--29.
+
+\bibitem{HZ18adv}
+Huang, Y.; Zhao, Y.
+On the $L_p$ dual Minkowski problem
+\textit{Adv. Math.} 
+\textbf{332} (2018), 57--84.
+
+
+
+\bibitem{Kalton}
+Kalton, N.
+Quasi-Banach spaces 
+\textit{Handbook of the geometry of Banach spaces, Vol. 2}, 1099–1130.
+North-Holland, Amsterdam, 2003.
+
+
+
+\bibitem{K98ajm}
+Koldobsky, A.
+Intersection bodies, positive definite distributions, and the Busemann-Petty problem
+\textit{Amer. J. Math.}
+\textbf{120} (1998), no.\ 4, 827--840.
+
+\bibitem{K00gafa}
+Koldobsky, A.
+A functional analytic approach to intersection bodies
+\textit{Geom. Funct. Anal. (GAFA)} 
+\textbf{10} (2000), no.\ 6, 1507--1526.
+
+
+
+\bibitem{Lud03}
+Ludwig, M.
+Ellipsoids and matrix-valued valuations
+\textit{Duke Math. J.} 
+\textbf{119} (2003), no.\ 1, 159--188.
+
+\bibitem{Lud04}
+Ludwig, M.
+Intersection bodies and valuations
+\textit{Amer. J. Math.}
+\textbf{128} (2006), no.\ 6, 1409--1428.
+
+\bibitem{Lud10}
+Ludwig, M.
+Minkowski areas and valuations
+\textit{J. Differential Geom.}
+\textbf{86} (2010), no.\ 1, 133--161.
+
+
+\bibitem{LR10annals}
+Ludwig, M.; Reitzner, M.
+A classification of $SL(n)$ invariant valuations
+\textit{Ann. of Math. (2)}  
+\textbf{172} (2010), no.\ 2, 1219--1267.
+
+
+
+\bibitem{L93jdg}
+Lutwak, E.
+The Brunn-Minkowski-Firey theory. I. Mixed volumes and the Minkowski problem
+\textit{J. Differential Geom.} 
+\textbf{38} (1993), no.\ 1, 131--150.
+
+\bibitem{LO95jdg}
+Lutwak, E.; Oliker, V.
+On the regularity of solutions to a generalization of the Minkowski problem
+\textit{J. Differential Geom.} 
+\textbf{41} (1995), no.\ 1, 227--246.
+
+
+\bibitem{LYZ00jdg}
+Lutwak, E.; Yang, D.; Zhang, G.
+${L}\sb p$ affine isoperimetric inequalities
+\textit{J. Differential Geom.} 
+\textbf{56} (2000), no.\ 1, 111--132.
+
+\bibitem{LYZ04tams}
+Lutwak, E.; Yang, D.; Zhang, G.,
+On the $L\sb p$-Minkowski problem
+\textit{Trans. Amer. Math. Soc.} 
+\textbf{356} (2004),  no. 11, 4359--4370.
+
+
+\bibitem{LYZ06imrn}
+Lutwak, E.; Yang, D.; Zhang, G.
+Optimal Sobolev norms and the $L\sp p$ Minkowski problem
+\textit{Int. Math. Res. Not.}
+2006, Art. ID 62987, 21 pp.
+
+
+\bibitem{LYZ16}
+Lutwak, E.; Yang, D.; Zhang, G.
+$L_p$ dual curvature measures
+\textit{Adv. Math.} 
+\textbf{329} (2018), 85--132.
+
+
+\bibitem{N07tams}
+Naor, A.
+The surface measure and cone measure on the sphere of $l^n_p$
+\textit{Trans. Amer. Math. Soc.}
+\textbf{359} (2007), no.\ 3, 1045--1079.
+
+\bibitem{NR03aihpps}
+Naor, A.; Romik, D.
+Projecting the surface measure of the sphere of $l^n_p$
+\textit{Ann. Inst. H. Poincar\'e Probab. Statist.}
+\textbf{39} (2003), no.\ 2, 241--261.
+
+
+
+
+\bibitem{Ol2}
+Oliker, V. 
+Existence and uniqueness of convex hypersurfaces with prescribed
+Gaussian curvature in spaces of constant curvature
+\textit{Seminari dell' Istituto di Mathematica Applicata ``Giovanni Sansone", Universit\`a degli Studi di Firenze} 
+(1983), 1--64.
+
+\bibitem{Ol21}
+Oliker, V.
+Hypersurfaces in $\mathbb R^{n+1}$ with prescribed Gaussian curvature and related equations of Monge-Amp\` ere type 
+\textit{Comm. Partial Differential Equations}
+\textbf{9} (1984), no.\ 8, 807--838.
+
+\bibitem{Ol}
+Oliker, V.
+Embedding $\sn$ into $\mathbb R^{n+1}$ with given integral Gauss curvature
+and optimal mass transport on $\sn$
+\textit{Adv. Math.}
+\textbf{213} (2007), no.\ 2, 600--620.
+
+
+
+\bibitem{Sa}
+Santal\'o, L. A. 
+\textit{Integral geometry and geometric probability.} With a foreword by Mark Kac. Encyclopedia of Mathematics and its Applications, Vol. 1. 
+Addison-Wesley Publishing Co., 
+Reading, Mass.-London-Amsterdam, 1976.
+
+
+
+\bibitem{S14}
+Schneider, R.
+\textit{Convex Bodies: The Brunn-Minkowski Theory}. Second expanded edition. Encyclopedia of Mathematics and its Applications, 151. Cambridge University Press, Cambridge, 2014.
+
+
+\bibitem{S10duke}
+Schuster, F.
+Crofton measures and Minkowski valuations
+\textit{Duke Math. J.}
+\textbf{154} (2010), no.\ 1, 1--30.
+
+\bibitem{SW15ajm}
+Schuster, F.; Wannerer, T.
+Even Minkowski valuations
+\textit{Amer. J. Math.}
+\textbf{137} (2015), no.\ 6, 1651--1683.
+
+ \bibitem{SW16jems}
+Schuster, F.; Wannerer, T.
+Minkowski valuations and generalized valuations
+\textit{J. Eur. Math. Soc. (JEMS)} 
+\textbf{20} (2018), no.\ 8, 1851--1884.
+
+\bibitem{Sta1}
+Stancu, A.
+The discrete planar $L_0$-Minkowski problem
+\textit{Adv. Math.} \textbf{167} (2002), no.\ 1, 160--174.
+
+\bibitem{Z99ann}
+Zhang, G. 
+A positive solution to the Busemann-Petty problem in $\rbo^4$
+\textit{Ann. of Math. (2)} 
+\textbf{149} (1999),  no.\ 2, 535--543.
+
+\bibitem{YZCVPDE}
+Zhao, Y.
+The dual Minkowski problem for negative indices
+\textit{Calc. Var. Partial Differential Equations} 56 (2017), no.\ 2, Art.\ 18, 16 pp.
+
+
+\bibitem{YZJDG}
+Zhao, Y
+Existence of solutions to the even dual Minkowski problem
+\textit{J. Differential Geom.}
+\textbf{110} (2018), no.\ 3, 543--572.
+
+\bibitem{Zu}
+Zhu, G.
+The logarithmic Minkowski problem for polytopes
+\textit{Adv. Math.} 
+\textbf{262} (2014), 909--931.
+
+\bibitem{Zu2}
+Zhu, G.
+The centro-affine Minkowski problem for polytopes
+\textit{J. Differential Geom.} \textbf{101} (2015), no. 1, 159--174.
+
+\end{thebibliography}
+
+%%      For each reference, provide the following information:
+
+% \bibitem{ *** LABEL *** }             %% Give a reference label.
+% * Name(s) of Author(s) *              %% Enter author(s) names.
+% EXAMPLE:  Gray, M., Black, F., and White, A.          
+
+%%      Use the following template for a journal article:
+% * Title of article *.                 %% Example: Existence and uniqueness.
+% \textit{* Abbreviated journal name *} %% Example: \textit{Comm. Pure Appl. Math.}
+% \textbf{* Volume number *}            %% Example: \textbf{72}
+% (* Year of publication *),            %% Example: (1993),
+% * Issue number [optional],            %% Example: no. 6,
+% * Page range *.                       %% Example: 675--690.
+                                
+%%      Use the following template for a book:
+% \textit{* Title of book *}.           %% Example: \textit{Ancient Topology}.
+% * Publisher *,                        %% Example: Wiley-Interscience,
+% * City of publisher *,                %% Example: New York,
+% * Year of publication *.              %% Example: 1993.
+
+
+%%      ---------------------------------------------------------------------
+%%      ------------------------ CONTACT INFORMATION ------------------------
+%%      ---------------------------------------------------------------------
+
+%      Place contact information for each author between
+%      the \begin{comment} and \end{comment} commands. Include
+%      preferred mailing address and e-mail addresses. Please note
+%      that these will not print. We will format them for printing
+%      during the editing stage.
+
+\begin{comment}
+
+%Sample:
+
+K\'aroly J. B\"or\"oczky
+Alfr\'ed R\'enyi Institute of Mathematics
+Hungarian Academy of Sciences
+H-1053 Budapest, Reáltanoda u. 13-15.
+Hungary
+carlos@renyi.hu
+  
+Erwin Lutwak
+Courant Institute
+251 Mercer Street
+New York, NY 10012
+erwin@courant.nyu.edu
+
+Deane Yang
+Courant Institute
+251 Mercer Street
+New York, NY 10012
+deane.yang@courant.nyu.edu
+
+Gaoyong Zhang
+Courant Institute
+251 Mercer Street
+New York, NY 10012
+gaoyong.zhang@courant.nyu.edu
+
+Yiming Zhao
+Department of Mathematics
+Massachusetts Institute of Technology
+77 Massachusetts Avenue
+Cambridge, MA 02139
+yimingzh@mit.edu
+
+\end{comment}
+\end{document} %%<=== do not delete. This will end paper properly.
+
+%%------------------------ END OF PAPER ------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
